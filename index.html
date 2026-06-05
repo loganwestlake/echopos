@@ -31,7 +31,9 @@
             color: var(--text-color);
             display: flex;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
+            position: relative;
         }
 
         /* App Side Navigation Menu */
@@ -43,8 +45,10 @@
             flex-direction: column;
             align-items: center;
             padding-top: 24px;
+            padding-bottom: 24px;
             gap: 20px;
             z-index: 10;
+            flex-shrink: 0;
         }
 
         .side-nav.hidden {
@@ -86,6 +90,39 @@
             stroke: var(--accent-color);
         }
 
+        /* Fullscreen Utility Button at Bottom of Sidebar */
+        .nav-footer-btn {
+            margin-top: auto;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
+            gap: 4px;
+            background: #ffffff;
+        }
+
+        .nav-footer-btn:active {
+            background: var(--secondary-bg);
+            border-color: var(--accent-color);
+        }
+
+        .nav-footer-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #555;
+            stroke-width: 2;
+        }
+
         /* Main Workspace Content Area */
         .main-workspace {
             flex: 1;
@@ -101,6 +138,7 @@
             flex-direction: column;
             background: var(--bg-color);
             height: 100%;
+            overflow: hidden;
         }
 
         .view-panel.active {
@@ -108,11 +146,12 @@
         }
 
         .checkout-section {
-            width: 400px;
+            width: 380px;
             display: flex;
             flex-direction: column;
             background: var(--bg-color);
             border-left: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .header {
@@ -136,23 +175,24 @@
         .analytics-strip {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-gap: 16px;
-            padding: 24px;
+            grid-gap: 12px;
+            padding: 16px 24px;
             background: var(--secondary-bg);
             border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .metric-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
-            padding: 16px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
         }
 
         .metric-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
             color: #666;
@@ -160,7 +200,7 @@
         }
 
         .metric-value {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 700;
         }
 
@@ -178,11 +218,12 @@
         }
 
         .order-detail-side {
-            width: 380px;
+            width: 340px;
             border-left: 1px solid var(--border-color);
             background: #ffffff;
             display: none;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
         /* Keypad Layout Area */
@@ -192,16 +233,16 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px;
-            max-width: 440px;
+            padding: 24px;
+            max-width: 400px;
             margin: 0 auto;
             width: 100%;
         }
 
         .keypad-display {
-            font-size: 56px;
+            font-size: 48px;
             font-weight: 300;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             letter-spacing: -1px;
             width: 100%;
             text-align: center;
@@ -213,7 +254,7 @@
             grid-gap: 12px;
             width: 100%;
             flex: 1;
-            max-height: 380px;
+            max-height: 340px;
         }
 
         .key-btn {
@@ -225,6 +266,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border-radius: 4px;
         }
 
         .key-btn:active {
@@ -234,7 +276,7 @@
 
         .key-btn.action {
             background: var(--secondary-bg);
-            font-size: 15px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -250,7 +292,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -261,35 +303,36 @@
         }
 
         .list-meta {
-            font-size: 13px;
+            font-size: 12px;
             color: #888;
             margin-top: 4px;
         }
 
         /* Custom Management Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #666;
             font-weight: 600;
         }
 
         .form-control {
             width: 100%;
-            height: 48px;
+            height: 44px;
             border: 1px solid var(--border-color);
-            padding: 0 16px;
-            font-size: 16px;
+            padding: 0 14px;
+            font-size: 15px;
             color: var(--text-color);
             outline: none;
             background: var(--bg-color);
+            border-radius: 4px;
         }
 
         .form-control:focus {
@@ -298,15 +341,16 @@
 
         .btn-submit {
             width: 100%;
-            height: 48px;
+            height: 44px;
             background: var(--accent-color);
             color: #ffffff;
             border: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
+            border-radius: 4px;
         }
 
         /* Ticket Layout Panels */
@@ -320,7 +364,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
+            padding: 14px 0;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -337,36 +381,38 @@
             border-top: 1px solid var(--border-color);
             padding: 24px;
             background: var(--bg-color);
+            flex-shrink: 0;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 13px;
             color: #666;
         }
 
         .summary-total {
             display: flex;
             justify-content: space-between;
-            margin-top: 16px;
-            margin-bottom: 24px;
-            font-size: 22px;
+            margin-top: 14px;
+            margin-bottom: 20px;
+            font-size: 20px;
             font-weight: 700;
         }
 
         .btn-pay {
             width: 100%;
-            height: 64px;
+            height: 56px;
             background: var(--accent-color);
             color: #ffffff;
             border: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
+            border-radius: 4px;
         }
 
         .btn-pay:disabled {
@@ -399,51 +445,53 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
-            max-width: 600px;
+            padding: 24px;
+            max-width: 500px;
             margin: 0 auto;
             width: 100%;
             text-align: center;
             position: relative;
+            overflow-y: auto;
         }
 
         .customer-heading {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
 
         .customer-subheading {
-            font-size: 16px;
+            font-size: 15px;
             color: #666;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .tip-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 16px;
+            grid-gap: 12px;
             width: 100%;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .tip-btn {
             background: #ffffff;
             border: 1px solid var(--border-color);
-            height: 76px;
-            font-size: 18px;
+            height: 68px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 2px;
+            border-radius: 4px;
         }
 
         .tip-btn span {
-            font-size: 13px;
+            font-size: 12px;
             color: #777;
             font-weight: 400;
         }
@@ -455,8 +503,8 @@
 
         .tip-btn.full-width {
             grid-column: span 2;
-            height: 60px;
-            font-size: 15px;
+            height: 52px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -473,14 +521,14 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 24px;
             z-index: 110;
         }
 
         .custom-tip-display {
-            font-size: 48px;
+            font-size: 44px;
             font-weight: 300;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .custom-tip-grid {
@@ -488,12 +536,12 @@
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 12px;
             width: 100%;
-            max-width: 360px;
-            margin-bottom: 24px;
+            max-width: 340px;
+            margin-bottom: 20px;
         }
 
         .custom-tip-grid .key-btn {
-            height: 60px;
+            height: 54px;
         }
 
         /* Built-In Cash Drawer Calculator (Staff Screen) */
@@ -509,7 +557,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 24px;
         }
 
         /* Signature Canvas Layout */
@@ -518,12 +566,13 @@
             background: var(--secondary-bg);
             border: 1px dashed #cccccc;
             position: relative;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            border-radius: 4px;
         }
 
         #sig-canvas {
             width: 100%;
-            height: 220px;
+            height: 180px;
             display: block;
             cursor: crosshair;
         }
@@ -532,20 +581,21 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            gap: 16px;
+            gap: 12px;
         }
 
         .btn-secondary {
             flex: 1;
-            height: 54px;
+            height: 48px;
             background: #ffffff;
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
             cursor: pointer;
+            border-radius: 4px;
         }
 
         .btn-secondary:active {
@@ -566,15 +616,16 @@
 
         .btn-primary {
             flex: 1;
-            height: 54px;
+            height: 48px;
             background: var(--accent-color);
             border: none;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
             cursor: pointer;
+            border-radius: 4px;
         }
 
         .btn-primary:active {
@@ -590,14 +641,15 @@
 
         .receipt-btn {
             width: 100%;
-            height: 60px;
+            height: 54px;
             border: 1px solid var(--border-color);
             background: #ffffff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-radius: 4px;
         }
 
         .receipt-btn:active {
@@ -608,25 +660,156 @@
         /* Action Panel Toolbar */
         .action-toolbar {
             display: flex;
-            gap: 10px;
-            padding: 16px 24px;
+            gap: 8px;
+            padding: 12px 24px;
             border-top: 1px solid var(--border-color);
             background: var(--secondary-bg);
         }
 
         .action-toolbar button {
             flex: 1;
-            height: 44px;
-            font-size: 12px;
+            height: 40px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             cursor: pointer;
             border: 1px solid var(--border-color);
             background: #fff;
+            border-radius: 4px;
+        }
+
+        /* Toggle Active Ticket View (Mobile Navigation Only) */
+        .mobile-cart-toggle {
+            display: none;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 80;
         }
 
         #printable-receipt-area {
             display: none;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE STRUCTURAL MEDIA QUERIES (LAPTOP, TABLET, IPHONE FLEX ADAPTATIONS)
+           ========================================================================== */
+        
+        /* 1. Large Screen/Laptop Mode adjustments */
+        @media (max-width: 1200px) {
+            .analytics-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 2. Tablet Mode Layout adaptations */
+        @media (max-width: 900px) {
+            .checkout-section {
+                width: 320px;
+            }
+            .order-detail-side {
+                width: 280px;
+            }
+        }
+
+        /* 3. iPhone / Mobile Screens Layout adaptations */
+        @media (max-width: 680px) {
+            body {
+                flex-direction: column-reverse; /* Navigation menu sits perfectly at the bottom like a mobile tab bar */
+            }
+
+            .side-nav {
+                width: 100%;
+                height: 64px;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 0;
+                border-right: none;
+                border-top: 1px solid var(--border-color);
+                gap: 0;
+            }
+
+            .nav-item {
+                width: auto;
+                height: 100%;
+                flex: 1;
+                font-size: 9px;
+            }
+
+            .nav-footer-btn {
+                margin-top: 0;
+                width: auto;
+                height: 100%;
+                flex: 1;
+                border: none;
+                border-radius: 0;
+                font-size: 9px;
+            }
+
+            .main-workspace {
+                flex: 1;
+                height: calc(100vh - 64px);
+            }
+
+            .analytics-strip {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 12px 16px;
+            }
+
+            .orders-layout-grid {
+                flex-direction: column;
+            }
+
+            .order-detail-side {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 40;
+            }
+
+            /* Turn Active Ticket summary container into a togglable slide-over on iPhone mobile viewport */
+            .checkout-section {
+                position: absolute;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100%;
+                z-index: 75;
+                transition: right 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                border-left: none;
+            }
+
+            .checkout-section.mobile-open {
+                right: 0;
+            }
+
+            .mobile-cart-toggle {
+                display: block; /* Show visual floating toggle badge for checkout panel */
+            }
+
+            #panel-items style, div[style*="display: flex"] {
+                flex-direction: column !important;
+            }
+
+            #panel-items > div > div:first-child {
+                width: 100% !important;
+                border-right: none !important;
+                border-bottom: 1px solid var(--border-color);
+                padding: 16px !important;
+            }
         }
 
         @media print {
@@ -686,26 +869,31 @@
             <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <span>Items</span>
         </div>
+        
+        <button class="nav-footer-btn" onclick="toggleAppFullscreen()" title="Toggle Display Mode">
+            <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3"/></svg>
+            <span>Screen</span>
+        </button>
     </nav>
 
     <main class="main-workspace">
         
         <div class="cash-calculator-overlay" id="staff-cash-panel">
-            <h2 style="font-size:20px; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Cash Drawer Drawer</h2>
-            <p style="color:#666; margin-bottom:30px;" id="cash-panel-due">Amount Due: $0.00</p>
+            <h2 style="font-size:18px; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Cash Drawer</h2>
+            <p style="color:#666; margin-bottom:20px;" id="cash-panel-due">Amount Due: $0.00</p>
             
-            <div style="max-width:360px; width:100%; margin-bottom:24px;">
+            <div style="max-width:340px; width:100%; margin-bottom:20px;">
                 <div class="form-group">
                     <label>Amount Handed by Customer ($)</label>
                     <input type="number" id="cash-tendered-input" class="form-control" placeholder="0.00" step="0.01" oninput="calculateCashChange()">
                 </div>
-                <div style="background:var(--secondary-bg); padding:20px; border:1px solid var(--border-color); text-align:center; margin-bottom:24px;">
-                    <div style="font-size:12px; text-transform:uppercase; color:#666; font-weight:600; margin-bottom:4px;">Change Owed Back</div>
-                    <div style="font-size:32px; font-weight:700;" id="cash-change-due">$0.00</div>
+                <div style="background:var(--secondary-bg); padding:16px; border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px;">
+                    <div style="font-size:11px; text-transform:uppercase; color:#666; font-weight:600; margin-bottom:4px;">Change Owed Back</div>
+                    <div style="font-size:28px; font-weight:700;" id="cash-change-due">$0.00</div>
                 </div>
                 <div class="canvas-actions">
                     <button class="btn-secondary" onclick="cancelCashPanel()">Cancel</button>
-                    <button class="btn-primary" onclick="proceedToCustomerTip()">Open Customer Flow</button>
+                    <button class="btn-primary" onclick="proceedToCustomerTip()">Open Flow</button>
                 </div>
             </div>
         </div>
@@ -724,7 +912,7 @@
                 </div>
 
                 <div class="custom-tip-modal" id="custom-tip-modal">
-                    <h3 style="font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: #666;">Custom Tip</h3>
+                    <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: #666;">Custom Tip</h3>
                     <div class="custom-tip-display" id="custom-tip-input">$0.00</div>
                     <div class="custom-tip-grid">
                         <button class="key-btn" onclick="pressTipKey('1')">1</button>
@@ -740,7 +928,7 @@
                         <button class="key-btn" onclick="pressTipKey('0')">0</button>
                         <button class="key-btn action" onclick="closeCustomTipPanel()">Back</button>
                     </div>
-                    <button class="btn-submit" style="max-width: 360px;" onclick="saveCustomTip()">Add Tip Amount</button>
+                    <button class="btn-submit" style="max-width: 340px;" onclick="saveCustomTip()">Add Tip Amount</button>
                 </div>
             </div>
 
@@ -754,7 +942,7 @@
                 
                 <div class="canvas-actions">
                     <button class="btn-secondary" onclick="clearSignature()">Clear</button>
-                    <button class="btn-primary" onclick="submitSignature()">Confirm & Continue</button>
+                    <button class="btn-primary" onclick="submitSignature()">Confirm</button>
                 </div>
             </div>
 
@@ -769,8 +957,8 @@
             </div>
 
             <div class="customer-body" id="flow-step-success" style="display: none;">
-                <div style="width: 80px; height: 80px; background: #e2fbe9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                <div style="width: 72px; height: 72px; background: #e2fbe9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <h2 class="customer-heading">All Set!</h2>
                 <p class="customer-subheading" style="margin-bottom: 0;">Transaction processed successfully.</p>
@@ -780,7 +968,7 @@
         <section id="panel-terminal" class="view-panel active">
             <div class="header">
                 <h1 class="logo">Terminal</h1>
-                <div class="status-indicator"><span class="status-dot"></span><span>Live Node</span></div>
+                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node</span></div>
             </div>
             <div class="keypad-container">
                 <div class="keypad-display" id="keypad-input">$0.00</div>
@@ -803,27 +991,25 @@
 
         <section id="panel-orders" class="view-panel">
             <div class="header">
-                <h1 class="logo">Transactions Ledger</h1>
-                <div class="status-container">
-                    <button style="background:none; border:1px solid #ccc; padding:6px 12px; font-size:11px; text-transform:uppercase; cursor:pointer;" onclick="fetchOrders()">Refresh Feed</button>
-                </div>
+                <h1 class="logo">Transactions</h1>
+                <button style="background:none; border:1px solid #ccc; padding:6px 12px; font-size:11px; text-transform:uppercase; cursor:pointer; border-radius:4px;" onclick="fetchOrders()">Refresh</button>
             </div>
             
             <div class="analytics-strip">
                 <div class="metric-card">
-                    <span class="metric-label">Gross Income</span>
+                    <span class="metric-label">Gross</span>
                     <span class="metric-value" id="ledger-gross">$0.00</span>
                 </div>
                 <div class="metric-card">
-                    <span class="metric-label">Net Tips</span>
+                    <span class="metric-label">Tips</span>
                     <span class="metric-value" id="ledger-tips">$0.00</span>
                 </div>
                 <div class="metric-card">
-                    <span class="metric-label">Completed Checks</span>
+                    <span class="metric-label">Checks</span>
                     <span class="metric-value" id="ledger-count">0</span>
                 </div>
                 <div class="metric-card">
-                    <span class="metric-label">Returns / Losses</span>
+                    <span class="metric-label">Losses</span>
                     <span class="metric-value" id="ledger-refunds" style="color:var(--danger-color);">$0.00</span>
                 </div>
             </div>
@@ -834,14 +1020,14 @@
                 </div>
                 
                 <div class="order-detail-side" id="order-inspector">
-                    <div class="header" style="height:60px; padding:0 20px;">
-                        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Order Detail</h3>
+                    <div class="header" style="height:56px; padding:0 20px;">
+                        <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Order Detail</h3>
                         <span style="font-size:20px; cursor:pointer;" onclick="closeInspector()">&times;</span>
                     </div>
                     <div class="scroll-content" style="padding:20px;" id="inspector-body">
                         </div>
                     <div class="action-toolbar">
-                        <button class="btn-warning" onclick="triggerEditRecord()">Edit Amount</button>
+                        <button class="btn-warning" onclick="triggerEditRecord()">Edit</button>
                         <button class="btn-danger" onclick="triggerRefundRecord()">Refund</button>
                         <button style="border-color:var(--danger-color); color:var(--danger-color);" onclick="triggerDeleteRecord()">Delete</button>
                     </div>
@@ -854,8 +1040,8 @@
                 <h1 class="logo">System Inventory</h1>
             </div>
             <div style="display: flex; flex: 1; overflow: hidden;">
-                <div style="width: 320px; border-right: 1px solid var(--border-color); padding: 24px;">
-                    <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px;">Create New Item</h3>
+                <div style="width: 300px; border-right: 1px solid var(--border-color); padding: 24px; flex-shrink: 0;">
+                    <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Create Product</h3>
                     <div class="form-group">
                         <label>Product Label</label>
                         <input type="text" id="item-name-input" class="form-control" placeholder="e.g. Cold Brew">
@@ -875,7 +1061,10 @@
         <section class="checkout-section" id="app-checkout-section">
             <div class="header">
                 <h2 class="logo">Active Ticket</h2>
-                <span style="font-size: 13px; color: #888; cursor: pointer; text-transform: uppercase;" onclick="clearCart()">Clear</span>
+                <div style="display:flex; gap:16px; align-items:center;">
+                    <span style="font-size: 12px; color: #888; cursor: pointer; text-transform: uppercase;" onclick="clearCart()">Clear</span>
+                    <span class="mobile-only-close" style="font-size: 24px; cursor: pointer; display: none;" onclick="toggleMobileCart()">&times;</span>
+                </div>
             </div>
             <div class="cart-container" id="cart-container">
                 <div class="empty-state" id="empty-msg">Ticket Empty</div>
@@ -889,6 +1078,8 @@
         </section>
 
     </main>
+
+    <button class="mobile-cart-toggle" id="mobile-cart-badge" onclick="toggleMobileCart()">Ticket ($0.00)</button>
 
     <div id="printable-receipt-area"></div>
 
@@ -959,6 +1150,23 @@
         function handleDrawMove(pos) { ctx.lineTo(pos.x, pos.y); ctx.stroke(); }
         window.clearSignature = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); };
 
+        // HTML5 Request Fullscreen Handler
+        window.toggleAppFullscreen = function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Fullscreen error: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        };
+
+        // Mobile Sidebar Toggle Accessor
+        window.toggleMobileCart = function() {
+            const checkoutSec = document.getElementById("app-checkout-section");
+            checkoutSec.classList.toggle("mobile-open");
+        };
+
         // View Router
         window.switchTab = function(targetPanel, element) {
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
@@ -966,6 +1174,9 @@
             
             document.getElementById(`panel-${targetPanel}`).classList.add('active');
             element.classList.add('active');
+
+            // Automatically shut down mobile side drawer views if jumping pages
+            document.getElementById("app-checkout-section").classList.remove("mobile-open");
 
             if (targetPanel === 'orders') {
                 closeInspector();
@@ -1031,6 +1242,7 @@
             const taxEl = document.getElementById('tax');
             const totalEl = document.getElementById('total');
             const payButton = document.getElementById('pay-button');
+            const mobileBadge = document.getElementById('mobile-cart-badge');
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<div class="empty-state" id="empty-msg">Ticket Empty</div>';
@@ -1039,6 +1251,7 @@
                 totalEl.innerText = '$0.00';
                 payButton.disabled = true;
                 payButton.innerText = "Charge Ticket";
+                mobileBadge.innerText = "Ticket ($0.00)";
                 return;
             }
 
@@ -1068,6 +1281,7 @@
             taxEl.innerText = `$${currentTax.toFixed(2)}`;
             totalEl.innerText = `$${baseTotal.toFixed(2)}`;
             payButton.innerText = `Charge $${baseTotal.toFixed(2)}`;
+            mobileBadge.innerText = `Ticket (${cart.reduce((a, b) => a + b.qty, 0)}) - $${baseTotal.toFixed(2)}`;
         }
 
         /* STAFF CASH CHANGE CALCULATOR LOGIC */
@@ -1090,6 +1304,7 @@
         window.proceedToCustomerTip = function() {
             document.getElementById("staff-cash-panel").style.display = "none";
             document.getElementById("app-side-nav").classList.add("hidden");
+            document.getElementById("mobile-cart-badge").style.display = "none";
             
             document.getElementById("tip-screen-total").innerText = `$${baseTotal.toFixed(2)}`;
             document.getElementById("tip-18-val").innerText = `$${(baseTotal * 0.18).toFixed(2)}`;
@@ -1183,10 +1398,12 @@
                 await push(ref(db, 'orders'), orderData);
                 showFlowStep("flow-step-success");
                 
-                // Keep the built-in success view visible for 2 seconds before closing
                 setTimeout(() => {
                     document.getElementById("customer-flow-screen").style.display = "none";
                     document.getElementById("app-side-nav").classList.remove("hidden");
+                    if (window.innerWidth <= 680) {
+                        document.getElementById("mobile-cart-badge").style.display = "block";
+                    }
                     clearCart();
                 }, 2000);
 
@@ -1194,6 +1411,9 @@
                 console.error(error);
                 document.getElementById("customer-flow-screen").style.display = "none";
                 document.getElementById("app-side-nav").classList.remove("hidden");
+                if (window.innerWidth <= 680) {
+                    document.getElementById("mobile-cart-badge").style.display = "block";
+                }
                 updateCartUI();
             }
         }
@@ -1244,18 +1464,17 @@
                     
                     row.innerHTML = `
                         <div>
-                            <div style="font-weight:600; font-size:15px; display:flex; align-items:center; gap:8px;">
+                            <div style="font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">
                                 Order #${key.substring(1,7).toUpperCase()}
-                                ${isRefunded ? '<span style="background:var(--danger-color); color:#fff; font-size:9px; padding:2px 6px; text-transform:uppercase;">Refunded</span>' : ''}
+                                ${isRefunded ? '<span style="background:var(--danger-color); color:#fff; font-size:8px; padding:1px 4px; text-transform:uppercase;">Refunded</span>' : ''}
                             </div>
                             <div class="list-meta">${data.timestamp} • Tip: $${tip.toFixed(2)}</div>
                         </div>
-                        <div style="font-weight:700; font-size:16px; ${isRefunded ? 'text-decoration: line-through; color:#aaa;' : ''}">$${grand.toFixed(2)}</div>
+                        <div style="font-weight:700; font-size:15px; ${isRefunded ? 'text-decoration: line-through; color:#aaa;' : ''}">$${grand.toFixed(2)}</div>
                     `;
                     container.appendChild(row);
                 });
 
-                // Render metrics summaries
                 document.getElementById("ledger-gross").innerText = `$${grossRevenue.toFixed(2)}`;
                 document.getElementById("ledger-tips").innerText = `$${totalTips.toFixed(2)}`;
                 document.getElementById("ledger-count").innerText = completedCount;
@@ -1294,33 +1513,33 @@
             }
 
             body.innerHTML = `
-                <div style="margin-bottom:20px;">
-                    <div style="font-size:11px; color:#888; text-transform:uppercase; font-weight:600;">Record UUID</div>
-                    <div style="font-size:14px; font-weight:700;">${id}</div>
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600;">Record UUID</div>
+                    <div style="font-size:13px; font-weight:700; word-break:break-all;">${id}</div>
                 </div>
-                <div style="margin-bottom:20px;">
-                    <div style="font-size:11px; color:#888; text-transform:uppercase; font-weight:600;">Timestamp</div>
-                    <div style="font-size:13px;">${data.timestamp}</div>
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600;">Timestamp</div>
+                    <div style="font-size:12px;">${data.timestamp}</div>
                 </div>
-                <div style="border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:16px;">
-                    <div style="font-size:11px; color:#888; text-transform:uppercase; font-weight:600; margin-bottom:8px;">Line Items</div>
+                <div style="border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:14px;">
+                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600; margin-bottom:6px;">Line Items</div>
                     ${linesHtml || '<div style="color:#aaa; font-style:italic;">No items cataloged.</div>'}
                 </div>
-                <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:20px; font-size:13px;">
+                <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:16px; font-size:12px;">
                     <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span>$${data.subtotal || '0.00'}</span></div>
                     <div style="display:flex; justify-content:space-between;"><span>Tax</span><span>$${data.tax || '0.00'}</span></div>
                     <div style="display:flex; justify-content:space-between; font-weight:600;"><span>Tip Amount</span><span>$${data.tipAmount || '0.00'}</span></div>
-                    <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:700; margin-top:6px; border-top:1px dashed var(--border-color); padding-top:6px;">
+                    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700; margin-top:6px; border-top:1px dashed var(--border-color); padding-top:6px;">
                         <span>Grand Total</span><span>$${data.grandTotal || '0.00'}</span>
                     </div>
                 </div>
                 <div>
-                    <div style="font-size:11px; color:#888; text-transform:uppercase; font-weight:600; margin-bottom:8px;">Captured Authorization Signature</div>
-                    ${data.signature ? `<div style="background:#f0f0f0; border:1px solid #ddd;"><img src="${data.signature}" style="width:100%; height:auto; display:block;" /></div>` : '<div style="font-size:12px; color:#aaa; font-style:italic;">No signature captured.</div>'}
+                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600; margin-bottom:6px;">Captured Authorization Signature</div>
+                    ${data.signature ? `<div style="background:#f0f0f0; border:1px solid #ddd; border-radius:4px;"><img src="${data.signature}" style="width:100%; height:auto; display:block;" /></div>` : '<div style="font-size:12px; color:#aaa; font-style:italic;">No signature captured.</div>'}
                 </div>
             `;
             inspector.style.display = "flex";
-        }
+        };
 
         window.closeInspector = function() {
             selectedOrderRecordId = null;
@@ -1331,7 +1550,7 @@
         /* DATA MODIFICATION ACTION TRIGGERS */
         window.triggerDeleteRecord = async function() {
             if (!selectedOrderRecordId) return;
-            if (confirm("Are you sure you want to permanently delete this transaction record from the cloud?")) {
+            if (confirm("Permanently delete this record?")) {
                 try {
                     await remove(ref(db, `orders/${selectedOrderRecordId}`));
                     closeInspector();
@@ -1344,13 +1563,13 @@
 
         window.triggerRefundRecord = async function() {
             if (!selectedOrderRecordId) return;
-            if (confirm("Process and mark this order as completely refunded? Total value will count as systemic loss.")) {
+            if (confirm("Mark this order as completely refunded?")) {
                 try {
                     await update(ref(db, `orders/${selectedOrderRecordId}`), { status: "Refunded" });
                     inspectOrderRecord(selectedOrderRecordId);
                     fetchOrders();
                 } catch (e) {
-                    alert("Refund status update failed.");
+                    alert("Refund failed.");
                 }
             }
         };
@@ -1400,7 +1619,7 @@
 
         window.fetchInventory = async function() {
             const container = document.getElementById('inventory-list-container');
-            container.innerHTML = '<div class="empty-state">Loading live database catalog...</div>';
+            container.innerHTML = '<div class="empty-state">Loading database catalog...</div>';
             try {
                 const snapshot = await get(ref(db, 'inventory'));
                 if (!snapshot.exists()) {
@@ -1413,11 +1632,14 @@
                     const row = document.createElement('div');
                     row.className = 'list-row';
                     row.style.cursor = 'pointer';
-                    row.onclick = () => addItemToCart(data.name, data.price);
+                    row.onclick = () => {
+                        addItemToCart(data.name, data.price);
+                        // Briefly pop up a subtle notification or click sound trigger if needed
+                    };
                     row.innerHTML = `
                         <div>
                             <div style="font-weight:600;">${data.name}</div>
-                            <div class="list-meta">Tap to pull into active ticket</div>
+                            <div class="list-meta">Tap to add to ticket</div>
                         </div>
                         <div style="font-weight:600;">$${data.price.toFixed(2)}</div>
                     `;
@@ -1427,6 +1649,20 @@
                 container.innerHTML = '<div class="empty-state">Error tracking inventory.</div>';
             }
         };
+
+        // Track resize events to safely re-toggle mobile viewport elements smoothly
+        window.addEventListener('resize', () => {
+            const mobileBadge = document.getElementById('mobile-cart-badge');
+            if (window.innerWidth > 680) {
+                document.getElementById("app-checkout-section").classList.remove("mobile-open");
+                document.getElementById("app-side-nav").classList.remove("hidden");
+                mobileBadge.style.display = "none";
+            } else {
+                if (document.getElementById("customer-flow-screen").style.display !== "flex") {
+                    mobileBadge.style.display = "block";
+                }
+            }
+        });
     </script>
 </body>
 </html>
