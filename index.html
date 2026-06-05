@@ -27,7 +27,7 @@
         }
 
         /* Allow selections and tap tracking on buttons/interactive elements for tablets */
-        button, .nav-item, .nav-footer-btn, .key-btn, .tip-btn, .receipt-btn {
+        button, .nav-item, .key-btn, .tip-btn, .receipt-btn {
             user-select: auto !important;
             -webkit-user-select: auto !important;
             touch-action: manipulation !important;
@@ -77,6 +77,7 @@
             letter-spacing: 0.5px;
             color: #777;
             gap: 4px;
+            background: transparent;
         }
 
         .nav-item svg {
@@ -97,37 +98,19 @@
             stroke: var(--accent-color);
         }
 
-        /* Fullscreen Utility Button at Bottom of Sidebar */
-        .nav-footer-btn {
-            margin-top: auto;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+        body:not(.fullscreen-btn-inline) .nav-item#nav-screen {
             border: 1px solid var(--border-color);
-            font-size: 9px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             color: #555;
-            gap: 4px;
             background: #ffffff;
         }
-
-        .nav-footer-btn:active {
-            background: var(--secondary-bg);
-            border-color: var(--accent-color);
+        
+        body:not(.fullscreen-btn-inline) .nav-item#nav-screen svg {
+            stroke: #555;
         }
 
-        .nav-footer-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: none;
-            stroke: #555;
-            stroke-width: 2;
+        body:not(.fullscreen-btn-inline) .nav-item#nav-screen:active {
+            background: var(--secondary-bg);
+            border-color: var(--accent-color);
         }
 
         /* Main Workspace Content Area */
@@ -708,17 +691,104 @@
         }
 
         /* ==========================================================================
+           COMPLETELY BUILT-IN SYSTEM NOTIFICATION MODALS & TOAST STYLES
+           ========================================================================== */
+        .app-toast-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .app-toast {
+            background: #111111;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+            text-transform: uppercase;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .app-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .app-dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-dialog-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 400px;
+            padding: 24px;
+            border-radius: 4px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+            animation: dialogPop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes dialogPop {
+            from { transform: scale(0.96); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .app-dialog-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .app-dialog-message {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .app-dialog-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* ==========================================================================
            RESPONSIVE STRUCTURAL MEDIA QUERIES (LAPTOP, TABLET, IPHONE FLEX ADAPTATIONS)
            ========================================================================== */
         
-        /* 1. Large Screen/Laptop Mode adjustments */
         @media (max-width: 1200px) {
             .analytics-strip {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* 2. Tablet Mode Layout adaptations */
         @media (max-width: 900px) {
             .checkout-section {
                 width: 320px;
@@ -728,10 +798,9 @@
             }
         }
 
-        /* 3. iPhone / Mobile Screens Layout adaptations */
         @media (max-width: 680px) {
             body {
-                flex-direction: column-reverse; /* Navigation menu sits perfectly at the bottom like a mobile tab bar */
+                flex-direction: column-reverse;
             }
 
             .side-nav {
@@ -750,16 +819,21 @@
                 height: 100%;
                 flex: 1;
                 font-size: 9px;
+                border: none !important;
+                background: transparent !important;
             }
 
-            .nav-footer-btn {
-                margin-top: 0;
-                width: auto;
-                height: 100%;
-                flex: 1;
-                border: none;
-                border-radius: 0;
-                font-size: 9px;
+            .nav-item svg {
+                stroke: #777 !important;
+            }
+
+            .nav-item.active {
+                color: var(--text-color) !important;
+                background: var(--secondary-bg) !important;
+            }
+
+            .nav-item.active svg {
+                stroke: var(--accent-color) !important;
             }
 
             .main-workspace {
@@ -787,7 +861,6 @@
                 z-index: 40;
             }
 
-            /* Turn Active Ticket summary container into a togglable slide-over on iPhone mobile viewport */
             .checkout-section {
                 position: absolute;
                 top: 0;
@@ -804,7 +877,7 @@
             }
 
             .mobile-cart-toggle {
-                display: block; /* Show visual floating toggle badge for checkout panel */
+                display: block;
             }
 
             #panel-items style, div[style*="display: flex"] {
@@ -863,22 +936,38 @@
 </head>
 <body>
 
+    <div class="app-toast-container" id="toast-wrapper"></div>
+
+    <div class="app-dialog-overlay" id="dialog-overlay">
+        <div class="app-dialog-box">
+            <h3 class="app-dialog-title" id="dialog-title">System Prompt</h3>
+            <p class="app-dialog-message" id="dialog-message">Message text content.</p>
+            
+            <div id="dialog-input-wrapper" style="display:none; margin-bottom: 20px;">
+                <input type="text" id="dialog-custom-input" class="form-control">
+            </div>
+
+            <div class="app-dialog-actions">
+                <button class="btn-secondary" style="height:36px; padding:0 16px;" id="dialog-cancel-btn">Cancel</button>
+                <button class="btn-primary" style="height:36px; padding:0 16px; flex:none; width:auto;" id="dialog-confirm-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <nav class="side-nav" id="app-side-nav">
-        <!-- Replaced standard div with explicit button semantic architecture for better mobile hardware click registration -->
-        <button class="nav-item active" id="nav-term" onclick="switchTab('terminal', this)" style="background:transparent; border:none;">
+        <button class="nav-item active" id="nav-term" onclick="switchTab('terminal', this)">
             <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
             <span>Register</span>
         </button>
-        <button class="nav-item" id="nav-ord" onclick="switchTab('orders', this)" style="background:transparent; border:none;">
+        <button class="nav-item" id="nav-ord" onclick="switchTab('orders', this)">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             <span>Orders</span>
         </button>
-        <button class="nav-item" id="nav-itm" onclick="switchTab('items', this)" style="background:transparent; border:none;">
+        <button class="nav-item" id="nav-itm" onclick="switchTab('items', this)">
             <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <span>Items</span>
         </button>
-        
-        <button class="nav-footer-btn" onclick="toggleAppFullscreen()" title="Toggle Display Mode">
+        <button class="nav-item" id="nav-screen" onclick="toggleAppFullscreen()" title="Toggle Display Mode">
             <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3"/></svg>
             <span>Screen</span>
         </button>
@@ -1130,6 +1219,62 @@
         const ctx = canvas.getContext("2d");
         let isDrawing = false;
 
+        // ==========================================================================
+        // BUILT-IN SYSTEM NOTIFICATION MODALS ENGINE
+        // ==========================================================================
+        window.showToast = function(message, duration = 3000) {
+            const container = document.getElementById("toast-wrapper");
+            const toast = document.createElement("div");
+            toast.className = "app-toast";
+            toast.innerText = message;
+            container.appendChild(toast);
+            
+            // Reflow trigger
+            setTimeout(() => toast.classList.add("show"), 10);
+            
+            setTimeout(() => {
+                toast.classList.remove("show");
+                toast.addEventListener("transitionend", () => toast.remove());
+            }, duration);
+        };
+
+        let dialogResolveCallback = null;
+
+        window.showAppDialog = function({ title, message, showInput = false, defaultValue = "", onConfirm, onCancel }) {
+            const overlay = document.getElementById("dialog-overlay");
+            document.getElementById("dialog-title").innerText = title || "System Prompt";
+            document.getElementById("dialog-message").innerText = message || "";
+            
+            const inputWrapper = document.getElementById("dialog-input-wrapper");
+            const inputField = document.getElementById("dialog-custom-input");
+            
+            if (showInput) {
+                inputWrapper.style.display = "block";
+                inputField.value = defaultValue;
+                setTimeout(() => inputField.focus(), 50);
+            } else {
+                inputWrapper.style.display = "none";
+            }
+
+            overlay.style.display = "flex";
+
+            const cleanup = () => {
+                overlay.style.display = "none";
+                document.getElementById("dialog-confirm-btn").onclick = null;
+                document.getElementById("dialog-cancel-btn").onclick = null;
+            };
+
+            document.getElementById("dialog-confirm-btn").onclick = () => {
+                cleanup();
+                if (onConfirm) onConfirm(showInput ? inputField.value : true);
+            };
+
+            document.getElementById("dialog-cancel-btn").onclick = () => {
+                cleanup();
+                if (onCancel) onCancel();
+            };
+        };
+
         function initCanvas() {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -1161,13 +1306,27 @@
         // HTML5 Request Fullscreen Handler
         window.toggleAppFullscreen = function() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Fullscreen error: ${err.message}`);
+                document.documentElement.requestFullscreen().then(() => {
+                    document.body.classList.add("fullscreen-btn-inline");
+                    showToast("Fullscreen Mode Enabled");
+                }).catch(err => {
+                    showToast("Display mode error");
                 });
             } else {
-                document.exitFullscreen();
+                document.exitFullscreen().then(() => {
+                    document.body.classList.remove("fullscreen-btn-inline");
+                    showToast("Fullscreen Mode Disabled");
+                });
             }
         };
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove("fullscreen-btn-inline");
+            } else {
+                document.body.classList.add("fullscreen-btn-inline");
+            }
+        });
 
         // Mobile Sidebar Toggle Accessor
         window.toggleMobileCart = function() {
@@ -1182,14 +1341,12 @@
             
             document.getElementById(`panel-${targetPanel}`).classList.add('active');
             
-            // Adjust to safely target the direct interactive item inside wrapper buttons
             if(element.tagName === "BUTTON") {
                 element.classList.add('active');
             } else {
                 element.closest('.nav-item').classList.add('active');
             }
 
-            // Automatically shut down mobile side drawer views if jumping pages
             document.getElementById("app-checkout-section").classList.remove("mobile-open");
 
             if (targetPanel === 'orders') {
@@ -1246,9 +1403,10 @@
             if (existingItem) existingItem.qty++;
             else cart.push({ name, price, qty: 1 });
             updateCartUI();
+            showToast(`Added ${name}`);
         }
 
-        window.clearCart = function() { cart = []; updateCartUI(); };
+        window.clearCart = function() { cart = []; updateCartUI(); showToast("Ticket Cleared"); };
 
         function updateCartUI() {
             const cartContainer = document.getElementById('cart-container');
@@ -1422,7 +1580,7 @@
                 }, 2000);
 
             } catch (error) {
-                console.error(error);
+                showToast("Cloud sync error");
                 document.getElementById("customer-flow-screen").style.display = "none";
                 document.getElementById("app-side-nav").classList.remove("hidden");
                 if (window.innerWidth <= 680) {
@@ -1561,52 +1719,68 @@
             document.querySelectorAll('.list-row').forEach(r => r.classList.remove('selected'));
         };
 
-        /* DATA MODIFICATION ACTION TRIGGERS */
-        window.triggerDeleteRecord = async function() {
+        /* DATA MODIFICATION ACTION TRIGGERS (CONVERTED TO INTERNAL SYSTEM MODALS) */
+        window.triggerDeleteRecord = function() {
             if (!selectedOrderRecordId) return;
-            if (confirm("Permanently delete this record?")) {
-                try {
-                    await remove(ref(db, `orders/${selectedOrderRecordId}`));
-                    closeInspector();
-                    fetchOrders();
-                } catch (e) {
-                    alert("Delete failed.");
+            showAppDialog({
+                title: "Delete Record",
+                message: "Are you sure you want to permanently delete this transaction ledger record?",
+                onConfirm: async () => {
+                    try {
+                        await remove(ref(db, `orders/${selectedOrderRecordId}`));
+                        closeInspector();
+                        fetchOrders();
+                        showToast("Record Deleted");
+                    } catch (e) {
+                        showToast("Delete failed");
+                    }
                 }
-            }
+            });
         };
 
-        window.triggerRefundRecord = async function() {
+        window.triggerRefundRecord = function() {
             if (!selectedOrderRecordId) return;
-            if (confirm("Mark this order as completely refunded?")) {
-                try {
-                    await update(ref(db, `orders/${selectedOrderRecordId}`), { status: "Refunded" });
-                    inspectOrderRecord(selectedOrderRecordId);
-                    fetchOrders();
-                } catch (e) {
-                    alert("Refund failed.");
+            showAppDialog({
+                title: "Refund Transaction",
+                message: "Are you sure you want to mark this transaction record as fully refunded?",
+                onConfirm: async () => {
+                    try {
+                        await update(ref(db, `orders/${selectedOrderRecordId}`), { status: "Refunded" });
+                        inspectOrderRecord(selectedOrderRecordId);
+                        fetchOrders();
+                        showToast("Order Marked Refunded");
+                    } catch (e) {
+                        showToast("Refund failed");
+                    }
                 }
-            }
+            });
         };
 
-        window.triggerEditRecord = async function() {
+        window.triggerEditRecord = function() {
             if (!selectedOrderRecordId) return;
             const currentData = loadedOrdersCache[selectedOrderRecordId];
-            const newTotal = prompt("Enter new Grand Total amount ($):", currentData.grandTotal);
             
-            if (newTotal === null) return;
-            const parsed = parseFloat(newTotal);
-            if (isNaN(parsed) || parsed < 0) {
-                alert("Please declare a valid absolute pricing amount.");
-                return;
-            }
-
-            try {
-                await update(ref(db, `orders/${selectedOrderRecordId}`), { grandTotal: parsed.toFixed(2) });
-                inspectOrderRecord(selectedOrderRecordId);
-                fetchOrders();
-            } catch (e) {
-                alert("Failed to modify total.");
-            }
+            showAppDialog({
+                title: "Modify Grand Total",
+                message: "Specify a new total amount override below ($):",
+                showInput: true,
+                defaultValue: currentData.grandTotal,
+                onConfirm: async (inputValue) => {
+                    const parsed = parseFloat(inputValue);
+                    if (isNaN(parsed) || parsed < 0) {
+                        showToast("Invalid pricing layout amount");
+                        return;
+                    }
+                    try {
+                        await update(ref(db, `orders/${selectedOrderRecordId}`), { grandTotal: parsed.toFixed(2) });
+                        inspectOrderRecord(selectedOrderRecordId);
+                        fetchOrders();
+                        showToast("Transaction Total Altered");
+                    } catch (e) {
+                        showToast("Failed to alter record total");
+                    }
+                }
+            });
         };
 
         // Inventory Configuration Write Actions
@@ -1617,7 +1791,7 @@
             const price = parseFloat(priceIn.value);
 
             if (!name || isNaN(price) || price <= 0) {
-                alert("Provide valid title and amount.");
+                showToast("Provide a valid label and price");
                 return;
             }
 
@@ -1626,8 +1800,9 @@
                 nameIn.value = '';
                 priceIn.value = '';
                 fetchInventory();
+                showToast("Inventory Item Cataloged");
             } catch (err) {
-                alert("Failed to write product.");
+                showToast("Failed to register item");
             }
         };
 
@@ -1663,7 +1838,6 @@
             }
         };
 
-        // Track resize events to safely re-toggle mobile viewport elements smoothly
         window.addEventListener('resize', () => {
             const mobileBadge = document.getElementById('mobile-cart-badge');
             if (window.innerWidth > 680) {
