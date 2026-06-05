@@ -26,6 +26,13 @@
             user-select: none;
         }
 
+        /* Allow selections and tap tracking on buttons/interactive elements for tablets */
+        button, .nav-item, .nav-footer-btn, .key-btn, .tip-btn, .receipt-btn {
+            user-select: auto !important;
+            -webkit-user-select: auto !important;
+            touch-action: manipulation !important;
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -857,18 +864,19 @@
 <body>
 
     <nav class="side-nav" id="app-side-nav">
-        <div class="nav-item active" id="nav-term" onclick="switchTab('terminal', this)">
+        <!-- Replaced standard div with explicit button semantic architecture for better mobile hardware click registration -->
+        <button class="nav-item active" id="nav-term" onclick="switchTab('terminal', this)" style="background:transparent; border:none;">
             <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
             <span>Register</span>
-        </div>
-        <div class="nav-item" id="nav-ord" onclick="switchTab('orders', this)">
+        </button>
+        <button class="nav-item" id="nav-ord" onclick="switchTab('orders', this)" style="background:transparent; border:none;">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             <span>Orders</span>
-        </div>
-        <div class="nav-item" id="nav-itm" onclick="switchTab('items', this)">
+        </button>
+        <button class="nav-item" id="nav-itm" onclick="switchTab('items', this)" style="background:transparent; border:none;">
             <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <span>Items</span>
-        </div>
+        </button>
         
         <button class="nav-footer-btn" onclick="toggleAppFullscreen()" title="Toggle Display Mode">
             <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3"/></svg>
@@ -1173,7 +1181,13 @@
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             
             document.getElementById(`panel-${targetPanel}`).classList.add('active');
-            element.classList.add('active');
+            
+            // Adjust to safely target the direct interactive item inside wrapper buttons
+            if(element.tagName === "BUTTON") {
+                element.classList.add('active');
+            } else {
+                element.closest('.nav-item').classList.add('active');
+            }
 
             // Automatically shut down mobile side drawer views if jumping pages
             document.getElementById("app-checkout-section").classList.remove("mobile-open");
@@ -1634,7 +1648,6 @@
                     row.style.cursor = 'pointer';
                     row.onclick = () => {
                         addItemToCart(data.name, data.price);
-                        // Briefly pop up a subtle notification or click sound trigger if needed
                     };
                     row.innerHTML = `
                         <div>
