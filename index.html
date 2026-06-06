@@ -40,9 +40,10 @@
             width: 100vw;
             overflow: hidden;
             position: relative;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* Side Navigation (Matching image_d7f329.png) */
+        /* Fixed Left Navigation - Stays on Desktop & Mobile */
         .side-nav {
             width: var(--sidebar-width);
             background: var(--bg-color);
@@ -112,7 +113,7 @@
             border-color: var(--accent-color);
         }
 
-        /* Main Flex Workspace Content Area */
+        /* Main Workspace Content Area */
         .main-workspace {
             flex: 1;
             display: flex;
@@ -134,6 +135,7 @@
             display: flex;
         }
 
+        /* Active Ticket Sidebar Right Panel */
         .checkout-section {
             width: 380px;
             display: flex;
@@ -160,7 +162,7 @@
             text-transform: uppercase;
         }
 
-        /* Dashboard Transactions Analytical Grid */
+        /* Analytics Grid Strip */
         .analytics-strip {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -214,7 +216,7 @@
             flex-shrink: 0;
         }
 
-        /* Register Keypad Base Styles */
+        /* Register Full Size Keypad Container */
         .keypad-container {
             flex: 1;
             display: flex;
@@ -222,7 +224,7 @@
             justify-content: center;
             align-items: center;
             padding: 24px;
-            max-width: 400px;
+            max-width: 440px;
             margin: 0 auto;
             width: 100%;
         }
@@ -230,7 +232,7 @@
         .keypad-display {
             font-size: 48px;
             font-weight: 300;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             letter-spacing: -1px;
             width: 100%;
             text-align: center;
@@ -242,13 +244,13 @@
             grid-gap: 12px;
             width: 100%;
             flex: 1;
-            max-height: 340px;
+            max-height: 400px;
         }
 
         .key-btn {
             background: var(--bg-color);
             border: 1px solid var(--border-color);
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -269,7 +271,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Scroll Content Wrappers */
+        /* Shared Panel Scrolls */
         .scroll-content {
             flex: 1;
             overflow-y: auto;
@@ -296,7 +298,7 @@
             margin-top: 4px;
         }
 
-        /* Setup Product Inventory Forms */
+        /* Inventory Management Input Groups */
         .form-group {
             margin-bottom: 16px;
         }
@@ -341,7 +343,7 @@
             border-radius: 4px;
         }
 
-        /* Cart Active Ticket Summary List */
+        /* Cart Active Summary Elements */
         .cart-container {
             flex: 1;
             overflow-y: auto;
@@ -408,7 +410,7 @@
             color: #999;
         }
 
-        /* Customer Overlay Flow Windows */
+        /* Full Height Processing Screen Flow Overlays */
         .customer-overlay {
             position: absolute;
             top: 0;
@@ -497,7 +499,6 @@
             letter-spacing: 1px;
         }
 
-        /* Embedded Modals */
         .custom-tip-modal {
             position: absolute;
             top: 0;
@@ -547,7 +548,7 @@
             padding: 24px;
         }
 
-        /* Customer Signature Fields */
+        /* Digital Signature Components */
         .signature-wrapper {
             width: 100%;
             background: var(--secondary-bg);
@@ -664,7 +665,7 @@
             border-radius: 4px;
         }
 
-        /* Clean Floating Mobile Active Ticket Tab */
+        /* Safe Floating Mobile Toggle - Moves fully away from sidebar elements */
         .mobile-cart-toggle {
             display: none;
             position: fixed;
@@ -682,15 +683,13 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             z-index: 80;
             cursor: pointer;
-            /* Pushes the floating badge safely up on notched screens without breaking its design */
-            margin-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         #printable-receipt-area {
             display: none;
         }
 
-        /* Built-In Alert Components */
+        /* Global Toast Notifications */
         .app-toast-container {
             position: fixed;
             top: 24px;
@@ -708,7 +707,7 @@
             color: #ffffff;
             padding: 12px 24px;
             border-radius: 4px;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 500;
             letter-spacing: 0.5px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
@@ -717,7 +716,6 @@
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: auto;
             text-transform: uppercase;
-            font-size: 11px;
             text-align: center;
         }
 
@@ -778,7 +776,7 @@
         }
 
         /* ==========================================================================
-           RESPONSIVE MOBILE BREAKPOINTS (MATCHING IMAGE_D7F329.PNG ORIGINAL LOOK)
+           RESPONSIVE RE-STYLED FLEX BREAKPOINTS (CLEAN DESKTOP LOOK PRESERVED)
            ========================================================================== */
         @media (max-width: 1200px) {
             .analytics-strip {
@@ -795,55 +793,8 @@
             }
         }
 
-        @media (max-width: 680px) {
-            body {
-                flex-direction: column-reverse;
-                height: 100vh;
-                height: -webkit-fill-available;
-            }
-
-            /* Main Side Nav transforms into an accurate bottom navigation row on mobile views */
-            .side-nav {
-                width: 100%;
-                /* Safe Area Inset Bottom handles the clickable fix gracefully on newer iPhones */
-                height: calc(64px + env(safe-area-inset-bottom, 16px));
-                padding-bottom: env(safe-area-inset-bottom, 16px);
-                flex-direction: row;
-                justify-content: space-around;
-                padding-top: 0;
-                border-right: none;
-                border-top: 1px solid var(--border-color);
-                gap: 0;
-                background: #ffffff;
-            }
-
-            .nav-item {
-                width: auto;
-                height: 64px;
-                flex: 1;
-                font-size: 9px;
-                border: none !important;
-                background: transparent !important;
-            }
-
-            .nav-item svg {
-                stroke: #777 !important;
-            }
-
-            .nav-item.active {
-                color: var(--text-color) !important;
-                background: var(--secondary-bg) !important;
-            }
-
-            .nav-item.active svg {
-                stroke: var(--accent-color) !important;
-            }
-
-            .main-workspace {
-                flex: 1;
-                height: calc(100% - 64px - env(safe-area-inset-bottom, 16px));
-            }
-
+        /* Mobile Layout optimization keeping left bar layout unbroken */
+        @media (max-width: 768px) {
             .analytics-strip {
                 grid-template-columns: repeat(2, 1fr);
                 padding: 12px 16px;
@@ -864,6 +815,7 @@
                 z-index: 40;
             }
 
+            /* Hides active sidebar behind toggle cleanly without pushing layout components */
             .checkout-section {
                 position: absolute;
                 top: 0;
@@ -883,7 +835,10 @@
                 display: block;
             }
 
-            /* Responsive stacking for Inventory Creation panels */
+            .mobile-only-close {
+                display: block !important;
+            }
+
             #panel-items > div {
                 flex-direction: column !important;
             }
@@ -1069,7 +1024,7 @@
         <section id="panel-terminal" class="view-panel active">
             <div class="header">
                 <h1 class="logo">Terminal</h1>
-                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node</span></div>
+                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.4</span></span></div>
             </div>
             <div class="keypad-container">
                 <div class="keypad-display" id="keypad-input">$0.00</div>
@@ -1179,7 +1134,6 @@
 
     </main>
 
-    <!-- Floating Mobile Active Ticket Action Target Badge -->
     <button class="mobile-cart-toggle" id="mobile-cart-badge" onclick="toggleMobileCart()">Ticket ($0.00)</button>
 
     <div id="printable-receipt-area"></div>
@@ -1562,7 +1516,7 @@
                 setTimeout(() => {
                     document.getElementById("customer-flow-screen").style.display = "none";
                     document.getElementById("app-side-nav").classList.remove("hidden");
-                    if (window.innerWidth <= 680) {
+                    if (window.innerWidth <= 768) {
                         document.getElementById("mobile-cart-badge").style.display = "block";
                     }
                     clearCart();
@@ -1572,7 +1526,7 @@
                 showToast("Cloud sync error");
                 document.getElementById("customer-flow-screen").style.display = "none";
                 document.getElementById("app-side-nav").classList.remove("hidden");
-                if (window.innerWidth <= 680) {
+                if (window.innerWidth <= 768) {
                     document.getElementById("mobile-cart-badge").style.display = "block";
                 }
                 updateCartUI();
@@ -1825,7 +1779,7 @@
 
         window.addEventListener('resize', () => {
             const mobileBadge = document.getElementById('mobile-cart-badge');
-            if (window.innerWidth > 680) {
+            if (window.innerWidth > 768) {
                 document.getElementById("app-checkout-section").classList.remove("mobile-open");
                 document.getElementById("app-side-nav").classList.remove("hidden");
                 mobileBadge.style.display = "none";
