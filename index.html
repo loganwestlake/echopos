@@ -12,6 +12,7 @@
             --accent-color: #000000;
             --secondary-bg: #f7f7f7;
             --sidebar-width: 80px;
+            --bottom-nav-height: 64px;
             --danger-color: #ff3b30;
             --warning-color: #ff9500;
         }
@@ -40,10 +41,9 @@
             width: 100vw;
             overflow: hidden;
             position: relative;
-            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* Fixed Left Navigation - Stays on Desktop & Mobile */
+        /* Responsive Navigation Frame */
         .side-nav {
             width: var(--sidebar-width);
             background: var(--bg-color);
@@ -78,6 +78,7 @@
             color: #777;
             gap: 4px;
             background: transparent;
+            position: relative;
         }
 
         .nav-item svg {
@@ -96,6 +97,22 @@
 
         .nav-item.active svg {
             stroke: var(--accent-color);
+        }
+
+        /* Cart Nav Count Badge Styling */
+        .nav-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--danger-color);
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+            display: none;
         }
 
         body:not(.fullscreen-btn-inline) .nav-item#nav-screen {
@@ -665,26 +682,6 @@
             border-radius: 4px;
         }
 
-        /* Safe Floating Mobile Toggle - Moves fully away from sidebar elements */
-        .mobile-cart-toggle {
-            display: none;
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--accent-color);
-            color: #ffffff;
-            border: none;
-            padding: 14px 22px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            z-index: 80;
-            cursor: pointer;
-        }
-
         #printable-receipt-area {
             display: none;
         }
@@ -776,7 +773,7 @@
         }
 
         /* ==========================================================================
-           RESPONSIVE RE-STYLED FLEX BREAKPOINTS (CLEAN DESKTOP LOOK PRESERVED)
+           RESPONSIVE RE-STYLED FLEX BREAKPOINTS
            ========================================================================== */
         @media (max-width: 1200px) {
             .analytics-strip {
@@ -793,8 +790,67 @@
             }
         }
 
-        /* Mobile Layout optimization keeping left bar layout unbroken */
+        /* Mobile Core Navigation Architecture Remap */
         @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+            }
+
+            /* Main navigation turns into bottom layout architecture structure */
+            .side-nav {
+                width: 100%;
+                height: var(--bottom-nav-height);
+                border-right: none;
+                border-top: 1px solid var(--border-color);
+                flex-direction: row;
+                justify-content: space-around;
+                padding-top: 0;
+                padding-bottom: 0;
+                gap: 0;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                background: #ffffff;
+                box-shadow: 0 -4px 16px rgba(0,0,0,0.04);
+            }
+
+            .nav-item {
+                width: 20%;
+                height: 100%;
+                border: none !important;
+                background: transparent !important;
+            }
+
+            .nav-item.active {
+                color: var(--text-color);
+            }
+
+            .nav-item.active svg {
+                stroke: var(--accent-color);
+            }
+
+            .main-workspace {
+                height: calc(100vh - var(--bottom-nav-height));
+                width: 100vw;
+            }
+
+            /* checkout panel fills viewport area natively when toggled active */
+            .checkout-section {
+                display: none;
+                width: 100%;
+                height: 100%;
+                border-left: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 50;
+            }
+
+            .checkout-section.active {
+                display: flex;
+            }
+
             .analytics-strip {
                 grid-template-columns: repeat(2, 1fr);
                 padding: 12px 16px;
@@ -813,30 +869,6 @@
                 left: 0;
                 height: 100%;
                 z-index: 40;
-            }
-
-            /* Hides active sidebar behind toggle cleanly without pushing layout components */
-            .checkout-section {
-                position: absolute;
-                top: 0;
-                right: -100%;
-                width: 100%;
-                height: 100%;
-                z-index: 75;
-                transition: right 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-                border-left: none;
-            }
-
-            .checkout-section.mobile-open {
-                right: 0;
-            }
-
-            .mobile-cart-toggle {
-                display: block;
-            }
-
-            .mobile-only-close {
-                display: block !important;
             }
 
             #panel-items > div {
@@ -925,6 +957,12 @@
         <button class="nav-item" id="nav-itm" onclick="switchTab('items', this)">
             <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <span>Items</span>
+        </button>
+        <!-- Dedicated Ticket Navigation Tab Button for Mobile Scaling -->
+        <button class="nav-item" id="nav-cart" onclick="switchTab('cart', this)">
+            <span class="nav-badge" id="mobile-cart-badge-count">0</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 9.4 7.55 4.24a1.79 1.79 0 0 0-2.5 1.03L3 13.5h18l-2-8.23a1.79 1.79 0 0 0-2.5-1.03L16.5 9.4Z"/><path d="M2 13.5h20v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z"/></svg>
+            <span>Ticket</span>
         </button>
         <button class="nav-item" id="nav-screen" onclick="toggleAppFullscreen()" title="Toggle Display Mode">
             <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3"/></svg>
@@ -1118,7 +1156,6 @@
                 <h2 class="logo">Active Ticket</h2>
                 <div style="display:flex; gap:16px; align-items:center;">
                     <span style="font-size: 12px; color: #888; cursor: pointer; text-transform: uppercase;" onclick="clearCart()">Clear</span>
-                    <span class="mobile-only-close" style="font-size: 24px; cursor: pointer; display: none;" onclick="toggleMobileCart()">&times;</span>
                 </div>
             </div>
             <div class="cart-container" id="cart-container">
@@ -1133,8 +1170,6 @@
         </section>
 
     </main>
-
-    <button class="mobile-cart-toggle" id="mobile-cart-badge" onclick="toggleMobileCart()">Ticket ($0.00)</button>
 
     <div id="printable-receipt-area"></div>
 
@@ -1277,24 +1312,25 @@
             }
         });
 
-        window.toggleMobileCart = function() {
-            const checkoutSec = document.getElementById("app-checkout-section");
-            checkoutSec.classList.toggle("mobile-open");
-        };
-
         window.switchTab = function(targetPanel, element) {
+            const checkoutSec = document.getElementById("app-checkout-section");
+            
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             
-            document.getElementById(`panel-${targetPanel}`).classList.add('active');
+            if (targetPanel === 'cart') {
+                checkoutSec.classList.add('active');
+            } else {
+                checkoutSec.classList.remove('active');
+                const targetEl = document.getElementById(`panel-${targetPanel}`);
+                if (targetEl) targetEl.classList.add('active');
+            }
             
             if(element.tagName === "BUTTON") {
                 element.classList.add('active');
             } else {
                 element.closest('.nav-item').classList.add('active');
             }
-
-            document.getElementById("app-checkout-section").classList.remove("mobile-open");
 
             if (targetPanel === 'orders') {
                 closeInspector();
@@ -1359,7 +1395,15 @@
             const taxEl = document.getElementById('tax');
             const totalEl = document.getElementById('total');
             const payButton = document.getElementById('pay-button');
-            const mobileBadge = document.getElementById('mobile-cart-badge');
+            const badgeCount = document.getElementById('mobile-cart-badge-count');
+
+            const totalQty = cart.reduce((a, b) => a + b.qty, 0);
+            if (totalQty > 0) {
+                badgeCount.innerText = totalQty;
+                badgeCount.style.display = "block";
+            } else {
+                badgeCount.style.display = "none";
+            }
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<div class="empty-state" id="empty-msg">Ticket Empty</div>';
@@ -1368,7 +1412,11 @@
                 totalEl.innerText = '$0.00';
                 payButton.disabled = true;
                 payButton.innerText = "Charge Ticket";
-                mobileBadge.innerText = "Ticket ($0.00)";
+                
+                // If cart is empty on mobile screens, route view state to Terminal automatically
+                if(window.innerWidth <= 768 && document.getElementById("app-checkout-section").classList.contains("active")) {
+                    switchTab('terminal', document.getElementById('nav-term'));
+                }
                 return;
             }
 
@@ -1398,7 +1446,6 @@
             taxEl.innerText = `$${currentTax.toFixed(2)}`;
             totalEl.innerText = `$${baseTotal.toFixed(2)}`;
             payButton.innerText = `Charge $${baseTotal.toFixed(2)}`;
-            mobileBadge.innerText = `Ticket (${cart.reduce((a, b) => a + b.qty, 0)}) - $${baseTotal.toFixed(2)}`;
         }
 
         window.openStaffCashPanel = function() {
@@ -1419,7 +1466,6 @@
         window.proceedToCustomerTip = function() {
             document.getElementById("staff-cash-panel").style.display = "none";
             document.getElementById("app-side-nav").classList.add("hidden");
-            document.getElementById("mobile-cart-badge").style.display = "none";
             
             document.getElementById("tip-screen-total").innerText = `$${baseTotal.toFixed(2)}`;
             document.getElementById("tip-18-val").innerText = `$${(baseTotal * 0.18).toFixed(2)}`;
@@ -1516,9 +1562,6 @@
                 setTimeout(() => {
                     document.getElementById("customer-flow-screen").style.display = "none";
                     document.getElementById("app-side-nav").classList.remove("hidden");
-                    if (window.innerWidth <= 768) {
-                        document.getElementById("mobile-cart-badge").style.display = "block";
-                    }
                     clearCart();
                 }, 2000);
 
@@ -1526,9 +1569,6 @@
                 showToast("Cloud sync error");
                 document.getElementById("customer-flow-screen").style.display = "none";
                 document.getElementById("app-side-nav").classList.remove("hidden");
-                if (window.innerWidth <= 768) {
-                    document.getElementById("mobile-cart-badge").style.display = "block";
-                }
                 updateCartUI();
             }
         }
@@ -1778,14 +1818,11 @@
         };
 
         window.addEventListener('resize', () => {
-            const mobileBadge = document.getElementById('mobile-cart-badge');
+            const checkoutSec = document.getElementById("app-checkout-section");
             if (window.innerWidth > 768) {
-                document.getElementById("app-checkout-section").classList.remove("mobile-open");
-                document.getElementById("app-side-nav").classList.remove("hidden");
-                mobileBadge.style.display = "none";
-            } else {
-                if (document.getElementById("customer-flow-screen").style.display !== "flex") {
-                    mobileBadge.style.display = "block";
+                checkoutSec.classList.remove("active");
+                if(document.getElementById('nav-cart').classList.contains('active')) {
+                    switchTab('terminal', document.getElementById('nav-term'));
                 }
             }
         });
