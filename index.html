@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ECHO POS</title>
     <style>
         :root {
@@ -26,7 +26,6 @@
             user-select: none;
         }
 
-        /* Allow selections and tap tracking on buttons/interactive elements for tablets */
         button, .nav-item, .key-btn, .tip-btn, .receipt-btn {
             user-select: auto !important;
             -webkit-user-select: auto !important;
@@ -43,7 +42,7 @@
             position: relative;
         }
 
-        /* App Side Navigation Menu */
+        /* Side Navigation (Matching image_d7f329.png) */
         .side-nav {
             width: var(--sidebar-width);
             background: var(--bg-color);
@@ -113,7 +112,7 @@
             border-color: var(--accent-color);
         }
 
-        /* Main Workspace Content Area */
+        /* Main Flex Workspace Content Area */
         .main-workspace {
             flex: 1;
             display: flex;
@@ -161,7 +160,7 @@
             text-transform: uppercase;
         }
 
-        /* Dashboard Analytical Ledger Cards */
+        /* Dashboard Transactions Analytical Grid */
         .analytics-strip {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -194,7 +193,6 @@
             font-weight: 700;
         }
 
-        /* Master-Detail Ledger Grid Layout */
         .orders-layout-grid {
             display: flex;
             flex: 1;
@@ -216,7 +214,7 @@
             flex-shrink: 0;
         }
 
-        /* Keypad Layout Area */
+        /* Register Keypad Base Styles */
         .keypad-container {
             flex: 1;
             display: flex;
@@ -271,7 +269,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Dynamic Module Data Lists */
+        /* Scroll Content Wrappers */
         .scroll-content {
             flex: 1;
             overflow-y: auto;
@@ -298,7 +296,7 @@
             margin-top: 4px;
         }
 
-        /* Custom Management Forms */
+        /* Setup Product Inventory Forms */
         .form-group {
             margin-bottom: 16px;
         }
@@ -343,7 +341,7 @@
             border-radius: 4px;
         }
 
-        /* Ticket Layout Panels */
+        /* Cart Active Ticket Summary List */
         .cart-container {
             flex: 1;
             overflow-y: auto;
@@ -410,7 +408,7 @@
             color: #999;
         }
 
-        /* Fullscreen Customer View Overlay */
+        /* Customer Overlay Flow Windows */
         .customer-overlay {
             position: absolute;
             top: 0;
@@ -499,7 +497,7 @@
             letter-spacing: 1px;
         }
 
-        /* Integrated UI Custom Tip Interface Panel */
+        /* Embedded Modals */
         .custom-tip-modal {
             position: absolute;
             top: 0;
@@ -534,7 +532,6 @@
             height: 54px;
         }
 
-        /* Built-In Cash Drawer Calculator (Staff Screen) */
         .cash-calculator-overlay {
             position: absolute;
             top: 0;
@@ -550,7 +547,7 @@
             padding: 24px;
         }
 
-        /* Signature Canvas Layout */
+        /* Customer Signature Fields */
         .signature-wrapper {
             width: 100%;
             background: var(--secondary-bg);
@@ -647,7 +644,6 @@
             border-color: var(--accent-color);
         }
 
-        /* Action Panel Toolbar */
         .action-toolbar {
             display: flex;
             gap: 8px;
@@ -668,31 +664,33 @@
             border-radius: 4px;
         }
 
-        /* Toggle Active Ticket View (Mobile Navigation Only) */
+        /* Clean Floating Mobile Active Ticket Tab */
         .mobile-cart-toggle {
             display: none;
             position: fixed;
-            bottom: 16px;
-            right: 16px;
+            bottom: 24px;
+            right: 24px;
             background: var(--accent-color);
-            color: #fff;
+            color: #ffffff;
             border: none;
-            padding: 14px 20px;
+            padding: 14px 22px;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             z-index: 80;
+            cursor: pointer;
+            /* Pushes the floating badge safely up on notched screens without breaking its design */
+            margin-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         #printable-receipt-area {
             display: none;
         }
 
-        /* ==========================================================================
-           COMPLETELY BUILT-IN SYSTEM NOTIFICATION MODALS & TOAST STYLES
-           ========================================================================== */
+        /* Built-In Alert Components */
         .app-toast-container {
             position: fixed;
             top: 24px;
@@ -780,9 +778,8 @@
         }
 
         /* ==========================================================================
-           RESPONSIVE STRUCTURAL MEDIA QUERIES (LAPTOP, TABLET, IPHONE FLEX ADAPTATIONS)
+           RESPONSIVE MOBILE BREAKPOINTS (MATCHING IMAGE_D7F329.PNG ORIGINAL LOOK)
            ========================================================================== */
-        
         @media (max-width: 1200px) {
             .analytics-strip {
                 grid-template-columns: repeat(2, 1fr);
@@ -801,22 +798,28 @@
         @media (max-width: 680px) {
             body {
                 flex-direction: column-reverse;
+                height: 100vh;
+                height: -webkit-fill-available;
             }
 
+            /* Main Side Nav transforms into an accurate bottom navigation row on mobile views */
             .side-nav {
                 width: 100%;
-                height: 64px;
+                /* Safe Area Inset Bottom handles the clickable fix gracefully on newer iPhones */
+                height: calc(64px + env(safe-area-inset-bottom, 16px));
+                padding-bottom: env(safe-area-inset-bottom, 16px);
                 flex-direction: row;
                 justify-content: space-around;
-                padding: 0;
+                padding-top: 0;
                 border-right: none;
                 border-top: 1px solid var(--border-color);
                 gap: 0;
+                background: #ffffff;
             }
 
             .nav-item {
                 width: auto;
-                height: 100%;
+                height: 64px;
                 flex: 1;
                 font-size: 9px;
                 border: none !important;
@@ -838,7 +841,7 @@
 
             .main-workspace {
                 flex: 1;
-                height: calc(100vh - 64px);
+                height: calc(100% - 64px - env(safe-area-inset-bottom, 16px));
             }
 
             .analytics-strip {
@@ -880,7 +883,8 @@
                 display: block;
             }
 
-            #panel-items style, div[style*="display: flex"] {
+            /* Responsive stacking for Inventory Creation panels */
+            #panel-items > div {
                 flex-direction: column !important;
             }
 
@@ -1121,8 +1125,7 @@
                         <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Order Detail</h3>
                         <span style="font-size:20px; cursor:pointer;" onclick="closeInspector()">&times;</span>
                     </div>
-                    <div class="scroll-content" style="padding:20px;" id="inspector-body">
-                        </div>
+                    <div class="scroll-content" style="padding:20px;" id="inspector-body"></div>
                     <div class="action-toolbar">
                         <button class="btn-warning" onclick="triggerEditRecord()">Edit</button>
                         <button class="btn-danger" onclick="triggerRefundRecord()">Refund</button>
@@ -1176,6 +1179,7 @@
 
     </main>
 
+    <!-- Floating Mobile Active Ticket Action Target Badge -->
     <button class="mobile-cart-toggle" id="mobile-cart-badge" onclick="toggleMobileCart()">Ticket ($0.00)</button>
 
     <div id="printable-receipt-area"></div>
@@ -1197,7 +1201,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // State Engine Architecture
         let cart = [];
         let rawInputStr = "0";
         let rawTipInputStr = "0"; 
@@ -1214,14 +1217,10 @@
         let loadedOrdersCache = {};
         let selectedOrderRecordId = null;
 
-        // Signature Canvas Variables
         const canvas = document.getElementById("sig-canvas");
         const ctx = canvas.getContext("2d");
         let isDrawing = false;
 
-        // ==========================================================================
-        // BUILT-IN SYSTEM NOTIFICATION MODALS ENGINE
-        // ==========================================================================
         window.showToast = function(message, duration = 3000) {
             const container = document.getElementById("toast-wrapper");
             const toast = document.createElement("div");
@@ -1229,7 +1228,6 @@
             toast.innerText = message;
             container.appendChild(toast);
             
-            // Reflow trigger
             setTimeout(() => toast.classList.add("show"), 10);
             
             setTimeout(() => {
@@ -1237,8 +1235,6 @@
                 toast.addEventListener("transitionend", () => toast.remove());
             }, duration);
         };
-
-        let dialogResolveCallback = null;
 
         window.showAppDialog = function({ title, message, showInput = false, defaultValue = "", onConfirm, onCancel }) {
             const overlay = document.getElementById("dialog-overlay");
@@ -1303,7 +1299,6 @@
         function handleDrawMove(pos) { ctx.lineTo(pos.x, pos.y); ctx.stroke(); }
         window.clearSignature = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); };
 
-        // HTML5 Request Fullscreen Handler
         window.toggleAppFullscreen = function() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
@@ -1313,7 +1308,7 @@
                     showToast("Display mode error");
                 });
             } else {
-                document.exitFullscreen().then(() => {
+                document.fullscreenElement && document.exitFullscreen().then(() => {
                     document.body.classList.remove("fullscreen-btn-inline");
                     showToast("Fullscreen Mode Disabled");
                 });
@@ -1328,13 +1323,11 @@
             }
         });
 
-        // Mobile Sidebar Toggle Accessor
         window.toggleMobileCart = function() {
             const checkoutSec = document.getElementById("app-checkout-section");
             checkoutSec.classList.toggle("mobile-open");
         };
 
-        // View Router
         window.switchTab = function(targetPanel, element) {
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -1356,7 +1349,6 @@
             if (targetPanel === 'items') fetchInventory();
         };
 
-        // Keypad Inputs
         window.pressKey = function(num) {
             if (rawInputStr === "0" && num !== "0") rawInputStr = num;
             else if (rawInputStr !== "0" && rawInputStr.length < 7) rawInputStr += num;
@@ -1369,7 +1361,6 @@
             document.getElementById('keypad-input').innerText = `$${parsedAmount.toFixed(2)}`;
         }
 
-        /* CUSTOM INLINE TIP KEYPAD LOGIC */
         window.openCustomTipPanel = function() {
             rawTipInputStr = "0";
             document.getElementById('custom-tip-input').innerText = "$0.00";
@@ -1456,7 +1447,6 @@
             mobileBadge.innerText = `Ticket (${cart.reduce((a, b) => a + b.qty, 0)}) - $${baseTotal.toFixed(2)}`;
         }
 
-        /* STAFF CASH CHANGE CALCULATOR LOGIC */
         window.openStaffCashPanel = function() {
             document.getElementById("cash-panel-due").innerText = `Amount Due: $${baseTotal.toFixed(2)}`;
             document.getElementById("cash-tendered-input").value = "";
@@ -1472,7 +1462,6 @@
             document.getElementById("cash-change-due").innerText = change > 0 ? `$${change.toFixed(2)}` : "$0.00";
         };
 
-        /* DYNAMIC TURNAROUND CUSTOMER FLOW */
         window.proceedToCustomerTip = function() {
             document.getElementById("staff-cash-panel").style.display = "none";
             document.getElementById("app-side-nav").classList.add("hidden");
@@ -1590,7 +1579,6 @@
             }
         }
 
-        /* REALTIME LEDGER FETCH & ANALYTICS ARCHITECTURE */
         window.fetchOrders = async function() {
             const container = document.getElementById('orders-log-list');
             container.innerHTML = '<div class="empty-state">Querying active records...</div>';
@@ -1664,7 +1652,6 @@
             document.getElementById("ledger-refunds").innerText = "$0.00";
         }
 
-        /* DEEP TRANSACTION DRAWER INSPECTOR WINDOW */
         function inspectOrderRecord(id) {
             selectedOrderRecordId = id;
             document.querySelectorAll('.list-row').forEach(r => r.classList.remove('selected'));
@@ -1690,7 +1677,7 @@
                     <div style="font-size:13px; font-weight:700; word-break:break-all;">${id}</div>
                 </div>
                 <div style="margin-bottom:16px;">
-                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600;">Timestamp</div>
+                    <div style="font-size:12px; color:#888; text-transform:uppercase; font-weight:600;">Timestamp</div>
                     <div style="font-size:12px;">${data.timestamp}</div>
                 </div>
                 <div style="border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:14px;">
@@ -1719,7 +1706,6 @@
             document.querySelectorAll('.list-row').forEach(r => r.classList.remove('selected'));
         };
 
-        /* DATA MODIFICATION ACTION TRIGGERS (CONVERTED TO INTERNAL SYSTEM MODALS) */
         window.triggerDeleteRecord = function() {
             if (!selectedOrderRecordId) return;
             showAppDialog({
@@ -1783,7 +1769,6 @@
             });
         };
 
-        // Inventory Configuration Write Actions
         window.createNewItem = async function() {
             const nameIn = document.getElementById('item-name-input');
             const priceIn = document.getElementById('item-price-input');
