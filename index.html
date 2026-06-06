@@ -38,6 +38,7 @@
             color: var(--text-color);
             display: flex;
             height: 100vh;
+            height: 100dvh; /* Fixes browser URL bar pushing layout down */
             width: 100vw;
             overflow: hidden;
             position: relative;
@@ -137,6 +138,7 @@
             background: var(--bg-color);
             overflow: hidden;
             position: relative;
+            height: 100%;
         }
 
         .view-panel {
@@ -160,6 +162,7 @@
             background: var(--bg-color);
             border-left: 1px solid var(--border-color);
             flex-shrink: 0;
+            height: 100%;
         }
 
         .header {
@@ -244,6 +247,7 @@
             max-width: 440px;
             margin: 0 auto;
             width: 100%;
+            height: 100%;
         }
 
         .keypad-display {
@@ -794,7 +798,6 @@
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
-                padding-bottom: env(safe-area-inset-bottom, 0px);
             }
 
             /* Main navigation turns into bottom layout architecture structure */
@@ -806,7 +809,8 @@
                 flex-direction: row;
                 justify-content: space-around;
                 padding-top: 0;
-                padding-bottom: 0;
+                padding-bottom: env(safe-area-inset-bottom, 0px); /* Handles mobile screen bottom notch spacing */
+                height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
                 gap: 0;
                 position: fixed;
                 bottom: 0;
@@ -817,7 +821,7 @@
 
             .nav-item {
                 width: 20%;
-                height: 100%;
+                height: var(--bottom-nav-height);
                 border: none !important;
                 background: transparent !important;
             }
@@ -831,7 +835,7 @@
             }
 
             .main-workspace {
-                height: calc(100vh - var(--bottom-nav-height));
+                height: calc(100dvh - var(--bottom-nav-height) - env(safe-area-inset-bottom, 0px));
                 width: 100vw;
             }
 
@@ -958,7 +962,6 @@
             <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             <span>Items</span>
         </button>
-        <!-- Dedicated Ticket Navigation Tab Button for Mobile Scaling -->
         <button class="nav-item" id="nav-cart" onclick="switchTab('cart', this)">
             <span class="nav-badge" id="mobile-cart-badge-count">0</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 9.4 7.55 4.24a1.79 1.79 0 0 0-2.5 1.03L3 13.5h18l-2-8.23a1.79 1.79 0 0 0-2.5-1.03L16.5 9.4Z"/><path d="M2 13.5h20v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z"/></svg>
@@ -981,7 +984,7 @@
                     <label>Amount Handed by Customer ($)</label>
                     <input type="number" id="cash-tendered-input" class="form-control" placeholder="0.00" step="0.01" oninput="calculateCashChange()">
                 </div>
-                <div style="background:var(--secondary-bg); padding:16px; border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px;">
+                <div style="background:var(--secondary-bg); padding:166px; border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px; padding: 16px;">
                     <div style="font-size:11px; text-transform:uppercase; color:#666; font-weight:600; margin-bottom:4px;">Change Owed Back</div>
                     <div style="font-size:28px; font-weight:700;" id="cash-change-due">$0.00</div>
                 </div>
@@ -1062,7 +1065,7 @@
         <section id="panel-terminal" class="view-panel active">
             <div class="header">
                 <h1 class="logo">Terminal</h1>
-                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.4</span></span></div>
+                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.5</span></span></div>
             </div>
             <div class="keypad-container">
                 <div class="keypad-display" id="keypad-input">$0.00</div>
@@ -1533,7 +1536,7 @@
                 <div class="receipt-line"><span>Tax (8.25%)</span><span>$${currentTax.toFixed(2)}</span></div>
                 <div class="receipt-line"><span>Tip Amount</span><span>$${selectedTipAmount.toFixed(2)}</span></div>
                 <div class="receipt-divider"></div>
-                <div class="receipt-line" style="font-weight:bold; font-size:16px;"><span>TOTAL PAID</span><span>$${finalGrandTotal.toFixed(2)}</span></div>
+                <div class="receipt-line" style="font-weight:bold; font-size:14px;"><span>TOTAL PAID</span><span>$${finalGrandTotal.toFixed(2)}</span></div>
                 <div class="receipt-divider"></div>
                 <img class="receipt-signature-img" src="${signatureDataUrl}" />
                 <p style="text-align:center; font-size:11px; margin-top:20px;">Thank you!</p>
