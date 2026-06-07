@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ECHO POS</title>
+    <title>ECHO POS - Staff Terminal</title>
     <style>
         :root {
             --bg-color: #ffffff;
@@ -38,7 +38,7 @@
             color: var(--text-color);
             display: flex;
             height: 100vh;
-            height: 100dvh; /* Fixes browser URL bar pushing layout down */
+            height: 100dvh;
             width: 100vw;
             overflow: hidden;
             position: relative;
@@ -100,7 +100,6 @@
             stroke: var(--accent-color);
         }
 
-        /* Cart Nav Count Badge Styling */
         .nav-badge {
             position: absolute;
             top: 4px;
@@ -114,21 +113,6 @@
             min-width: 18px;
             text-align: center;
             display: none;
-        }
-
-        body:not(.fullscreen-btn-inline) .nav-item#nav-screen {
-            border: 1px solid var(--border-color);
-            color: #555;
-            background: #ffffff;
-        }
-        
-        body:not(.fullscreen-btn-inline) .nav-item#nav-screen svg {
-            stroke: #555;
-        }
-
-        body:not(.fullscreen-btn-inline) .nav-item#nav-screen:active {
-            background: var(--secondary-bg);
-            border-color: var(--accent-color);
         }
 
         /* Main Workspace Content Area */
@@ -180,6 +164,26 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
+        }
+
+        /* Back button styling for mobile active ticket view */
+        .mobile-back-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-back-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-color);
+            stroke-width: 2.5;
+            fill: none;
         }
 
         /* Analytics Grid Strip */
@@ -431,129 +435,7 @@
             color: #999;
         }
 
-        /* Full Height Processing Screen Flow Overlays */
-        .customer-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            animation: overlayFade 0.25s ease-out;
-        }
-
-        @keyframes overlayFade {
-            from { opacity: 0; transform: scale(1.01); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .customer-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            max-width: 500px;
-            margin: 0 auto;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            overflow-y: auto;
-        }
-
-        .customer-heading {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .customer-subheading {
-            font-size: 15px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .tip-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 12px;
-            width: 100%;
-            margin-bottom: 12px;
-        }
-
-        .tip-btn {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            height: 68px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            border-radius: 4px;
-        }
-
-        .tip-btn span {
-            font-size: 12px;
-            color: #777;
-            font-weight: 400;
-        }
-
-        .tip-btn:active {
-            background: var(--secondary-bg);
-            border-color: var(--accent-color);
-        }
-
-        .tip-btn.full-width {
-            grid-column: span 2;
-            height: 52px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .custom-tip-modal {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            z-index: 110;
-        }
-
-        .custom-tip-display {
-            font-size: 44px;
-            font-weight: 300;
-            margin-bottom: 16px;
-        }
-
-        .custom-tip-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 12px;
-            width: 100%;
-            max-width: 340px;
-            margin-bottom: 20px;
-        }
-
-        .custom-tip-grid .key-btn {
-            height: 54px;
-        }
-
+        /* Overlays / Full Screen States */
         .cash-calculator-overlay {
             position: absolute;
             top: 0;
@@ -569,28 +451,44 @@
             padding: 24px;
         }
 
-        /* Digital Signature Components */
-        .signature-wrapper {
-            width: 100%;
-            background: var(--secondary-bg);
-            border: 1px dashed #cccccc;
-            position: relative;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-
-        #sig-canvas {
-            width: 100%;
-            height: 180px;
-            display: block;
-            cursor: crosshair;
-        }
-
+        /* Cleaned up layout buttons container for cash drawer */
         .canvas-actions {
             display: flex;
-            justify-content: space-between;
-            width: 100%;
             gap: 12px;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        /* Staff Waiting State Block Screen overlay */
+        .waiting-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 500;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .waiting-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--secondary-bg);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+            margin-bottom: 24px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .btn-secondary {
@@ -637,35 +535,6 @@
             border-radius: 4px;
         }
 
-        .btn-primary:active {
-            opacity: 0.9;
-        }
-
-        .receipt-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-        }
-
-        .receipt-btn {
-            width: 100%;
-            height: 54px;
-            border: 1px solid var(--border-color);
-            background: #ffffff;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-radius: 4px;
-        }
-
-        .receipt-btn:active {
-            background: var(--secondary-bg);
-            border-color: var(--accent-color);
-        }
-
         .action-toolbar {
             display: flex;
             gap: 8px;
@@ -684,10 +553,6 @@
             border: 1px solid var(--border-color);
             background: #fff;
             border-radius: 4px;
-        }
-
-        #printable-receipt-area {
-            display: none;
         }
 
         /* Global Toast Notifications */
@@ -747,12 +612,6 @@
             padding: 24px;
             border-radius: 4px;
             box-shadow: 0 12px 36px rgba(0,0,0,0.1);
-            animation: dialogPop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes dialogPop {
-            from { transform: scale(0.96); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
         }
 
         .app-dialog-title {
@@ -776,31 +635,16 @@
             gap: 12px;
         }
 
-        /* ==========================================================================
-           RESPONSIVE RE-STYLED FLEX BREAKPOINTS
-           ========================================================================== */
-        @media (max-width: 1200px) {
-            .analytics-strip {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 900px) {
-            .checkout-section {
-                width: 320px;
-            }
-            .order-detail-side {
-                width: 280px;
-            }
-        }
-
-        /* Mobile Core Navigation Architecture Remap */
+        /* Hide Customer Screen Button on Mobile Views */
         @media (max-width: 768px) {
+            #nav-cust-screen {
+                display: none !important;
+            }
+
             body {
                 flex-direction: column;
             }
 
-            /* Main navigation turns into bottom layout architecture structure */
             .side-nav {
                 width: 100%;
                 height: var(--bottom-nav-height);
@@ -809,7 +653,7 @@
                 flex-direction: row;
                 justify-content: space-around;
                 padding-top: 0;
-                padding-bottom: env(safe-area-inset-bottom, 0px); /* Handles mobile screen bottom notch spacing */
+                padding-bottom: env(safe-area-inset-bottom, 0px);
                 height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
                 gap: 0;
                 position: fixed;
@@ -820,18 +664,10 @@
             }
 
             .nav-item {
-                width: 20%;
+                width: 25%;
                 height: var(--bottom-nav-height);
                 border: none !important;
                 background: transparent !important;
-            }
-
-            .nav-item.active {
-                color: var(--text-color);
-            }
-
-            .nav-item.active svg {
-                stroke: var(--accent-color);
             }
 
             .main-workspace {
@@ -839,7 +675,6 @@
                 width: 100vw;
             }
 
-            /* checkout panel fills viewport area natively when toggled active */
             .checkout-section {
                 display: none;
                 width: 100%;
@@ -852,6 +687,10 @@
             }
 
             .checkout-section.active {
+                display: flex;
+            }
+
+            .mobile-back-btn {
                 display: flex;
             }
 
@@ -873,58 +712,6 @@
                 left: 0;
                 height: 100%;
                 z-index: 40;
-            }
-
-            #panel-items > div {
-                flex-direction: column !important;
-            }
-
-            #panel-items > div > div:first-child {
-                width: 100% !important;
-                border-right: none !important;
-                border-bottom: 1px solid var(--border-color);
-                padding: 16px !important;
-            }
-        }
-
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #printable-receipt-area, #printable-receipt-area * {
-                visibility: visible;
-            }
-            #printable-receipt-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                display: block !important;
-                padding: 20px;
-                color: #000000;
-                background: #ffffff;
-                font-family: 'Courier New', Courier, monospace;
-            }
-            .receipt-header {
-                text-align: center;
-                text-transform: uppercase;
-                margin-bottom: 20px;
-            }
-            .receipt-divider {
-                border-top: 1px dashed #000;
-                margin: 10px 0;
-            }
-            .receipt-line {
-                display: flex;
-                justify-content: space-between;
-                font-size: 14px;
-                margin: 5px 0;
-            }
-            .receipt-signature-img {
-                max-width: 200px;
-                height: auto;
-                display: block;
-                margin: 15px auto 0 auto;
             }
         }
     </style>
@@ -949,6 +736,15 @@
         </div>
     </div>
 
+    <!-- Staff Waiting View Intercept Overlay -->
+    <div class="waiting-overlay" id="staff-waiting-screen">
+        <div class="waiting-spinner"></div>
+        <h2 style="font-size:24px; font-weight:700; margin-bottom:8px; letter-spacing:-0.5px;">Waiting on Customer</h2>
+        <p style="color:#666; font-size:15px; max-width:320px; line-height:1.4;">The customer is currently selecting their tip, signing, and choosing their receipt on the secondary screen.</p>
+        <!-- Normalized regular sized cancel action button block layout -->
+        <button class="btn-secondary" style="margin-top:32px; max-width:200px; width:100%; height:44px; font-size:13px;" onclick="abortCustomerFlow()">Cancel Transaction</button>
+    </div>
+
     <nav class="side-nav" id="app-side-nav">
         <button class="nav-item active" id="nav-term" onclick="switchTab('terminal', this)">
             <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
@@ -967,6 +763,11 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 9.4 7.55 4.24a1.79 1.79 0 0 0-2.5 1.03L3 13.5h18l-2-8.23a1.79 1.79 0 0 0-2.5-1.03L16.5 9.4Z"/><path d="M2 13.5h20v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z"/></svg>
             <span>Ticket</span>
         </button>
+        <!-- Desktop Exclusive 2nd Customer Screen Menu Window Triggers -->
+        <button class="nav-item" id="nav-cust-screen" onclick="launchCustomerWindow()" style="border-top:1px dashed var(--border-color); margin-top:auto; color:var(--warning-color);">
+            <svg viewBox="0 0 24 24" stroke="var(--warning-color)"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>2nd Screen</span>
+        </button>
         <button class="nav-item" id="nav-screen" onclick="toggleAppFullscreen()" title="Toggle Display Mode">
             <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3"/></svg>
             <span>Screen</span>
@@ -984,88 +785,21 @@
                     <label>Amount Handed by Customer ($)</label>
                     <input type="number" id="cash-tendered-input" class="form-control" placeholder="0.00" step="0.01" oninput="calculateCashChange()">
                 </div>
-                <div style="background:var(--secondary-bg); padding:166px; border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px; padding: 16px;">
+                <div style="background:var(--secondary-bg); padding:16px; border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px;">
                     <div style="font-size:11px; text-transform:uppercase; color:#666; font-weight:600; margin-bottom:4px;">Change Owed Back</div>
                     <div style="font-size:28px; font-weight:700;" id="cash-change-due">$0.00</div>
                 </div>
                 <div class="canvas-actions">
-                    <button class="btn-secondary" onclick="cancelCashPanel()">Cancel</button>
-                    <button class="btn-primary" onclick="proceedToCustomerTip()">Open Flow</button>
+                    <button class="btn-secondary" style="height: 48px;" onclick="cancelCashPanel()">Cancel</button>
+                    <button class="btn-primary" style="height: 48px;" onclick="handoverToCustomerDisplay()">Push to Customer</button>
                 </div>
-            </div>
-        </div>
-
-        <div class="customer-overlay" id="customer-flow-screen">
-            <div class="customer-body" id="flow-step-tip">
-                <h2 class="customer-heading" id="tip-screen-total">$0.00</h2>
-                <p class="customer-subheading">Select a gratuity option below</p>
-                
-                <div class="tip-grid">
-                    <button class="tip-btn" onclick="selectTip(0.18)">18%<span id="tip-18-val">$0.00</span></button>
-                    <button class="tip-btn" onclick="selectTip(0.20)">20%<span id="tip-20-val">$0.00</span></button>
-                    <button class="tip-btn" onclick="selectTip(0.22)">22%<span id="tip-22-val">$0.00</span></button>
-                    <button class="tip-btn" onclick="openCustomTipPanel()">Custom<span>Enter Value</span></button>
-                    <button class="tip-btn full-width" onclick="selectTip(0)">No Tip</button>
-                </div>
-
-                <div class="custom-tip-modal" id="custom-tip-modal">
-                    <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: #666;">Custom Tip</h3>
-                    <div class="custom-tip-display" id="custom-tip-input">$0.00</div>
-                    <div class="custom-tip-grid">
-                        <button class="key-btn" onclick="pressTipKey('1')">1</button>
-                        <button class="key-btn" onclick="pressTipKey('2')">2</button>
-                        <button class="key-btn" onclick="pressTipKey('3')">3</button>
-                        <button class="key-btn" onclick="pressTipKey('4')">4</button>
-                        <button class="key-btn" onclick="pressTipKey('5')">5</button>
-                        <button class="key-btn" onclick="pressTipKey('6')">6</button>
-                        <button class="key-btn" onclick="pressTipKey('7')">7</button>
-                        <button class="key-btn" onclick="pressTipKey('8')">8</button>
-                        <button class="key-btn" onclick="pressTipKey('9')">9</button>
-                        <button class="key-btn action" onclick="clearTipKeypad()">C</button>
-                        <button class="key-btn" onclick="pressTipKey('0')">0</button>
-                        <button class="key-btn action" onclick="closeCustomTipPanel()">Back</button>
-                    </div>
-                    <button class="btn-submit" style="max-width: 340px;" onclick="saveCustomTip()">Add Tip Amount</button>
-                </div>
-            </div>
-
-            <div class="customer-body" id="flow-step-sig" style="display: none;">
-                <h2 class="customer-heading">Sign to Authorize</h2>
-                <p class="customer-subheading" id="sig-screen-total">Total Authorization: $0.00</p>
-                
-                <div class="signature-wrapper">
-                    <canvas id="sig-canvas"></canvas>
-                </div>
-                
-                <div class="canvas-actions">
-                    <button class="btn-secondary" onclick="clearSignature()">Clear</button>
-                    <button class="btn-primary" onclick="submitSignature()">Confirm</button>
-                </div>
-            </div>
-
-            <div class="customer-body" id="flow-step-receipt" style="display: none;">
-                <h2 class="customer-heading">Transaction Complete</h2>
-                <p class="customer-subheading">How would you like your receipt?</p>
-                
-                <div class="receipt-options">
-                    <button class="receipt-btn" onclick="selectReceipt('Printed')">Print Receipt</button>
-                    <button class="receipt-btn" style="border-color: transparent; color: #666;" onclick="selectReceipt('None')">No Receipt</button>
-                </div>
-            </div>
-
-            <div class="customer-body" id="flow-step-success" style="display: none;">
-                <div style="width: 72px; height: 72px; background: #e2fbe9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <h2 class="customer-heading">All Set!</h2>
-                <p class="customer-subheading" style="margin-bottom: 0;">Transaction processed successfully.</p>
             </div>
         </div>
         
         <section id="panel-terminal" class="view-panel active">
             <div class="header">
                 <h1 class="logo">Terminal</h1>
-                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.5</span></span></div>
+                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.6</span></span></div>
             </div>
             <div class="keypad-container">
                 <div class="keypad-display" id="keypad-input">$0.00</div>
@@ -1156,7 +890,13 @@
 
         <section class="checkout-section" id="app-checkout-section">
             <div class="header">
-                <h2 class="logo">Active Ticket</h2>
+                <div style="display: flex; align-items: center;">
+                    <!-- Back button explicitly coded here for mobile view context changes -->
+                    <button class="mobile-back-btn" onclick="switchTab('terminal', document.getElementById('nav-term'))" title="Go Back">
+                        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <h2 class="logo">Active Ticket</h2>
+                </div>
                 <div style="display:flex; gap:16px; align-items:center;">
                     <span style="font-size: 12px; color: #888; cursor: pointer; text-transform: uppercase;" onclick="clearCart()">Clear</span>
                 </div>
@@ -1173,8 +913,6 @@
         </section>
 
     </main>
-
-    <div id="printable-receipt-area"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -1195,23 +933,15 @@
 
         let cart = [];
         let rawInputStr = "0";
-        let rawTipInputStr = "0"; 
         const TAX_RATE = 0.0825;
 
         let currentSubtotal = 0;
         let currentTax = 0;
         let baseTotal = 0;
-        let selectedTipAmount = 0;
-        let finalGrandTotal = 0;
-        let targetReceiptType = "None";
-        let signatureDataUrl = "";
         
         let loadedOrdersCache = {};
         let selectedOrderRecordId = null;
-
-        const canvas = document.getElementById("sig-canvas");
-        const ctx = canvas.getContext("2d");
-        let isDrawing = false;
+        let customerWindowReference = null;
 
         window.showToast = function(message, duration = 3000) {
             const container = document.getElementById("toast-wrapper");
@@ -1219,9 +949,7 @@
             toast.className = "app-toast";
             toast.innerText = message;
             container.appendChild(toast);
-            
             setTimeout(() => toast.classList.add("show"), 10);
-            
             setTimeout(() => {
                 toast.classList.remove("show");
                 toast.addEventListener("transitionend", () => toast.remove());
@@ -1232,7 +960,6 @@
             const overlay = document.getElementById("dialog-overlay");
             document.getElementById("dialog-title").innerText = title || "System Prompt";
             document.getElementById("dialog-message").innerText = message || "";
-            
             const inputWrapper = document.getElementById("dialog-input-wrapper");
             const inputField = document.getElementById("dialog-custom-input");
             
@@ -1243,7 +970,6 @@
             } else {
                 inputWrapper.style.display = "none";
             }
-
             overlay.style.display = "flex";
 
             const cleanup = () => {
@@ -1256,68 +982,24 @@
                 cleanup();
                 if (onConfirm) onConfirm(showInput ? inputField.value : true);
             };
-
             document.getElementById("dialog-cancel-btn").onclick = () => {
                 cleanup();
                 if (onCancel) onCancel();
             };
         };
 
-        function initCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            ctx.strokeStyle = "#111111";
-            ctx.lineWidth = 2.5;
-            ctx.lineCap = "round";
-            ctx.lineJoin = "round";
-        }
-
-        function getCanvasCoordinates(e) {
-            const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top };
-        }
-
-        canvas.addEventListener("mousedown", (e) => { isDrawing = true; handleDrawStart(getCanvasCoordinates(e)); });
-        canvas.addEventListener("mousemove", (e) => { if (isDrawing) handleDrawMove(getCanvasCoordinates(e)); });
-        canvas.addEventListener("mouseup", () => isDrawing = false);
-        
-        canvas.addEventListener("touchstart", (e) => { isDrawing = true; handleDrawStart(getCanvasCoordinates(e)); e.preventDefault(); }, { passive: false });
-        canvas.addEventListener("touchmove", (e) => { if (isDrawing) handleDrawMove(getCanvasCoordinates(e)); e.preventDefault(); }, { passive: false });
-        canvas.addEventListener("touchend", () => isDrawing = false);
-
-        function handleDrawStart(pos) { ctx.beginPath(); ctx.moveTo(pos.x, pos.y); }
-        function handleDrawMove(pos) { ctx.lineTo(pos.x, pos.y); ctx.stroke(); }
-        window.clearSignature = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); };
-
         window.toggleAppFullscreen = function() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
-                    document.body.classList.add("fullscreen-btn-inline");
                     showToast("Fullscreen Mode Enabled");
-                }).catch(err => {
-                    showToast("Display mode error");
-                });
+                }).catch(() => showToast("Display mode error"));
             } else {
-                document.fullscreenElement && document.exitFullscreen().then(() => {
-                    document.body.classList.remove("fullscreen-btn-inline");
-                    showToast("Fullscreen Mode Disabled");
-                });
+                document.exitFullscreen().then(() => showToast("Fullscreen Mode Disabled"));
             }
         };
 
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                document.body.classList.remove("fullscreen-btn-inline");
-            } else {
-                document.body.classList.add("fullscreen-btn-inline");
-            }
-        });
-
         window.switchTab = function(targetPanel, element) {
             const checkoutSec = document.getElementById("app-checkout-section");
-            
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             
@@ -1328,17 +1010,9 @@
                 const targetEl = document.getElementById(`panel-${targetPanel}`);
                 if (targetEl) targetEl.classList.add('active');
             }
-            
-            if(element.tagName === "BUTTON") {
-                element.classList.add('active');
-            } else {
-                element.closest('.nav-item').classList.add('active');
-            }
+            element.classList.add('active');
 
-            if (targetPanel === 'orders') {
-                closeInspector();
-                fetchOrders();
-            }
+            if (targetPanel === 'orders') { closeInspector(); fetchOrders(); }
             if (targetPanel === 'items') fetchInventory();
         };
 
@@ -1347,32 +1021,10 @@
             else if (rawInputStr !== "0" && rawInputStr.length < 7) rawInputStr += num;
             renderKeypad();
         };
-
         window.clearKeypad = function() { rawInputStr = "0"; renderKeypad(); };
         function renderKeypad() {
-            const parsedAmount = parseFloat(rawInputStr) / 100;
-            document.getElementById('keypad-input').innerText = `$${parsedAmount.toFixed(2)}`;
+            document.getElementById('keypad-input').innerText = `$${(parseFloat(rawInputStr) / 100).toFixed(2)}`;
         }
-
-        window.openCustomTipPanel = function() {
-            rawTipInputStr = "0";
-            document.getElementById('custom-tip-input').innerText = "$0.00";
-            document.getElementById('custom-tip-modal').style.display = "flex";
-        };
-        window.closeCustomTipPanel = function() { document.getElementById('custom-tip-modal').style.display = "none"; };
-        
-        window.pressTipKey = function(num) {
-            if (rawTipInputStr === "0" && num !== "0") rawTipInputStr = num;
-            else if (rawTipInputStr !== "0" && rawTipInputStr.length < 6) rawTipInputStr += num;
-            const parsedAmount = parseFloat(rawTipInputStr) / 100;
-            document.getElementById('custom-tip-input').innerText = `$${parsedAmount.toFixed(2)}`;
-        };
-        window.clearTipKeypad = function() { document.getElementById('custom-tip-input').innerText = "$0.00"; rawTipInputStr = "0"; };
-        window.saveCustomTip = function() {
-            selectedTipAmount = parseFloat(rawTipInputStr) / 100;
-            document.getElementById('custom-tip-modal').style.display = "none";
-            advanceToSignature();
-        };
 
         window.addCustomAmount = function() {
             const amt = parseFloat(rawInputStr) / 100;
@@ -1390,7 +1042,11 @@
             showToast(`Added ${name}`);
         }
 
-        window.clearCart = function() { cart = []; updateCartUI(); showToast("Ticket Cleared"); };
+        window.clearCart = function() { 
+            cart = []; 
+            updateCartUI(); 
+            showToast("Ticket Cleared"); 
+        };
 
         function updateCartUI() {
             const cartContainer = document.getElementById('cart-container');
@@ -1401,25 +1057,14 @@
             const badgeCount = document.getElementById('mobile-cart-badge-count');
 
             const totalQty = cart.reduce((a, b) => a + b.qty, 0);
-            if (totalQty > 0) {
-                badgeCount.innerText = totalQty;
-                badgeCount.style.display = "block";
-            } else {
-                badgeCount.style.display = "none";
-            }
+            badgeCount.innerText = totalQty;
+            badgeCount.style.display = totalQty > 0 ? "block" : "none";
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<div class="empty-state" id="empty-msg">Ticket Empty</div>';
-                subtotalEl.innerText = '$0.00';
-                taxEl.innerText = '$0.00';
-                totalEl.innerText = '$0.00';
-                payButton.disabled = true;
-                payButton.innerText = "Charge Ticket";
-                
-                // If cart is empty on mobile screens, route view state to Terminal automatically
-                if(window.innerWidth <= 768 && document.getElementById("app-checkout-section").classList.contains("active")) {
-                    switchTab('terminal', document.getElementById('nav-term'));
-                }
+                subtotalEl.innerText = '$0.00'; taxEl.innerText = '$0.00'; totalEl.innerText = '$0.00';
+                payButton.disabled = true; payButton.innerText = "Charge Ticket";
+                syncDataToCustomerScreen("idle");
                 return;
             }
 
@@ -1428,27 +1073,23 @@
             currentSubtotal = 0;
 
             cart.forEach(item => {
-                const itemTotal = item.price * item.qty;
-                currentSubtotal += itemTotal;
+                currentSubtotal += (item.price * item.qty);
                 const row = document.createElement('div');
                 row.className = 'cart-item';
-                row.innerHTML = `
-                    <div>
-                        <div class="cart-item-name">${item.name} ($${item.price.toFixed(2)})</div>
-                        <div style="font-size:12px; color:#888;">Qty: ${item.qty}</div>
-                    </div>
-                    <div style="font-weight:600;">$${itemTotal.toFixed(2)}</div>
-                `;
+                row.innerHTML = `<div><div>${item.name} ($${item.price.toFixed(2)})</div><div style="font-size:12px; color:#888;">Qty: ${item.qty}</div></div><div style="font-weight:600;">$${(item.price * item.qty).toFixed(2)}</div>`;
                 cartContainer.appendChild(row);
             });
 
             currentTax = currentSubtotal * TAX_RATE;
-            baseTotal = currentSubtotal + currentTax;
+            // Strict float parsing layout rounding configuration fixes floating point errors
+            baseTotal = parseFloat((currentSubtotal + currentTax).toFixed(2));
             
             subtotalEl.innerText = `$${currentSubtotal.toFixed(2)}`;
             taxEl.innerText = `$${currentTax.toFixed(2)}`;
             totalEl.innerText = `$${baseTotal.toFixed(2)}`;
             payButton.innerText = `Charge $${baseTotal.toFixed(2)}`;
+
+            syncDataToCustomerScreen("cart-update");
         }
 
         window.openStaffCashPanel = function() {
@@ -1457,178 +1098,341 @@
             document.getElementById("cash-change-due").innerText = "$0.00";
             document.getElementById("staff-cash-panel").style.display = "flex";
         };
-        window.cancelCashPanel = function() {
-            document.getElementById("staff-cash-panel").style.display = "none";
-        };
+        window.cancelCashPanel = function() { document.getElementById("staff-cash-panel").style.display = "none"; };
         window.calculateCashChange = function() {
             const tendered = parseFloat(document.getElementById("cash-tendered-input").value) || 0;
-            const change = tendered - baseTotal;
-            document.getElementById("cash-change-due").innerText = change > 0 ? `$${change.toFixed(2)}` : "$0.00";
+            document.getElementById("cash-change-due").innerText = tendered > baseTotal ? `$${(tendered - baseTotal).toFixed(2)}` : "$0.00";
         };
 
-        window.proceedToCustomerTip = function() {
+        window.handoverToCustomerDisplay = function() {
             document.getElementById("staff-cash-panel").style.display = "none";
-            document.getElementById("app-side-nav").classList.add("hidden");
-            
-            document.getElementById("tip-screen-total").innerText = `$${baseTotal.toFixed(2)}`;
-            document.getElementById("tip-18-val").innerText = `$${(baseTotal * 0.18).toFixed(2)}`;
-            document.getElementById("tip-20-val").innerText = `$${(baseTotal * 0.20).toFixed(2)}`;
-            document.getElementById("tip-22-val").innerText = `$${(baseTotal * 0.22).toFixed(2)}`;
-
-            document.getElementById("customer-flow-screen").style.display = "flex";
-            showFlowStep("flow-step-tip");
+            document.getElementById("staff-waiting-screen").style.display = "flex";
+            syncDataToCustomerScreen("start-flow");
         };
 
-        function showFlowStep(stepId) {
-            document.getElementById("flow-step-tip").style.display = "none";
-            document.getElementById("flow-step-sig").style.display = "none";
-            document.getElementById("flow-step-receipt").style.display = "none";
-            document.getElementById("flow-step-success").style.display = "none";
-            
-            document.getElementById(stepId).style.display = "flex";
-            if(stepId === "flow-step-sig") {
-                setTimeout(initCanvas, 50);
+        window.abortCustomerFlow = function() {
+            document.getElementById("staff-waiting-screen").style.display = "none";
+            syncDataToCustomerScreen("abort");
+            showToast("Customer Flow Aborted");
+        };
+
+        /* ==========================================================================
+           2ND CUSTOMER DISPLAY WINDOW HANDLER ARCHITECTURE
+           ========================================================================== */
+        window.launchCustomerWindow = function() {
+            if (customerWindowReference && !customerWindowReference.closed) {
+                customerWindowReference.focus();
+                showToast("2nd Screen Window Already Open");
+                return;
             }
-        }
-
-        window.selectTip = function(percentage) {
-            selectedTipAmount = baseTotal * percentage;
-            advanceToSignature();
-        };
-
-        function advanceToSignature() {
-            finalGrandTotal = baseTotal + selectedTipAmount;
-            document.getElementById("sig-screen-total").innerText = `Total Authorization: $${finalGrandTotal.toFixed(2)}`;
-            showFlowStep("flow-step-sig");
-        }
-
-        window.submitSignature = function() {
-            signatureDataUrl = canvas.toDataURL();
-            showFlowStep("flow-step-receipt");
-        };
-
-        window.selectReceipt = function(type) {
-            targetReceiptType = type;
-            if (type === 'Printed') {
-                buildAndTriggerPrint();
-            }
-            executeFinalCloudSync();
-        };
-
-        function buildAndTriggerPrint() {
-            const printContainer = document.getElementById("printable-receipt-area");
-            let itemsHtml = "";
-            cart.forEach(item => {
-                itemsHtml += `
-                    <div class="receipt-line">
-                        <span>${item.name} x${item.qty}</span>
-                        <span>$${(item.price * item.qty).toFixed(2)}</span>
+            
+            // Build absolute self-contained instance code strings dynamically for the borderless popup window
+            const htmlString = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>ECHO POS - Customer Facing Display</title>
+                    <style>
+                        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+                        body { background: #ffffff; color: #111111; height: 100vh; display: flex; overflow: hidden; }
+                        .left-summary { flex: 1; border-right: 1px solid #e5e5e5; display: flex; flex-direction: column; height: 100%; background: #fafafa; padding: 40px; }
+                        .right-actions { width: 500px; display: flex; flex-direction: column; height: 100%; justify-content: center; align-items: center; padding: 40px; position: relative; }
+                        .logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 30px; }
+                        .item-list { flex: 1; overflow-y: auto; margin-bottom: 20px; }
+                        .item-row { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #e5e5e5; font-size: 16px; }
+                        .totals-box { border-top: 2px solid #111; padding-top: 20px; }
+                        .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; color: #555; }
+                        .grand-total { font-size: 28px; font-weight: 700; color: #000; margin-top: 15px; }
+                        .customer-box { text-align: center; width: 100%; animation: fadeIn 0.3s ease; }
+                        .heading { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+                        .subheading { font-size: 15px; color: #666; margin-bottom: 32px; }
+                        .tip-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 12px; width: 100%; }
+                        .btn { background: #fff; border: 1px solid #e5e5e5; height: 72px; font-size: 18px; font-weight: 600; cursor: pointer; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+                        .btn span { font-size: 13px; color: #777; font-weight: 400; margin-top: 2px; }
+                        .btn:active { background: #f0f0f0; border-color: #000; }
+                        .btn.dark { background: #000; color: #fff; border: none; height: 56px; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; width: 100%; }
+                        .signature-wrap { width: 100%; background: #f0f0f0; border: 1px dashed #ccc; border-radius: 6px; margin-bottom: 20px; }
+                        canvas { width: 100%; height: 200px; display: block; cursor: crosshair; }
+                        .flex-btns { display: flex; gap: 12px; width: 100%; }
+                        .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px; width: 100%; max-width: 320px; margin: 0 auto 20px auto; }
+                        .key { background: #fff; border: 1px solid #e5e5e5; height: 54px; font-size: 20px; font-weight: 600; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+                        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+                    </style>
+                </head>
+                <body>
+                    <div class="left-summary">
+                        <div class="logo">ECHO POS</div>
+                        <div class="item-list" id="display-items"><div style="color:#999; text-align:center; margin-top:100px;">Welcome to Echo</div></div>
+                        <div class="totals-box">
+                            <div class="total-row"><span>Subtotal</span><span id="display-sub">$0.00</span></div>
+                            <div class="total-row"><span>Tax</span><span id="display-tax">$0.00</span></div>
+                            <div class="total-row" id="display-tip-row" style="display:none;"><span>Tip</span><span id="display-tip">$0.00</span></div>
+                            <div class="total-row grand-total"><span>Total</span><span id="display-total">$0.00</span></div>
+                        </div>
                     </div>
-                `;
-            });
+                    <div class="right-actions" id="display-flow-panel">
+                        <div class="customer-box">
+                            <h2 class="heading">Welcome</h2>
+                            <p class="subheading">Terminal is ready to begin checkout.</p>
+                        </div>
+                    </div>
 
-            printContainer.innerHTML = `
-                <div class="receipt-header"><h2>ECHO POS</h2><p>${new Date().toLocaleString()}</p></div>
-                <div class="receipt-divider"></div>
-                ${itemsHtml}
-                <div class="receipt-divider"></div>
-                <div class="receipt-line"><span>Subtotal</span><span>$${currentSubtotal.toFixed(2)}</span></div>
-                <div class="receipt-line"><span>Tax (8.25%)</span><span>$${currentTax.toFixed(2)}</span></div>
-                <div class="receipt-line"><span>Tip Amount</span><span>$${selectedTipAmount.toFixed(2)}</span></div>
-                <div class="receipt-divider"></div>
-                <div class="receipt-line" style="font-weight:bold; font-size:14px;"><span>TOTAL PAID</span><span>$${finalGrandTotal.toFixed(2)}</span></div>
-                <div class="receipt-divider"></div>
-                <img class="receipt-signature-img" src="${signatureDataUrl}" />
-                <p style="text-align:center; font-size:11px; margin-top:20px;">Thank you!</p>
+                    <script>
+                        let baseTotal = 0;
+                        let selectedTip = 0;
+                        let rawTipStr = "0";
+                        let isDrawing = false;
+                        let canvas, ctx;
+
+                        window.addEventListener("message", (event) => {
+                            const msg = event.data;
+                            if(!msg || !msg.type) return;
+
+                            if(msg.type === "cart-update" || msg.type === "start-flow") {
+                                baseTotal = parseFloat(msg.baseTotal);
+                                document.getElementById("display-sub").innerText = "$" + msg.subtotal;
+                                document.getElementById("display-tax").innerText = "$" + msg.tax;
+                                document.getElementById("display-total").innerText = "$" + baseTotal.toFixed(2);
+                                
+                                let itemsHtml = "";
+                                msg.cart.forEach(i => {
+                                    itemsHtml += '<div class="item-row"><span>' + i.name + ' x' + i.qty + '</span><strong>$' + (i.price * i.qty).toFixed(2) + '</strong></div>';
+                                });
+                                document.getElementById("display-items").innerHTML = itemsHtml;
+                            }
+
+                            if(msg.type === "start-flow") {
+                                renderTipScreen();
+                            }
+
+                            if(msg.type === "idle" || msg.type === "abort") {
+                                document.getElementById("display-items").innerHTML = '<div style="color:#999; text-align:center; margin-top:100px;">Welcome to Echo</div>';
+                                document.getElementById("display-sub").innerText = "$0.00";
+                                document.getElementById("display-tax").innerText = "$0.00";
+                                document.getElementById("display-tip-row").style.display = "none";
+                                document.getElementById("display-total").innerText = "$0.00";
+                                document.getElementById("display-flow-panel").innerHTML = '<div class="customer-box"><h2 class="heading">Welcome</h2><p class="subheading">Terminal is ready to begin checkout.</p></div>';
+                            }
+                        });
+
+                        function renderTipScreen() {
+                            document.getElementById("display-tip-row").style.display = "none";
+                            document.getElementById("display-flow-panel").innerHTML = \`
+                                <div class="customer-box">
+                                    <h2 class="heading">$ \` + baseTotal.toFixed(2) + \`</h2>
+                                    <p class="subheading">Select Gratuity Option</p>
+                                    <div class="tip-grid">
+                                        <button class="btn" onclick="applyPercentTip(0.18)">18%<span>$\` + (baseTotal * 0.18).toFixed(2) + \`</span></button>
+                                        <button class="btn" onclick="applyPercentTip(0.20)">20%<span>$\` + (baseTotal * 0.20).toFixed(2) + \`</span></button>
+                                        <button class="btn" onclick="applyPercentTip(0.22)">22%<span>$\` + (baseTotal * 0.22).toFixed(2) + \`</span></button>
+                                        <button class="btn" onclick="renderCustomTip()">Custom<span>Enter Value</span></button>
+                                        <button class="btn style='grid-column: span 2;'" style="grid-column: span 2; height:54px;" onclick="applyPercentTip(0)">No Tip</button>
+                                    </div>
+                                </div>
+                            \`;
+                        }
+
+                        window.applyPercentTip = function(pct) {
+                            selectedTip = parseFloat((baseTotal * pct).toFixed(2));
+                            renderSignatureScreen();
+                        };
+
+                        window.renderCustomTip = function() {
+                            rawTipStr = "0";
+                            document.getElementById("display-flow-panel").innerHTML = \`
+                                <div class="customer-box">
+                                    <p class="subheading" style="margin-bottom:8px; text-transform:uppercase; font-weight:700;">Custom Tip</p>
+                                    <h2 class="heading" id="custom-display" style="font-size:40px; margin-bottom:20px;">$0.00</h2>
+                                    <div class="keypad-grid">
+                                        <button class="key" onclick="pressTipKey('1')">1</button>
+                                        <button class="key" onclick="pressTipKey('2')">2</button>
+                                        <button class="key" onclick="pressTipKey('3')">3</button>
+                                        <button class="key" onclick="pressTipKey('4')">4</button>
+                                        <button class="key" onclick="pressTipKey('5')">5</button>
+                                        <button class="key" onclick="pressTipKey('6')">6</button>
+                                        <button class="key" onclick="pressTipKey('7')">7</button>
+                                        <button class="key" onclick="pressTipKey('8')">8</button>
+                                        <button class="key" onclick="pressTipKey('9')">9</button>
+                                        <button class="key" style="background:#f7f7f7;" onclick="clearTipKey()">C</button>
+                                        <button class="key" onclick="pressTipKey('0')">0</button>
+                                        <button class="key" style="background:#f7f7f7; font-size:14px;" onclick="renderTipScreen()">Back</button>
+                                    </div>
+                                    <button class="btn dark" onclick="submitCustomTip()">Add Gratuity</button>
+                                </div>
+                            \`;
+                        };
+
+                        window.pressTipKey = function(n) {
+                            if(rawTipStr === "0" && n !== "0") rawTipStr = n;
+                            else if(rawTipStr !== "0" && rawTipStr.length < 5) rawTipStr += n;
+                            document.getElementById("custom-display").innerText = "$" + (parseFloat(rawTipStr)/100).toFixed(2);
+                        };
+                        window.clearTipKey = function() { rawTipStr = "0"; document.getElementById("custom-display").innerText = "$0.00"; };
+                        window.submitCustomTip = function() {
+                            selectedTip = parseFloat((parseFloat(rawTipStr) / 100).toFixed(2));
+                            renderSignatureScreen();
+                        };
+
+                        function renderSignatureScreen() {
+                            const grand = parseFloat((baseTotal + selectedTip).toFixed(2));
+                            document.getElementById("display-tip").innerText = "$" + selectedTip.toFixed(2);
+                            document.getElementById("display-tip-row").style.display = "flex";
+                            document.getElementById("display-total").innerText = "$" + grand.toFixed(2);
+
+                            document.getElementById("display-flow-panel").innerHTML = \`
+                                <div class="customer-box">
+                                    <h2 class="heading">Authorization</h2>
+                                    <p class="subheading">Please sign to finalize transaction</p>
+                                    <div class="signature-wrap"><canvas id="sig-pad"></canvas></div>
+                                    <div class="flex-btns">
+                                        <button class="btn" style="flex:1; height:48px; font-size:14px;" onclick="clearCanvas()">Clear</button>
+                                        <button class="btn dark" style="flex:2; height:48px;" onclick="submitSignature()">Confirm</button>
+                                    </div>
+                                </div>
+                            \`;
+                            setupSignatureCanvas();
+                        }
+
+                        function setupSignatureCanvas() {
+                            canvas = document.getElementById("sig-pad");
+                            ctx = canvas.getContext("2d");
+                            canvas.width = canvas.offsetWidth;
+                            canvas.height = canvas.offsetHeight;
+                            ctx.strokeStyle = "#111111";
+                            ctx.lineWidth = 3;
+                            ctx.lineCap = "round";
+
+                            const getPos = (e) => {
+                                const r = canvas.getBoundingClientRect();
+                                const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                                const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                                return { x: cx - r.left, y: cy - r.top };
+                            };
+
+                            canvas.addEventListener("mousedown", (e) => { isDrawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); });
+                            canvas.addEventListener("mousemove", (e) => { if(!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+                            canvas.addEventListener("mouseup", () => isDrawing = false);
+
+                            canvas.addEventListener("touchstart", (e) => { isDrawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); e.preventDefault(); });
+                            canvas.addEventListener("touchmove", (e) => { if(!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
+                            canvas.addEventListener("touchend", () => isDrawing = false);
+                        }
+
+                        window.clearCanvas = function() { ctx.clearRect(0,0,canvas.width,canvas.height); };
+                        window.submitSignature = function() {
+                            const dataUrl = canvas.toDataURL();
+                            renderReceiptScreen(dataUrl);
+                        };
+
+                        function renderReceiptScreen(sig) {
+                            document.getElementById("display-flow-panel").innerHTML = \`
+                                <div class="customer-box">
+                                    <h2 class="heading">Receipt Options</h2>
+                                    <p class="subheading">How would you like your check log?</p>
+                                    <button class="btn dark" style="margin-bottom:12px;" onclick="finalizeSale('Printed', '\`+sig+\`')">Print Receipt</button>
+                                    <button class="btn" style="width:100%; height:50px; border-color:transparent; color:#666;" onclick="finalizeSale('None', '\`+sig+\`')">No Receipt</button>
+                                </div>
+                            \`;
+                        }
+
+                        window.finalizeSale = function(choice, sig) {
+                            document.getElementById("display-flow-panel").innerHTML = \`
+                                <div class="customer-box">
+                                    <div style="width:64px; height:64px; background:#e2fbe9; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                    </div>
+                                    <h2 class="heading">Thank You!</h2>
+                                    <p class="subheading">Transaction complete</p>
+                                </div>
+                            \`;
+                            
+                            window.opener.postMessage({
+                                action: "complete",
+                                tipAmount: selectedTip,
+                                receiptChoice: choice,
+                                signature: sig
+                            }, "*");
+                        }
+                    <\/script>
+                </body>
+                </html>
             `;
-            window.print();
+
+            customerWindowReference = window.open("", "EchoCustomerWindow", "width=1024,height=680,menubar=no,toolbar=no,location=no,status=no");
+            customerWindowReference.document.open();
+            customerWindowReference.document.write(htmlString);
+            customerWindowReference.document.close();
+            
+            showToast("Customer Window Active");
+            updateCartUI();
+        };
+
+        function syncDataToCustomerScreen(type) {
+            if (!customerWindowReference || customerWindowReference.closed) return;
+            customerWindowReference.postMessage({
+                type: type,
+                cart: cart,
+                subtotal: currentSubtotal.toFixed(2),
+                tax: currentTax.toFixed(2),
+                baseTotal: baseTotal.toFixed(2)
+            }, "*");
         }
 
-        async function executeFinalCloudSync() {
+        window.addEventListener("message", async (e) => {
+            if (!e.data || e.data.action !== "complete") return;
+
+            document.getElementById("staff-waiting-screen").style.display = "none";
+            const finalGrand = parseFloat((baseTotal + e.data.tipAmount).toFixed(2));
+
             const orderData = {
                 items: cart,
                 subtotal: currentSubtotal.toFixed(2),
                 tax: currentTax.toFixed(2),
                 baseTotal: baseTotal.toFixed(2),
-                tipAmount: selectedTipAmount.toFixed(2),
-                grandTotal: finalGrandTotal.toFixed(2),
-                signature: signatureDataUrl,
-                receiptChoice: targetReceiptType,
+                tipAmount: e.data.tipAmount.toFixed(2),
+                grandTotal: finalGrand.toFixed(2),
+                signature: e.data.signature,
+                receiptChoice: e.data.receiptChoice,
                 status: "Completed",
                 timestamp: new Date().toLocaleString()
             };
 
             try {
                 await push(ref(db, 'orders'), orderData);
-                showFlowStep("flow-step-success");
-                
-                setTimeout(() => {
-                    document.getElementById("customer-flow-screen").style.display = "none";
-                    document.getElementById("app-side-nav").classList.remove("hidden");
-                    clearCart();
-                }, 2000);
-
-            } catch (error) {
-                showToast("Cloud sync error");
-                document.getElementById("customer-flow-screen").style.display = "none";
-                document.getElementById("app-side-nav").classList.remove("hidden");
-                updateCartUI();
+                showToast("Transaction Recorded Natively");
+                clearCart();
+            } catch (err) {
+                showToast("Database Save Failure");
             }
-        }
+        });
 
         window.fetchOrders = async function() {
             const container = document.getElementById('orders-log-list');
             container.innerHTML = '<div class="empty-state">Querying active records...</div>';
-            
             try {
                 const snapshot = await get(ref(db, 'orders'));
                 if (!snapshot.exists()) {
                     container.innerHTML = '<div class="empty-state">No transaction records found.</div>';
-                    resetLedgerMetrics();
-                    return;
+                    resetLedgerMetrics(); return;
                 }
-                
-                container.innerHTML = '';
-                loadedOrdersCache = {};
-                
-                let grossRevenue = 0;
-                let totalTips = 0;
-                let completedCount = 0;
-                let totalRefunds = 0;
+                container.innerHTML = ''; loadedOrdersCache = {};
+                let grossRevenue = 0, totalTips = 0, completedCount = 0, totalRefunds = 0;
 
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    const key = child.key;
+                    const data = child.val(); const key = child.key;
                     loadedOrdersCache[key] = data;
-
                     const isRefunded = data.status === "Refunded";
                     const grand = parseFloat(data.grandTotal) || 0;
                     const tip = parseFloat(data.tipAmount) || 0;
 
-                    if (isRefunded) {
-                        totalRefunds += grand;
-                    } else {
-                        grossRevenue += grand;
-                        totalTips += tip;
-                        completedCount++;
-                    }
+                    if (isRefunded) totalRefunds += grand;
+                    else { grossRevenue += grand; totalTips += tip; completedCount++; }
 
                     const row = document.createElement('div');
                     row.className = `list-row ${selectedOrderRecordId === key ? 'selected' : ''}`;
-                    row.id = `order-row-${key}`;
-                    row.style.cursor = "pointer";
+                    row.id = `order-row-${key}`; row.style.cursor = "pointer";
                     row.onclick = () => inspectOrderRecord(key);
-                    
-                    row.innerHTML = `
-                        <div>
-                            <div style="font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">
-                                Order #${key.substring(1,7).toUpperCase()}
-                                ${isRefunded ? '<span style="background:var(--danger-color); color:#fff; font-size:8px; padding:1px 4px; text-transform:uppercase;">Refunded</span>' : ''}
-                            </div>
-                            <div class="list-meta">${data.timestamp} • Tip: $${tip.toFixed(2)}</div>
-                        </div>
-                        <div style="font-weight:700; font-size:15px; ${isRefunded ? 'text-decoration: line-through; color:#aaa;' : ''}">$${grand.toFixed(2)}</div>
-                    `;
+                    row.innerHTML = `<div><div style="font-weight:600; font-size:14px;">Order #${key.substring(1,7).toUpperCase()} ${isRefunded ? '<span style="background:var(--danger-color); color:#fff; font-size:8px; padding:1px 4px;">Refunded</span>':''}</div><div class="list-meta">${data.timestamp} • Tip: $${tip.toFixed(2)}</div></div><div style="font-weight:700; font-size:15px; ${isRefunded ? 'text-decoration:line-through; color:#aaa;':''}">$${grand.toFixed(2)}</div>`;
                     container.appendChild(row);
                 });
 
@@ -1636,10 +1440,7 @@
                 document.getElementById("ledger-tips").innerText = `$${totalTips.toFixed(2)}`;
                 document.getElementById("ledger-count").innerText = completedCount;
                 document.getElementById("ledger-refunds").innerText = `$${totalRefunds.toFixed(2)}`;
-
-            } catch (err) {
-                container.innerHTML = '<div class="empty-state">Error parsing logs.</div>';
-            }
+            } catch (err) { container.innerHTML = '<div class="empty-state">Error parsing logs.</div>'; }
         };
 
         function resetLedgerMetrics() {
@@ -1652,181 +1453,88 @@
         function inspectOrderRecord(id) {
             selectedOrderRecordId = id;
             document.querySelectorAll('.list-row').forEach(r => r.classList.remove('selected'));
-            const activeRow = document.getElementById(`order-row-${id}`);
-            if (activeRow) activeRow.classList.add('selected');
+            if(document.getElementById(`order-row-${id}`)) document.getElementById(`order-row-${id}`).classList.add('selected');
 
             const data = loadedOrdersCache[id];
-            const inspector = document.getElementById("order-inspector");
             const body = document.getElementById("inspector-body");
-            
             let linesHtml = "";
-            if (data.items && Array.isArray(data.items)) {
-                data.items.forEach(i => {
-                    linesHtml += `<div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; color:#555;">
-                        <span>${i.name} (x${i.qty})</span><span>$${(i.price * i.qty).toFixed(2)}</span>
-                    </div>`;
-                });
+            if (data.items) {
+                data.items.forEach(i => { linesHtml += `<div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; color:#555;"><span>${i.name} (x${i.qty})</span><span>$${(i.price * i.qty).toFixed(2)}</span></div>`; });
             }
 
             body.innerHTML = `
-                <div style="margin-bottom:16px;">
-                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600;">Record UUID</div>
-                    <div style="font-size:13px; font-weight:700; word-break:break-all;">${id}</div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <div style="font-size:12px; color:#888; text-transform:uppercase; font-weight:600;">Timestamp</div>
-                    <div style="font-size:12px;">${data.timestamp}</div>
-                </div>
-                <div style="border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:14px;">
-                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600; margin-bottom:6px;">Line Items</div>
-                    ${linesHtml || '<div style="color:#aaa; font-style:italic;">No items cataloged.</div>'}
-                </div>
+                <div style="margin-bottom:16px;"><div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600;">Record UUID</div><div style="font-size:13px; font-weight:700; word-break:break-all;">${id}</div></div>
+                <div style="margin-bottom:16px;"><div style="font-size:12px; color:#888; text-transform:uppercase; font-weight:600;">Timestamp</div><div style="font-size:12px;">${data.timestamp}</div></div>
+                <div style="border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:14px;">${linesHtml}</div>
                 <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:16px; font-size:12px;">
-                    <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span>$${data.subtotal || '0.00'}</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>Tax</span><span>$${data.tax || '0.00'}</span></div>
-                    <div style="display:flex; justify-content:space-between; font-weight:600;"><span>Tip Amount</span><span>$${data.tipAmount || '0.00'}</span></div>
-                    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700; margin-top:6px; border-top:1px dashed var(--border-color); padding-top:6px;">
-                        <span>Grand Total</span><span>$${data.grandTotal || '0.00'}</span>
-                    </div>
+                    <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span>$${data.subtotal}</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>Tax</span><span>$${data.tax}</span></div>
+                    <div style="display:flex; justify-content:space-between; font-weight:600;"><span>Tip</span><span>$${data.tipAmount}</span></div>
+                    <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700; border-top:1px dashed var(--border-color); padding-top:6px;"><span>Total</span><span>$${data.grandTotal}</span></div>
                 </div>
-                <div>
-                    <div style="font-size:10px; color:#888; text-transform:uppercase; font-weight:600; margin-bottom:6px;">Captured Authorization Signature</div>
-                    ${data.signature ? `<div style="background:#f0f0f0; border:1px solid #ddd; border-radius:4px;"><img src="${data.signature}" style="width:100%; height:auto; display:block;" /></div>` : '<div style="font-size:12px; color:#aaa; font-style:italic;">No signature captured.</div>'}
-                </div>
+                <div>${data.signature ? `<img src="${data.signature}" style="width:100%; border:1px solid #ddd;" />` : ''}</div>
             `;
-            inspector.style.display = "flex";
-        };
+            document.getElementById("order-inspector").style.display = "flex";
+        }
 
         window.closeInspector = function() {
-            selectedOrderRecordId = null;
-            document.getElementById("order-inspector").style.display = "none";
+            selectedOrderRecordId = null; document.getElementById("order-inspector").style.display = "none";
             document.querySelectorAll('.list-row').forEach(r => r.classList.remove('selected'));
         };
 
         window.triggerDeleteRecord = function() {
             if (!selectedOrderRecordId) return;
-            showAppDialog({
-                title: "Delete Record",
-                message: "Are you sure you want to permanently delete this transaction ledger record?",
-                onConfirm: async () => {
-                    try {
-                        await remove(ref(db, `orders/${selectedOrderRecordId}`));
-                        closeInspector();
-                        fetchOrders();
-                        showToast("Record Deleted");
-                    } catch (e) {
-                        showToast("Delete failed");
-                    }
-                }
-            });
+            showAppDialog({ title: "Delete Record", message: "Permanently delete this log?", onConfirm: async () => {
+                await remove(ref(db, `orders/${selectedOrderRecordId}`)); closeInspector(); fetchOrders(); showToast("Deleted");
+            }});
         };
 
         window.triggerRefundRecord = function() {
             if (!selectedOrderRecordId) return;
-            showAppDialog({
-                title: "Refund Transaction",
-                message: "Are you sure you want to mark this transaction record as fully refunded?",
-                onConfirm: async () => {
-                    try {
-                        await update(ref(db, `orders/${selectedOrderRecordId}`), { status: "Refunded" });
-                        inspectOrderRecord(selectedOrderRecordId);
-                        fetchOrders();
-                        showToast("Order Marked Refunded");
-                    } catch (e) {
-                        showToast("Refund failed");
-                    }
-                }
-            });
+            showAppDialog({ title: "Refund Transaction", message: "Mark record as refunded?", onConfirm: async () => {
+                await update(ref(db, `orders/${selectedOrderRecordId}`), { status: "Refunded" }); inspectOrderRecord(selectedOrderRecordId); fetchOrders(); showToast("Refunded");
+            }});
         };
 
         window.triggerEditRecord = function() {
             if (!selectedOrderRecordId) return;
-            const currentData = loadedOrdersCache[selectedOrderRecordId];
-            
-            showAppDialog({
-                title: "Modify Grand Total",
-                message: "Specify a new total amount override below ($):",
-                showInput: true,
-                defaultValue: currentData.grandTotal,
-                onConfirm: async (inputValue) => {
-                    const parsed = parseFloat(inputValue);
-                    if (isNaN(parsed) || parsed < 0) {
-                        showToast("Invalid pricing layout amount");
-                        return;
-                    }
-                    try {
-                        await update(ref(db, `orders/${selectedOrderRecordId}`), { grandTotal: parsed.toFixed(2) });
-                        inspectOrderRecord(selectedOrderRecordId);
-                        fetchOrders();
-                        showToast("Transaction Total Altered");
-                    } catch (e) {
-                        showToast("Failed to alter record total");
-                    }
-                }
-            });
+            showAppDialog({ title: "Modify Total", message: "Specify override amount ($):", showInput: true, defaultValue: loadedOrdersCache[selectedOrderRecordId].grandTotal, onConfirm: async (val) => {
+                const parsed = parseFloat(val); if(isNaN(parsed)) return;
+                await update(ref(db, `orders/${selectedOrderRecordId}`), { grandTotal: parsed.toFixed(2) }); inspectOrderRecord(selectedOrderRecordId); fetchOrders(); showToast("Altered");
+            }});
         };
 
         window.createNewItem = async function() {
-            const nameIn = document.getElementById('item-name-input');
-            const priceIn = document.getElementById('item-price-input');
-            const name = nameIn.value.trim();
-            const price = parseFloat(priceIn.value);
-
-            if (!name || isNaN(price) || price <= 0) {
-                showToast("Provide a valid label and price");
-                return;
-            }
-
+            const nameIn = document.getElementById('item-name-input'); const priceIn = document.getElementById('item-price-input');
+            const name = nameIn.value.trim(); const price = parseFloat(priceIn.value);
+            if (!name || isNaN(price) || price <= 0) return;
             try {
                 await push(ref(db, 'inventory'), { name, price });
-                nameIn.value = '';
-                priceIn.value = '';
-                fetchInventory();
-                showToast("Inventory Item Cataloged");
-            } catch (err) {
-                showToast("Failed to register item");
-            }
+                nameIn.value = ''; priceIn.value = ''; fetchInventory(); showToast("Product Saved");
+            } catch(e) { showToast("Error saving product"); }
         };
 
         window.fetchInventory = async function() {
             const container = document.getElementById('inventory-list-container');
-            container.innerHTML = '<div class="empty-state">Loading database catalog...</div>';
+            container.innerHTML = '<div class="empty-state">Loading inventory...</div>';
             try {
                 const snapshot = await get(ref(db, 'inventory'));
-                if (!snapshot.exists()) {
-                    container.innerHTML = '<div class="empty-state">Inventory empty. Create products on the left panel.</div>';
-                    return;
-                }
+                if (!snapshot.exists()) { container.innerHTML = '<div class="empty-state">Inventory empty.</div>'; return; }
                 container.innerHTML = '';
                 snapshot.forEach(child => {
-                    const data = child.val();
-                    const row = document.createElement('div');
-                    row.className = 'list-row';
-                    row.style.cursor = 'pointer';
-                    row.onclick = () => {
-                        addItemToCart(data.name, data.price);
-                    };
-                    row.innerHTML = `
-                        <div>
-                            <div style="font-weight:600;">${data.name}</div>
-                            <div class="list-meta">Tap to add to ticket</div>
-                        </div>
-                        <div style="font-weight:600;">$${data.price.toFixed(2)}</div>
-                    `;
+                    const data = child.val(); const row = document.createElement('div');
+                    row.className = 'list-row'; row.style.cursor = 'pointer';
+                    row.onclick = () => addItemToCart(data.name, data.price);
+                    row.innerHTML = `<div><div style="font-weight:600;">${data.name}</div><div class="list-meta">Tap to add</div></div><div style="font-weight:600;">$${data.price.toFixed(2)}</div>`;
                     container.appendChild(row);
                 });
-            } catch (err) {
-                container.innerHTML = '<div class="empty-state">Error tracking inventory.</div>';
-            }
+            } catch (err) { container.innerHTML = '<div class="empty-state">Error cataloging.</div>'; }
         };
 
         window.addEventListener('resize', () => {
-            const checkoutSec = document.getElementById("app-checkout-section");
             if (window.innerWidth > 768) {
-                checkoutSec.classList.remove("active");
-                if(document.getElementById('nav-cart').classList.contains('active')) {
-                    switchTab('terminal', document.getElementById('nav-term'));
-                }
+                document.getElementById("app-checkout-section").classList.remove("active");
+                if(document.getElementById('nav-cart').classList.contains('active')) switchTab('terminal', document.getElementById('nav-term'));
             }
         });
     </script>
