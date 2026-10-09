@@ -39,7 +39,7 @@
             color: var(--text-color);
             display: flex;
             height: 100vh;
-            height: 100dvh; 
+            height: 100dvh;
             width: 100vw;
             overflow: hidden;
             position: relative;
@@ -130,7 +130,7 @@
             color: #555;
             background: #ffffff;
         }
-        
+
         body:not(.fullscreen-btn-inline) .nav-item#nav-screen svg {
             stroke: #555;
         }
@@ -627,7 +627,8 @@
             width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.98);
-            z-index: 90;
+            /* FIXED: Increased z-index to sit above the customer overlay */
+            z-index: 120;
             display: none;
             flex-direction: column;
             align-items: center;
@@ -867,6 +868,151 @@
             gap: 12px;
         }
 
+        /* ============ SETTINGS PANEL ============ */
+        .settings-card {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: #ffffff;
+            overflow: hidden;
+            max-width: 620px;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-row:last-child { border-bottom: none; }
+
+        .settings-label {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .settings-desc {
+            font-size: 12px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .settings-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        /* Toggle switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .switch .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #d8d8d8;
+            border-radius: 28px;
+            transition: var(--transition-smooth);
+        }
+
+        .switch .slider:before {
+            content: "";
+            position: absolute;
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            top: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            transition: var(--transition-smooth);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .switch input:checked + .slider { background: var(--accent-color); }
+        .switch input:checked + .slider:before { transform: translateX(22px); }
+
+        /* ============ PIN MODAL ============ */
+        .pin-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(3px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .pin-overlay.show { display: flex; opacity: 1; }
+
+        .pin-box {
+            background: #ffffff;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 320px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            animation: overlaySlideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .pin-dots span {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            transition: var(--transition-smooth);
+        }
+
+        .pin-dots span.filled {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .pin-dots.shake { animation: pinShake 0.42s cubic-bezier(.36,.07,.19,.97); }
+
+        @keyframes pinShake {
+            10%, 90% { transform: translateX(-3px); }
+            20%, 80% { transform: translateX(5px); }
+            30%, 50%, 70% { transform: translateX(-8px); }
+            40%, 60% { transform: translateX(8px); }
+        }
+
+        .pin-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .pin-pad .key-btn {
+            height: 56px;
+            font-size: 20px;
+        }
+
         /* Breakpoints */
         @media (max-width: 1200px) {
             .analytics-strip {
@@ -907,10 +1053,12 @@
             }
 
             .nav-item {
-                width: 20%;
+                flex: 1;
+                width: auto;
                 height: var(--bottom-nav-height);
                 border: none !important;
                 background: transparent !important;
+                font-size: 9px;
             }
 
             .nav-item.active {
@@ -966,7 +1114,7 @@
                 z-index: 40;
                 transform: translateX(100%);
             }
-            
+
             .order-detail-side.active {
                 transform: translateX(0);
             }
@@ -1058,7 +1206,7 @@
         <div class="app-dialog-box">
             <h3 class="app-dialog-title" id="dialog-title">System Prompt</h3>
             <p class="app-dialog-message" id="dialog-message">Message text content.</p>
-            
+
             <div id="dialog-input-wrapper" style="display:none; margin-bottom: 20px;">
                 <input type="text" id="dialog-custom-input" class="form-control">
             </div>
@@ -1066,6 +1214,31 @@
             <div class="app-dialog-actions">
                 <button class="btn-secondary" style="height:36px; padding:0 16px;" id="dialog-cancel-btn">Cancel</button>
                 <button class="btn-primary" style="height:36px; padding:0 16px; flex:none; width:auto;" id="dialog-confirm-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN Entry Modal -->
+    <div class="pin-overlay" id="pin-overlay">
+        <div class="pin-box">
+            <h3 class="app-dialog-title" style="text-align:center; margin-bottom:6px;">Security PIN</h3>
+            <p style="text-align:center; font-size:12px; color:#888; margin-bottom:22px;" id="pin-subtitle">Enter your 4-digit PIN</p>
+            <div class="pin-dots" id="pin-dots">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="pin-pad">
+                <button class="key-btn" onclick="pressPinKey('1')">1</button>
+                <button class="key-btn" onclick="pressPinKey('2')">2</button>
+                <button class="key-btn" onclick="pressPinKey('3')">3</button>
+                <button class="key-btn" onclick="pressPinKey('4')">4</button>
+                <button class="key-btn" onclick="pressPinKey('5')">5</button>
+                <button class="key-btn" onclick="pressPinKey('6')">6</button>
+                <button class="key-btn" onclick="pressPinKey('7')">7</button>
+                <button class="key-btn" onclick="pressPinKey('8')">8</button>
+                <button class="key-btn" onclick="pressPinKey('9')">9</button>
+                <button class="key-btn action" onclick="pressPinBackspace()">&#9003;</button>
+                <button class="key-btn" onclick="pressPinKey('0')">0</button>
+                <button class="key-btn action" onclick="cancelPinEntry()">Esc</button>
             </div>
         </div>
     </div>
@@ -1092,32 +1265,38 @@
             <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3m0-8V5a2 2 0 0 0-2-2h-3"/></svg>
             <span>Screen</span>
         </button>
+        <button class="nav-item" id="nav-set" onclick="openSettingsPanel()" title="Settings">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+            <span>Settings</span>
+        </button>
     </nav>
 
     <main class="main-workspace">
-       
+
         <div class="cash-calculator-overlay" id="staff-cash-panel">
             <h2 style="font-size:18px; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Cash Drawer</h2>
             <p style="color:#666; margin-bottom:20px;" id="cash-panel-due">Amount Due: $0.00</p>
-            
+
             <div style="max-width:340px; width:100%; margin-bottom:20px;">
                 <div class="form-group">
                     <label>Amount Handed by Customer ($)</label>
                     <input type="number" id="cash-tendered-input" class="form-control" placeholder="0.00" step="0.01" oninput="calculateCashChange()">
                 </div>
-                
+
                 <div style="background:var(--secondary-bg); border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px; padding: 16px;">
                     <div style="font-size:11px; text-transform:uppercase; color:#666; font-weight:600; margin-bottom:4px;">Change Owed Back</div>
                     <div style="font-size:28px; font-weight:700;" id="cash-change-due">$0.00</div>
                 </div>
                 <div class="canvas-actions">
-                    <button class="btn-secondary" onclick="cancelCashPanel()">Cancel</button>
-                    <button class="btn-primary" onclick="proceedToCustomerTip()">Open Flow</button>
+                    <button class="btn-secondary" onclick="cancelCashPanel()">Back</button>
+                    <button class="btn-primary" onclick="proceedFromCashPanel()">Continue</button>
                 </div>
             </div>
         </div>
 
         <div class="customer-overlay" id="customer-flow-screen">
+
+            <!-- STEP 1 : TIP -->
             <div class="customer-body" id="flow-step-tip">
                 <h2 class="customer-heading" id="tip-screen-total">$0.00</h2>
                 <p class="customer-subheading">Select a gratuity option below</p>
@@ -1148,6 +1327,31 @@
                     <button class="btn-submit" style="max-width: 340px;" onclick="saveCustomTip()">Add Tip Amount</button>
                 </div>
             </div>
+
+            <!-- STEP 2 : PAYMENT METHOD -->
+            <div class="customer-body" id="flow-step-payment" style="display: none;">
+                <h2 class="customer-heading" id="payment-screen-total">$0.00</h2>
+                <p class="customer-subheading">How would you like to pay?</p>
+                <div class="receipt-options" style="max-width: 340px;">
+                    <button class="receipt-btn" onclick="choosePayment('Cash')">Cash</button>
+                    <button class="receipt-btn" onclick="choosePayment('Cash App / Other')">Cash App / Other</button>
+                </div>
+                <!-- Cancel Ticket button removed as requested -->
+            </div>
+
+            <!-- STEP 3 : EXTERNAL / CASH APP PAYMENT -->
+            <div class="customer-body" id="flow-step-otherpay" style="display: none;">
+                <h2 class="customer-heading" id="otherpay-total">$0.00</h2>
+                <p class="customer-subheading">Collect payment in the external app, then confirm below.</p>
+                <div style="max-width: 340px; width: 100%; display:flex; flex-direction:column; gap:12px;">
+                    <!-- Fixed Open Cash App button styling -->
+                    <button style="width:100%; height:60px; background:#111111; color:#ffffff; border:none; border-radius:6px; font-size:16px; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer; display:flex; align-items:center; justify-content:center;" onclick="openCashApp()">Open Cash App</button>
+                    <button style="width:100%; height:60px; background:#ffffff; color:#111111; border:1px solid #e5e5e5; border-radius:6px; font-size:16px; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer; display:flex; align-items:center; justify-content:center;" onclick="completeOtherPayment()">Paid in Full</button>
+                </div>
+                <!-- Cancel Ticket button removed as requested -->
+            </div>
+
+            <!-- STEP 4 : SIGNATURE -->
             <div class="customer-body" id="flow-step-sig" style="display: none;">
                 <h2 class="customer-heading">Sign to Authorize</h2>
                 <p class="customer-subheading" id="sig-screen-total">Total Authorization: $0.00</p>
@@ -1159,6 +1363,8 @@
                     <button class="btn-primary" onclick="submitSignature()">Confirm</button>
                 </div>
             </div>
+
+            <!-- STEP 5 : RECEIPT -->
             <div class="customer-body" id="flow-step-receipt" style="display: none;">
                 <h2 class="customer-heading">Transaction Complete</h2>
                 <p class="customer-subheading">How would you like your receipt?</p>
@@ -1167,6 +1373,8 @@
                     <button class="receipt-btn" style="border-color: transparent; color: #666;" onclick="selectReceipt('None')">No Receipt</button>
                 </div>
             </div>
+
+            <!-- STEP 6 : SUCCESS -->
             <div class="customer-body" id="flow-step-success" style="display: none;">
                 <div style="width: 72px; height: 72px; background: #e2fbe9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1265,6 +1473,51 @@
             </div>
         </section>
 
+        <section id="panel-settings" class="view-panel">
+            <div class="header">
+                <h1 class="logo">Settings</h1>
+                <span style="font-size:11px; text-transform:uppercase; color:#888; letter-spacing:1px;">PIN Protected</span>
+            </div>
+            <div class="scroll-content">
+                <div class="settings-section-title">Checkout Options</div>
+                <div class="settings-card">
+                    <div class="settings-row">
+                        <div>
+                            <div class="settings-label">Gratuity / Tips</div>
+                            <div class="settings-desc">Prompt the customer for a tip during checkout.</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-tip" onchange="updateSetting('tipEnabled', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <div>
+                            <div class="settings-label">Sales Tax</div>
+                            <div class="settings-desc">Apply 8.25% tax to the ticket subtotal.</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-tax" onchange="updateSetting('taxEnabled', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section-title" style="margin-top:28px;">Security</div>
+                <div class="settings-card">
+                    <div class="settings-row">
+                        <div>
+                            <div class="settings-label">Access PIN</div>
+                            <div class="settings-desc">Required to open this settings panel.</div>
+                        </div>
+                        <button class="btn-secondary" style="flex:none; width:auto; padding:0 18px; height:40px;" onclick="changePin()">Change PIN</button>
+                    </div>
+                </div>
+
+                <div style="font-size:11px; color:#aaa; margin-top:24px; letter-spacing:0.5px; text-transform:uppercase;">Default PIN: 1234</div>
+            </div>
+        </section>
+
         <section class="checkout-section" id="app-checkout-section">
             <div class="header">
                 <h2 class="logo">Active Ticket</h2>
@@ -1276,10 +1529,10 @@
                 <div class="empty-state" id="empty-msg">Ticket Empty</div>
             </div>
             <div class="summary-container">
-                <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
-                <div class="summary-row"><span>Tax (8.25%)</span><span id="tax">$0.00</span></div>
+                <div class="summary-row" id="subtotal-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+                <div class="summary-row" id="tax-row"><span>Tax (8.25%)</span><span id="tax">$0.00</span></div>
                 <div class="summary-total"><span>Total</span><span id="total">$0.00</span></div>
-                <button class="btn-pay" id="pay-button" disabled onclick="openStaffCashPanel()">Charge Ticket</button>
+                <button class="btn-pay" id="pay-button" disabled onclick="startCheckout()">Charge Ticket</button>
             </div>
         </section>
     </main>
@@ -1305,11 +1558,64 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // ================= APPLICATION SETTINGS =================
+        const SETTINGS_KEY = 'echo_pos_settings_v1';
+        const TAX_RATE = 0.0825;
+
+        let appSettings = {
+            tipEnabled: true,
+            taxEnabled: true,
+            pin: "1234"
+        };
+
+        function loadSettings() {
+            try {
+                const raw = localStorage.getItem(SETTINGS_KEY);
+                if (raw) Object.assign(appSettings, JSON.parse(raw));
+            } catch (e) { /* ignore corrupt storage */ }
+
+            const tipToggle = document.getElementById('toggle-tip');
+            const taxToggle = document.getElementById('toggle-tax');
+            if (tipToggle) tipToggle.checked = appSettings.tipEnabled;
+            if (taxToggle) taxToggle.checked = appSettings.taxEnabled;
+            syncTaxRowVisibility();
+        }
+
+        function saveSettings() {
+            try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(appSettings)); } catch (e) {}
+        }
+
+        function updateSetting(key, value) {
+            appSettings[key] = value;
+            saveSettings();
+            renderActiveTicketItems();
+
+            if (key === 'tipEnabled') {
+                triggerSystemNotification(value ? "Tips enabled" : "Tips disabled");
+            } else if (key === 'taxEnabled') {
+                syncTaxRowVisibility();
+                triggerSystemNotification(value ? "Sales tax enabled" : "Sales tax disabled");
+            }
+        }
+
+        function syncTaxRowVisibility() {
+            const taxRow = document.getElementById('tax-row');
+            if (!taxRow) return;
+            taxRow.style.display = appSettings.taxEnabled ? 'flex' : 'none';
+            const label = taxRow.querySelector('span');
+            if (label) label.innerText = `Tax (${(TAX_RATE * 100).toFixed(2)}%)`;
+        }
+
+        // Money calculation helpers (respect settings)
+        function calcSubtotal() { return activeTicket.reduce((sum, item) => sum + item.price, 0); }
+        function calcTax() { return appSettings.taxEnabled ? calcSubtotal() * TAX_RATE : 0; }
+        function calcTotal() { return calcSubtotal() + calcTax(); }
+
         // Application State Matrices
         let activeTicket = [];
         let keypadString = "0";
         let customTipString = "0";
-        let currentTransactionType = "Cash"; 
+        let currentTransactionType = "Cash";
         let calculatedTipAmount = 0;
         let customerSignatureData = null;
         let selectedInspectionRecordId = null;
@@ -1327,18 +1633,18 @@
                 globalDialogResolve = resolve;
                 document.getElementById('dialog-title').innerText = title;
                 document.getElementById('dialog-message').innerText = message;
-                
+
                 const inputWrapper = document.getElementById('dialog-input-wrapper');
                 const customInput = document.getElementById('dialog-custom-input');
-                
-                if(showInput) {
+
+                if (showInput) {
                     inputWrapper.style.display = 'block';
                     customInput.value = defaultValue;
                     customInput.focus();
                 } else {
                     inputWrapper.style.display = 'none';
                 }
-                
+
                 document.getElementById('dialog-overlay').classList.add('show');
             });
         }
@@ -1347,14 +1653,14 @@
             const customInput = document.getElementById('dialog-custom-input');
             const isInputVisible = document.getElementById('dialog-input-wrapper').style.display === 'block';
             document.getElementById('dialog-overlay').classList.remove('show');
-            if(globalDialogResolve) {
+            if (globalDialogResolve) {
                 globalDialogResolve(isInputVisible ? customInput.value : true);
             }
         };
 
         document.getElementById('dialog-cancel-btn').onclick = () => {
             document.getElementById('dialog-overlay').classList.remove('show');
-            if(globalDialogResolve) globalDialogResolve(false);
+            if (globalDialogResolve) globalDialogResolve(false);
         };
 
         function triggerSystemNotification(message) {
@@ -1370,6 +1676,98 @@
             }, 3000);
         }
 
+        // ================= PIN SECURITY MODULE =================
+        let pinResolve = null;
+        let pinBuffer = "";
+
+        function requestPin(subtitle) {
+            return new Promise((resolve) => {
+                pinResolve = resolve;
+                pinBuffer = "";
+                updatePinDots();
+                document.getElementById('pin-subtitle').innerText = subtitle || "Enter your 4-digit security PIN";
+                document.getElementById('pin-overlay').classList.add('show');
+            });
+        }
+
+        function closePinOverlay() {
+            document.getElementById('pin-overlay').classList.remove('show');
+            pinBuffer = "";
+            updatePinDots();
+        }
+
+        function cancelPinEntry() {
+            const r = pinResolve;
+            pinResolve = null;
+            closePinOverlay();
+            if (r) r(false);
+        }
+
+        function pressPinKey(digit) {
+            if (pinResolve === null) return;
+            if (pinBuffer.length >= 4) return;
+            pinBuffer += digit;
+            updatePinDots();
+            if (pinBuffer.length === 4) setTimeout(evaluatePin, 130);
+        }
+
+        function pressPinBackspace() {
+            if (pinResolve === null) return;
+            pinBuffer = pinBuffer.slice(0, -1);
+            updatePinDots();
+        }
+
+        function updatePinDots() {
+            const dots = document.querySelectorAll('#pin-dots span');
+            dots.forEach((d, i) => d.classList.toggle('filled', i < pinBuffer.length));
+        }
+
+        function evaluatePin() {
+            const dots = document.getElementById('pin-dots');
+            if (pinBuffer === appSettings.pin) {
+                const r = pinResolve;
+                pinResolve = null;
+                closePinOverlay();
+                if (r) r(true);
+            } else {
+                dots.classList.add('shake');
+                triggerSystemNotification("Incorrect PIN");
+                setTimeout(() => {
+                    dots.classList.remove('shake');
+                    pinBuffer = "";
+                    updatePinDots();
+                }, 430);
+            }
+        }
+
+        async function openSettingsPanel() {
+            const ok = await requestPin("Enter PIN to open settings");
+            if (!ok) return;
+            switchTab('settings', document.getElementById('nav-set'));
+        }
+
+        async function changePin() {
+            const ok = await requestPin("Confirm your current PIN");
+            if (!ok) return;
+
+            const newPin = await showAppDialog("New Access PIN", "Enter a new 4-digit PIN:", true, "");
+            if (newPin === false) return;
+
+            const clean = String(newPin).trim();
+            if (!/^\d{4}$/.test(clean)) {
+                triggerSystemNotification("PIN must be exactly 4 digits");
+                return;
+            }
+            if (clean === appSettings.pin) {
+                triggerSystemNotification("PIN unchanged");
+                return;
+            }
+
+            appSettings.pin = clean;
+            saveSettings();
+            triggerSystemNotification("Access PIN updated");
+        }
+
         // Tab views navigation switching handler
         function switchTab(tabId, el) {
             const panels = document.querySelectorAll('.view-panel');
@@ -1377,7 +1775,7 @@
             const checkoutSec = document.getElementById("app-checkout-section");
 
             navItems.forEach(nav => nav.classList.remove('active'));
-            if(el) el.classList.add('active');
+            if (el) el.classList.add('active');
 
             if (window.innerWidth <= 768) {
                 if (tabId === 'cart') {
@@ -1458,8 +1856,8 @@
         function renderActiveTicketItems() {
             const container = document.getElementById('cart-container');
             container.innerHTML = '';
-            
-            if(activeTicket.length === 0) {
+
+            if (activeTicket.length === 0) {
                 container.innerHTML = '<div class="empty-state" id="empty-msg">Ticket Empty</div>';
                 document.getElementById('subtotal').innerText = "$0.00";
                 document.getElementById('tax').innerText = "$0.00";
@@ -1483,10 +1881,10 @@
                 container.appendChild(row);
             });
 
-            // Run structural computations (8.25% localized node configuration)
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let tax = subtotal * 0.0825;
-            let total = subtotal + tax;
+            // Structural computations respecting tax settings
+            const subtotal = calcSubtotal();
+            const tax = calcTax();
+            const total = calcTotal();
 
             document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
             document.getElementById('tax').innerText = `$${tax.toFixed(2)}`;
@@ -1503,70 +1901,60 @@
             renderActiveTicketItems();
         }
 
-        // Live Cash Management Calculator System Overlay UI Hooks
-        function openStaffCashPanel() {
-            currentTransactionType = "Cash";
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let total = subtotal + (subtotal * 0.0825);
-            
-            document.getElementById('cash-panel-due').innerText = `Amount Due: $${total.toFixed(2)}`;
-            document.getElementById('cash-tendered-input').value = total.toFixed(2);
-            document.getElementById('staff-cash-panel').classList.add('show');
-            calculateCashChange();
-        }
-
-        function calculateCashChange() {
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let total = subtotal + (subtotal * 0.0825);
-            let tendered = parseFloat(document.getElementById('cash-tendered-input').value) || 0;
-            let change = tendered - total;
-            
-            const display = document.getElementById('cash-change-due');
-            if(change < 0) {
-                display.innerText = "Short Amount";
-                display.style.color = "var(--danger-color)";
-            } else {
-                display.innerText = `$${change.toFixed(2)}`;
-                display.style.color = "var(--text-color)";
-            }
-        }
-
-        function cancelCashPanel() {
-            document.getElementById('staff-cash-panel').classList.remove('show');
-        }
-
-        // Customer Interface Checkout Flow Handler
-        function proceedToCustomerTip() {
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let total = subtotal + (subtotal * 0.0825);
-
-            document.getElementById('staff-cash-panel').classList.remove('show');
-            document.getElementById('tip-screen-total').innerText = `$${total.toFixed(2)}`;
-            
-            // Calculate baseline matrix references inside client view
-            document.getElementById('tip-18-val').innerText = `$${(total * 0.18).toFixed(2)}`;
-            document.getElementById('tip-20-val').innerText = `$${(total * 0.20).toFixed(2)}`;
-            document.getElementById('tip-22-val').innerText = `$${(total * 0.22).toFixed(2)}`;
-            
-            document.getElementById('customer-flow-screen').classList.add('show');
-            setFlowState('tip');
+        // ================= CUSTOMER CHECKOUT FLOW =================
+        function setSidebarHidden(hidden) {
+            document.getElementById('app-side-nav').classList.toggle('hidden', hidden);
         }
 
         function setFlowState(stepName) {
-            document.getElementById('flow-step-tip').style.display = stepName === 'tip' ? 'flex' : 'none';
-            document.getElementById('flow-step-sig').style.display = stepName === 'sig' ? 'flex' : 'none';
-            document.getElementById('flow-step-receipt').style.display = stepName === 'receipt' ? 'flex' : 'none';
-            document.getElementById('flow-step-success').style.display = stepName === 'success' ? 'flex' : 'none';
+            ['tip', 'payment', 'otherpay', 'sig', 'receipt', 'success'].forEach(step => {
+                const el = document.getElementById('flow-step-' + step);
+                if (el) el.style.display = (step === stepName) ? 'flex' : 'none';
+            });
         }
 
+        function startCheckout() {
+            if (activeTicket.length === 0) return;
+
+            calculatedTipAmount = 0;
+            customerSignatureData = null;
+            currentTransactionType = "Cash";
+
+            document.getElementById('customer-flow-screen').classList.add('show');
+            setSidebarHidden(true);
+
+            if (appSettings.tipEnabled) {
+                const total = calcTotal();
+                document.getElementById('tip-screen-total').innerText = `$${total.toFixed(2)}`;
+                document.getElementById('tip-18-val').innerText = `$${(total * 0.18).toFixed(2)}`;
+                document.getElementById('tip-20-val').innerText = `$${(total * 0.20).toFixed(2)}`;
+                document.getElementById('tip-22-val').innerText = `$${(total * 0.22).toFixed(2)}`;
+                setFlowState('tip');
+            } else {
+                goToPaymentMethod();
+            }
+        }
+
+        function cancelCustomerFlow() {
+            document.getElementById('customer-flow-screen').classList.remove('show');
+            document.getElementById('staff-cash-panel').classList.remove('show');
+            setSidebarHidden(false);
+            calculatedTipAmount = 0;
+            currentTransactionType = "Cash";
+            setFlowState('tip');
+
+            if (window.innerWidth <= 768) {
+                switchTab('terminal', document.getElementById('nav-term'));
+            }
+            triggerSystemNotification("Ticket cancelled");
+        }
+
+        // --- Tip step ---
         function selectTip(percentage) {
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let total = subtotal + (subtotal * 0.0825);
-            calculatedTipAmount = total * percentage;
-            goToSignatureFlow();
+            calculatedTipAmount = calcTotal() * percentage;
+            goToPaymentMethod();
         }
 
-        // Custom Tip Secondary Nested Component Keypad Actions
         function openCustomTipPanel() {
             customTipString = "0";
             document.getElementById('custom-tip-input').innerText = "$0.00";
@@ -1578,12 +1966,12 @@
         }
 
         function pressTipKey(char) {
-            if(customTipString === "0" && char !== "0") {
+            if (customTipString === "0" && char !== "0") {
                 customTipString = char;
             } else if (customTipString !== "0") {
-                if(customTipString.length < 8) customTipString += char;
+                if (customTipString.length < 8) customTipString += char;
             }
-            document.getElementById('custom-tip-input').innerText = `$${(parseInt(customTipString)/100).toFixed(2)}`;
+            document.getElementById('custom-tip-input').innerText = `$${(parseInt(customTipString) / 100).toFixed(2)}`;
         }
 
         function clearTipKeypad() {
@@ -1594,44 +1982,107 @@
         function saveCustomTip() {
             calculatedTipAmount = parseInt(customTipString) / 100;
             closeCustomTipPanel();
+            goToPaymentMethod();
+        }
+
+        // --- Payment method step ---
+        function goToPaymentMethod() {
+            const grandTotal = calcTotal() + calculatedTipAmount;
+            document.getElementById('payment-screen-total').innerText = `$${grandTotal.toFixed(2)}`;
+            setFlowState('payment');
+        }
+
+        function choosePayment(method) {
+            currentTransactionType = method;
+            if (method === 'Cash') {
+                openStaffCashPanel();
+            } else {
+                const grandTotal = calcTotal() + calculatedTipAmount;
+                document.getElementById('otherpay-total').innerText = `$${grandTotal.toFixed(2)}`;
+                setFlowState('otherpay');
+            }
+        }
+
+        // --- Cash drawer ---
+        function openStaffCashPanel() {
+            const total = calcTotal() + calculatedTipAmount;
+            document.getElementById('cash-panel-due').innerText = `Amount Due: $${total.toFixed(2)}`;
+            document.getElementById('cash-tendered-input').value = total.toFixed(2);
+            document.getElementById('staff-cash-panel').classList.add('show');
+            calculateCashChange();
+        }
+
+        function calculateCashChange() {
+            const total = calcTotal() + calculatedTipAmount;
+            const tendered = parseFloat(document.getElementById('cash-tendered-input').value) || 0;
+            const change = tendered - total;
+
+            const display = document.getElementById('cash-change-due');
+            if (change < 0) {
+                display.innerText = "Short Amount";
+                display.style.color = "var(--danger-color)";
+            } else {
+                display.innerText = `$${change.toFixed(2)}`;
+                display.style.color = "var(--text-color)";
+            }
+        }
+
+        function cancelCashPanel() {
+            document.getElementById('staff-cash-panel').classList.remove('show');
+            setFlowState('payment');
+        }
+
+        function proceedFromCashPanel() {
+            document.getElementById('staff-cash-panel').classList.remove('show');
+            currentTransactionType = "Cash";
             goToSignatureFlow();
         }
 
+        // --- External / Cash App payment ---
+        function openCashApp() {
+            try {
+                const w = window.open('https://cash.app/', '_blank', 'noopener');
+                if (!w) triggerSystemNotification("Popup blocked — open Cash App manually");
+            } catch (e) {
+                triggerSystemNotification("Unable to launch Cash App");
+            }
+        }
+
+        function completeOtherPayment() {
+            goToSignatureFlow();
+        }
+
+        // --- Signature step ---
         function goToSignatureFlow() {
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let total = subtotal + (subtotal * 0.0825) + calculatedTipAmount;
-            
+            const total = calcTotal() + calculatedTipAmount;
             document.getElementById('sig-screen-total').innerText = `Total Authorization: $${total.toFixed(2)}`;
             setFlowState('sig');
             initSignaturePadEngine();
         }
 
-        // Canvas Signature Vectors Trackers
         function initSignaturePadEngine() {
             const rect = canvas.parentNode.getBoundingClientRect();
             canvas.width = rect.width;
             canvas.height = 180;
-            
+
             ctx.strokeStyle = "#111111";
             ctx.lineWidth = 2.5;
             ctx.lineJoin = "round";
             ctx.lineCap = "round";
             customerSignatureData = null;
 
-            // Desktop Mouse Event Handlers
             canvas.onmousedown = (e) => {
                 isDrawingSignature = true;
                 ctx.beginPath();
                 ctx.moveTo(e.offsetX, e.offsetY);
             };
             canvas.onmousemove = (e) => {
-                if(!isDrawingSignature) return;
+                if (!isDrawingSignature) return;
                 ctx.lineTo(e.offsetX, e.offsetY);
                 ctx.stroke();
             };
             canvas.onmouseup = () => { isDrawingSignature = false; };
 
-            // Mobile/Tablet Explicit Vector Pointer Hooks
             canvas.addEventListener('touchstart', (e) => {
                 isDrawingSignature = true;
                 const t = e.touches[0];
@@ -1642,7 +2093,7 @@
             }, { passive: false });
 
             canvas.addEventListener('touchmove', (e) => {
-                if(!isDrawingSignature) return;
+                if (!isDrawingSignature) return;
                 const t = e.touches[0];
                 const r = canvas.getBoundingClientRect();
                 ctx.lineTo(t.clientX - r.left, t.clientY - r.top);
@@ -1663,27 +2114,29 @@
             setFlowState('receipt');
         }
 
-        // Terminal Complete and Ledger Write Back Mechanics
+        // --- Receipt / completion ---
         async function selectReceipt(type) {
             setFlowState('success');
             await saveOrderRecordToFirebase(type);
-            
+
             setTimeout(() => {
                 document.getElementById('customer-flow-screen').classList.remove('show');
+                setSidebarHidden(false);
                 activeTicket = [];
+                calculatedTipAmount = 0;
+                currentTransactionType = "Cash";
                 renderActiveTicketItems();
-                if(window.innerWidth <= 768) {
+                if (window.innerWidth <= 768) {
                     switchTab('terminal', document.getElementById('nav-term'));
                 }
             }, 1500);
         }
 
         async function saveOrderRecordToFirebase(receiptMethod) {
-            let subtotal = activeTicket.reduce((sum, item) => sum + item.price, 0);
-            let tax = subtotal * 0.0825;
-            let total = subtotal + tax;
+            const subtotal = calcSubtotal();
+            const tax = calcTax();
+            const total = subtotal + tax;
 
-            // Push to Firebase first to obtain a real unique key ID
             const newOrderRef = db.ref('orders').push();
             const orderId = newOrderRef.key;
 
@@ -1701,7 +2154,6 @@
             };
 
             if (receiptMethod === 'Printed') {
-                // Pass orderId along so it populates right onto the customer receipt print window
                 executeSystemHardwareReceiptPrint({ ...payload, id: orderId, timestamp: Date.now() });
             }
 
@@ -1726,7 +2178,7 @@
                     <h2>ECHO POS SYSTEM</h2>
                     <p>Terminal Node Checkout Record</p>
                 </div>
-                
+
                 <div class="receipt-line" style="font-size:11px; color:#555; margin-bottom: 2px;">
                     <span><strong>UID:</strong> ${order.id || 'N/A'}</span>
                 </div>
@@ -1737,7 +2189,7 @@
                 <div class="receipt-divider"></div>
                 <div class="receipt-section-title">Line Breakdown</div>
                 ${itemsHtml}
-                
+
                 <div class="receipt-divider"></div>
                 <div class="receipt-line"><span>Subtotal:</span><span>$${parseFloat(order.subtotal || 0).toFixed(2)}</span></div>
                 <div class="receipt-line"><span>Tax:</span><span>$${parseFloat(order.tax || 0).toFixed(2)}</span></div>
@@ -1745,13 +2197,13 @@
                 <div class="receipt-line" style="font-weight:700; font-size:15px; margin-top:8px;">
                     <span>Total:</span><span>$${parseFloat(order.total || 0).toFixed(2)}</span>
                 </div>
-                
+
                 <div class="receipt-divider"></div>
                 <div class="receipt-line" style="font-size:11px; color:#666;">
                     <span>Method: ${order.paymentType || 'Cash'}</span>
                     <span>Receipt: ${order.receipt || 'Printed'}</span>
                 </div>
-                
+
                 ${order.signature ? `
                     <div class="receipt-signature-box">
                         <div class="receipt-section-title">Auth Signature</div>
@@ -1767,7 +2219,7 @@
             db.ref('orders').on('value', (snapshot) => {
                 const list = document.getElementById('orders-log-list');
                 list.innerHTML = '';
-                
+
                 let gross = 0; let tips = 0; let count = 0; let refunds = 0;
                 let records = [];
 
@@ -1777,7 +2229,6 @@
                     data.id = id;
                     records.push(data);
 
-                    // Add dynamic protective layers fallback values to fix parsing string numbers or partial objects from causing $NaN errors
                     let orderTotal = parseFloat(data.total) || 0;
                     let orderTip = parseFloat(data.tip) || 0;
 
@@ -1795,25 +2246,24 @@
                 document.getElementById('ledger-count').innerText = count;
                 document.getElementById('ledger-refunds').innerText = `$${refunds.toFixed(2)}`;
 
-                if(records.length === 0) {
+                if (records.length === 0) {
                     list.innerHTML = '<div class="empty-state">No transaction records fetched.</div>';
                     return;
                 }
 
-                // Process records inside scrolling container frame
                 records.reverse().forEach(rec => {
                     const row = document.createElement('div');
                     row.className = `list-row ${selectedInspectionRecordId === rec.id ? 'selected' : ''}`;
                     row.style.cursor = 'pointer';
                     row.onclick = () => inspectOrderRow(rec);
-                    
-                    let date = new Date(rec.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                    let date = new Date(rec.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     let displayTotal = parseFloat(rec.total || 0);
                     let itemNodeCount = rec.items ? rec.items.length : 0;
 
                     row.innerHTML = `
                         <div>
-                            <div style="font-weight:600;">$${displayTotal.toFixed(2)} ${rec.status === 'Refunded' ? '<span style="color:var(--danger-color); font-size:10px;">[REFUNDED]</span>':''}</div>
+                            <div style="font-weight:600;">$${displayTotal.toFixed(2)} ${rec.status === 'Refunded' ? '<span style="color:var(--danger-color); font-size:10px;">[REFUNDED]</span>' : ''}</div>
                             <div class="list-meta">${date} • ${itemNodeCount} Product nodes</div>
                         </div>
                         <div style="font-size:12px; color:#666;">&rarr;</div>
@@ -1827,11 +2277,10 @@
 
         function inspectOrderRow(rec) {
             selectedInspectionRecordId = rec.id;
-            // Re-render lines to clear/add styles seamlessly
             fetchOrders();
 
             const body = document.getElementById('inspector-body');
-            let itemsList = (rec.items || []).map(i => `<div style="display:flex; justify-content:between; font-size:13px; color:#555; margin-bottom:4px;"><span>• ${i.name}</span> <span style="margin-left:auto;">$${parseFloat(i.price || 0).toFixed(2)}</span></div>`).join('');
+            let itemsList = (rec.items || []).map(i => `<div style="display:flex; font-size:13px; color:#555; margin-bottom:4px;"><span>• ${i.name}</span> <span style="margin-left:auto;">$${parseFloat(i.price || 0).toFixed(2)}</span></div>`).join('');
             let timeString = new Date(rec.timestamp).toLocaleString();
 
             body.innerHTML = `
@@ -1849,7 +2298,7 @@
                 </div>
                 ${rec.signature ? `<div style="margin-top:16px;"><h4 style="font-size:11px; text-transform:uppercase; color:#888; margin-bottom:4px;">Auth Signature</h4><img src="${rec.signature}" style="width:100%; height:auto; border:1px solid #eee; background:#fafafa;" /></div>` : ''}
             `;
-            
+
             const inspector = document.getElementById('order-inspector');
             inspector.style.display = 'flex';
             setTimeout(() => { inspector.classList.add('active'); }, 20);
@@ -1864,32 +2313,31 @@
 
         // Transaction Modifications Engines
         async function triggerRefundRecord() {
-            if(!selectedInspectionRecordId) return;
+            if (!selectedInspectionRecordId) return;
             const confirm = await showAppDialog("Confirm Action", "Are you sure you want to flag this record transaction as Refunded?");
-            if(!confirm) return;
+            if (!confirm) return;
 
             try {
                 await db.ref(`orders/${selectedInspectionRecordId}`).update({ status: "Refunded" });
                 triggerSystemNotification("Ledger item updated successfully");
                 closeInspector();
-            } catch(e) {
+            } catch (e) {
                 triggerSystemNotification("Failed to patch database entry");
             }
         }
 
         async function triggerEditRecord() {
-            if(!selectedInspectionRecordId) return;
-            
-            // Fetch current total via baseline direct read
+            if (!selectedInspectionRecordId) return;
+
             const snap = await db.ref(`orders/${selectedInspectionRecordId}`).once('value');
             const currentData = snap.val();
-            if(!currentData) return;
+            if (!currentData) return;
 
             const newTotalInput = await showAppDialog("Modify Total", "Enter the new adjustment final total charge for this ticket record ($):", true, parseFloat(currentData.total || 0).toFixed(2));
-            if(newTotalInput === false) return;
+            if (newTotalInput === false) return;
 
             const cleanValue = parseFloat(newTotalInput);
-            if(isNaN(cleanValue) || cleanValue < 0) {
+            if (isNaN(cleanValue) || cleanValue < 0) {
                 triggerSystemNotification("Invalid numeric parameters specified");
                 return;
             }
@@ -1898,21 +2346,21 @@
                 await db.ref(`orders/${selectedInspectionRecordId}`).update({ total: cleanValue });
                 triggerSystemNotification("Database matrix modification completed");
                 closeInspector();
-            } catch(e) {
+            } catch (e) {
                 triggerSystemNotification("Database write fault");
             }
         }
 
         async function triggerDeleteRecord() {
-            if(!selectedInspectionRecordId) return;
+            if (!selectedInspectionRecordId) return;
             const confirm = await showAppDialog("Destructive Alert", "This will permanently wipe this record line from your cluster. Proceed?");
-            if(!confirm) return;
+            if (!confirm) return;
 
             try {
                 await db.ref(`orders/${selectedInspectionRecordId}`).remove();
                 triggerSystemNotification("Record dropped successfully");
                 closeInspector();
-            } catch(e) {
+            } catch (e) {
                 triggerSystemNotification("Database dropping error");
             }
         }
@@ -1925,7 +2373,7 @@
             const name = nameInput.value.trim();
             const price = parseFloat(priceInput.value);
 
-            if(!name || isNaN(price) || price <= 0) {
+            if (!name || isNaN(price) || price <= 0) {
                 triggerSystemNotification("Missing product descriptor parameters");
                 return;
             }
@@ -1935,7 +2383,7 @@
                 triggerSystemNotification("Product registered to core list");
                 nameInput.value = '';
                 priceInput.value = '';
-            } catch(err) {
+            } catch (err) {
                 triggerSystemNotification("Inventory cluster error");
             }
         }
@@ -1945,7 +2393,7 @@
                 const container = document.getElementById('inventory-list-container');
                 container.innerHTML = '';
 
-                if(!snapshot.exists()) {
+                if (!snapshot.exists()) {
                     container.innerHTML = '<div class="empty-state">No products registered yet.</div>';
                     return;
                 }
@@ -1953,7 +2401,7 @@
                 snapshot.forEach(child => {
                     const key = child.key;
                     const data = child.val();
-                    
+
                     const row = document.createElement('div');
                     row.className = 'list-row';
                     row.style.cursor = 'pointer';
@@ -1980,17 +2428,18 @@
 
         async function deleteProductNode(key) {
             const confirm = await showAppDialog("Delete Product", "Remove this catalog item standard definition?");
-            if(!confirm) return;
+            if (!confirm) return;
             try {
                 await db.ref(`inventory/${key}`).remove();
                 triggerSystemNotification("Product removed from index");
-            } catch(e) {
+            } catch (e) {
                 triggerSystemNotification("Catalog delete error");
             }
         }
 
         // Operational Lifecycles Synchronization Bootloader Hooks
         window.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
             fetchOrders();
             initLiveInventoryListener();
         });
@@ -1999,7 +2448,7 @@
             const checkoutSec = document.getElementById("app-checkout-section");
             if (window.innerWidth > 768) {
                 checkoutSec.classList.remove("active");
-                if(document.getElementById('nav-cart').classList.contains('active')) {
+                if (document.getElementById('nav-cart').classList.contains('active')) {
                     switchTab('terminal', document.getElementById('nav-term'));
                 }
             }
