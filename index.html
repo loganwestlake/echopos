@@ -15,6 +15,8 @@
             --bottom-nav-height: 64px;
             --danger-color: #ff3b30;
             --warning-color: #ff9500;
+            --success-color: #10b981;
+            --info-color: #3b82f6;
             --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -160,6 +162,7 @@
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
         }
 
         .view-panel.active {
@@ -216,6 +219,7 @@
             flex-direction: column;
             gap: 4px;
             transition: var(--transition-smooth);
+            border-radius: 6px;
         }
 
         .metric-label {
@@ -235,12 +239,14 @@
             display: flex;
             flex: 1;
             overflow: hidden;
+            width: 100%;
         }
 
         .orders-list-side {
             flex: 1;
             overflow-y: auto;
             padding: 24px;
+            width: 100%;
         }
 
         .order-detail-side {
@@ -303,7 +309,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: transform 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
         }
 
@@ -371,7 +377,7 @@
             color: var(--text-color);
             outline: none;
             background: var(--bg-color);
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -391,7 +397,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -424,11 +430,13 @@
         .empty-state {
             height: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: #999;
             font-size: 14px;
             transition: var(--transition-smooth);
+            gap: 10px;
         }
 
         .summary-container {
@@ -466,7 +474,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -555,7 +563,7 @@
             align-items: center;
             justify-content: center;
             gap: 2px;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: transform 0.1s ease, background-color 0.1s ease, border-color 0.1s ease;
         }
 
@@ -627,7 +635,6 @@
             width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.98);
-            /* FIXED: Increased z-index to sit above the customer overlay */
             z-index: 120;
             display: none;
             flex-direction: column;
@@ -650,7 +657,7 @@
             border: 1px dashed #cccccc;
             position: relative;
             margin-bottom: 20px;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         #sig-canvas {
@@ -678,7 +685,7 @@
             letter-spacing: 1px;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -710,7 +717,7 @@
             letter-spacing: 1px;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -736,7 +743,7 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -763,7 +770,7 @@
             cursor: pointer;
             border: 1px solid var(--border-color);
             background: #fff;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: var(--transition-smooth);
         }
 
@@ -837,7 +844,7 @@
             width: 90%;
             max-width: 400px;
             padding: 24px;
-            border-radius: 4px;
+            border-radius: 6px;
             box-shadow: 0 12px 36px rgba(0,0,0,0.1);
             transform: scale(0.96);
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -871,7 +878,7 @@
         /* ============ SETTINGS PANEL ============ */
         .settings-card {
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             background: #ffffff;
             overflow: hidden;
             max-width: 620px;
@@ -964,7 +971,7 @@
 
         .pin-box {
             background: #ffffff;
-            border-radius: 6px;
+            border-radius: 8px;
             width: 100%;
             max-width: 320px;
             padding: 24px;
@@ -1011,6 +1018,77 @@
         .pin-pad .key-btn {
             height: 56px;
             font-size: 20px;
+        }
+
+        /* ============ INVENTORY GRID / LIST ============ */
+        .inventory-header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-icon:active {
+            background: var(--secondary-bg);
+            transform: scale(0.95);
+        }
+
+        .btn-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: #111;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .inventory-grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            padding: 24px;
+            align-content: start;
+        }
+
+        .inventory-grid-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .inventory-grid-item:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .inventory-list-view {
+            display: flex;
+            flex-direction: column;
+            padding: 0 24px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .inventory-list-view .list-row {
+            padding: 16px 0;
         }
 
         /* Breakpoints */
@@ -1283,7 +1361,7 @@
                     <input type="number" id="cash-tendered-input" class="form-control" placeholder="0.00" step="0.01" oninput="calculateCashChange()">
                 </div>
 
-                <div style="background:var(--secondary-bg); border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:4px; padding: 16px;">
+                <div style="background:var(--secondary-bg); border:1px solid var(--border-color); text-align:center; margin-bottom:20px; border-radius:6px; padding: 16px;">
                     <div style="font-size:11px; text-transform:uppercase; color:#666; font-weight:600; margin-bottom:4px;">Change Owed Back</div>
                     <div style="font-size:28px; font-weight:700;" id="cash-change-due">$0.00</div>
                 </div>
@@ -1336,7 +1414,6 @@
                     <button class="receipt-btn" onclick="choosePayment('Cash')">Cash</button>
                     <button class="receipt-btn" onclick="choosePayment('Cash App / Other')">Cash App / Other</button>
                 </div>
-                <!-- Cancel Ticket button removed as requested -->
             </div>
 
             <!-- STEP 3 : EXTERNAL / CASH APP PAYMENT -->
@@ -1344,11 +1421,9 @@
                 <h2 class="customer-heading" id="otherpay-total">$0.00</h2>
                 <p class="customer-subheading">Collect payment in the external app, then confirm below.</p>
                 <div style="max-width: 340px; width: 100%; display:flex; flex-direction:column; gap:12px;">
-                    <!-- Fixed Open Cash App button styling -->
                     <button style="width:100%; height:60px; background:#111111; color:#ffffff; border:none; border-radius:6px; font-size:16px; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer; display:flex; align-items:center; justify-content:center;" onclick="openCashApp()">Open Cash App</button>
                     <button style="width:100%; height:60px; background:#ffffff; color:#111111; border:1px solid #e5e5e5; border-radius:6px; font-size:16px; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer; display:flex; align-items:center; justify-content:center;" onclick="completeOtherPayment()">Paid in Full</button>
                 </div>
-                <!-- Cancel Ticket button removed as requested -->
             </div>
 
             <!-- STEP 4 : SIGNATURE -->
@@ -1387,7 +1462,7 @@
         <section id="panel-terminal" class="view-panel active">
             <div class="header">
                 <h1 class="logo">Terminal</h1>
-                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.5</span></span></div>
+                <div class="status-indicator" style="font-size:12px; color:#666; display:flex; align-items:center; gap:6px;"><span style="height:8px; width:8px; background:#10b981; border-radius:50%;"></span><span>Live Node <span style="font-weight:600; opacity:0.8; margin-left:2px;">v1.0.7</span></span></div>
             </div>
             <div class="keypad-container">
                 <div class="keypad-display" id="keypad-input">$0.00</div>
@@ -1415,8 +1490,12 @@
             </div>
             <div class="analytics-strip">
                 <div class="metric-card">
-                    <span class="metric-label">Gross</span>
+                    <span class="metric-label">Gross Revenue</span>
                     <span class="metric-value" id="ledger-gross">$0.00</span>
+                </div>
+                <div class="metric-card" style="border-color: var(--success-color);">
+                    <span class="metric-label" style="color: var(--success-color);">Total Profit</span>
+                    <span class="metric-value" id="ledger-profit" style="color: var(--success-color);">$0.00</span>
                 </div>
                 <div class="metric-card">
                     <span class="metric-label">Tips</span>
@@ -1426,16 +1505,16 @@
                     <span class="metric-label">Checks</span>
                     <span class="metric-value" id="ledger-count">0</span>
                 </div>
-                <div class="metric-card">
-                    <span class="metric-label">Losses</span>
-                    <span class="metric-value" id="ledger-refunds" style="color:var(--danger-color);">$0.00</span>
-                </div>
             </div>
             <div class="orders-layout-grid">
                 <div class="orders-list-side" id="orders-log-list">
-                    <div class="empty-state">No transaction records fetched.</div>
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <span>No transactions yet.</span>
+                        <span style="font-size:12px; color:#bbb;">Make a sale to see it here.</span>
+                    </div>
                 </div>
-                <div class="order-detail-side" id="order-inspector">
+                <div class="order-detail-side" id="order-inspector" style="display: none;">
                     <div class="header" style="height:56px; padding:0 20px;">
                         <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Order Detail</h3>
                         <span style="font-size:20px; cursor:pointer;" onclick="closeInspector()">&times;</span>
@@ -1450,25 +1529,54 @@
             </div>
         </section>
 
+        <!-- UPDATED ITEMS PANEL -->
         <section id="panel-items" class="view-panel">
             <div class="header">
                 <h1 class="logo">System Inventory</h1>
+                <div class="inventory-header-actions">
+                    <button class="btn-icon" onclick="toggleInventoryView()" title="Toggle Grid/List View">
+                        <svg id="view-toggle-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    </button>
+                    <button class="btn-icon" onclick="toggleItemForm()" title="Add New Item">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                </div>
             </div>
             <div style="display: flex; flex: 1; overflow: hidden;">
-                <div style="width: 300px; border-right: 1px solid var(--border-color); padding: 24px; flex-shrink: 0;">
-                    <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Create Product</h3>
+                <!-- Sidebar Form (Hidden by default) -->
+                <div id="item-form-container" style="display: none; width: 320px; border-right: 1px solid var(--border-color); padding: 24px; flex-shrink: 0; overflow-y: auto; background: var(--secondary-bg);">
+                    <h3 id="form-title" style="font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Create Product</h3>
+                    
                     <div class="form-group">
                         <label>Product Label</label>
                         <input type="text" id="item-name-input" class="form-control" placeholder="e.g. Cold Brew">
                     </div>
                     <div class="form-group">
-                        <label>Price ($)</label>
+                        <label>Category</label>
+                        <input type="text" id="item-category-input" class="form-control" placeholder="e.g. Beverage">
+                    </div>
+                    <div class="form-group">
+                        <label>Cost ($)</label>
+                        <input type="number" id="item-cost-input" class="form-control" placeholder="0.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Selling Price ($)</label>
                         <input type="number" id="item-price-input" class="form-control" placeholder="0.00" step="0.01">
                     </div>
-                    <button class="btn-submit" onclick="createNewItem()">Save Product</button>
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" id="item-stock-input" class="form-control" placeholder="0" step="1">
+                    </div>
+                    
+                    <button class="btn-submit" id="item-save-btn" onclick="saveNewItem()">Save Product</button>
+                    
+                    <button class="btn-secondary" id="item-cancel-btn" style="margin-top: 10px; display: none;" onclick="resetItemForm()">Cancel</button>
+                    <button class="btn-danger" id="item-delete-btn" style="margin-top: 10px; display: none;" onclick="deleteProductNode()">Delete Product</button>
                 </div>
-                <div class="scroll-content" style="flex:1;" id="inventory-list-container">
-                    <div class="empty-state">No products registered yet.</div>
+                
+                <!-- Inventory List/Grid Container -->
+                <div class="scroll-content" style="flex:1; padding: 0;" id="inventory-view-container">
+                    <div class="empty-state" style="padding: 24px;">No products registered yet.</div>
                 </div>
             </div>
         </section>
@@ -1619,6 +1727,10 @@
         let calculatedTipAmount = 0;
         let customerSignatureData = null;
         let selectedInspectionRecordId = null;
+        let editingItemKey = null;
+        let currentInventoryView = 'list'; // 'list' or 'grid'
+        let inventoryData = {}; // Store inventory data globally
+        let ordersData = []; // Store orders data globally
 
         // Signature Canvas Interactivity State Variables
         const canvas = document.getElementById('sig-canvas');
@@ -1770,6 +1882,8 @@
 
         // Tab views navigation switching handler
         function switchTab(tabId, el) {
+            closeInspector(); // Close the inspector when switching tabs
+            
             const panels = document.querySelectorAll('.view-panel');
             const navItems = document.querySelectorAll('.nav-item');
             const checkoutSec = document.getElementById("app-checkout-section");
@@ -1797,6 +1911,11 @@
                     targetPanel.style.display = 'flex';
                     setTimeout(() => { targetPanel.classList.add('active'); }, 20);
                 }, 200);
+            }
+
+            // Re-fetch orders if the Orders tab is clicked
+            if (tabId === 'orders') {
+                fetchOrders();
             }
         }
 
@@ -1836,14 +1955,14 @@
                 triggerSystemNotification("Invalid dynamic custom value entry");
                 return;
             }
-            addItemToCart("Custom Charge", value);
+            addItemToCart("Custom Charge", value, 0);
             clearKeypad();
             triggerSystemNotification("Custom charge added to active ticket");
         }
 
         // Primary Cart and Ticket Framework Data Layout Models
-        function addItemToCart(name, price) {
-            activeTicket.push({ name, price });
+        function addItemToCart(name, price, cost = 0) {
+            activeTicket.push({ name, price, cost });
             renderActiveTicketItems();
         }
 
@@ -2217,71 +2336,107 @@
         // Live Analytical Stream & Ledger Event Framework Initializers
         function fetchOrders() {
             db.ref('orders').on('value', (snapshot) => {
-                const list = document.getElementById('orders-log-list');
-                list.innerHTML = '';
+                ordersData = []; // Reset local data array
+                
+                if (!snapshot.exists()) {
+                    renderOrders();
+                    return;
+                }
 
-                let gross = 0; let tips = 0; let count = 0; let refunds = 0;
-                let records = [];
+                let gross = 0; let totalProfit = 0; let tips = 0; let count = 0; let refunds = 0;
 
                 snapshot.forEach(child => {
                     const id = child.key;
                     const data = child.val();
                     data.id = id;
-                    records.push(data);
+                    ordersData.push(data);
 
                     let orderTotal = parseFloat(data.total) || 0;
                     let orderTip = parseFloat(data.tip) || 0;
+                    let orderCost = (data.items || []).reduce((sum, item) => sum + (parseFloat(item.cost) || 0), 0);
+                    let orderProfit = orderTotal - orderTip - orderCost;
 
                     if (data.status === 'Refunded') {
                         refunds += orderTotal;
                     } else {
                         gross += (orderTotal - orderTip);
                         tips += orderTip;
+                        totalProfit += orderProfit;
                         count++;
                     }
                 });
 
                 document.getElementById('ledger-gross').innerText = `$${gross.toFixed(2)}`;
+                document.getElementById('ledger-profit').innerText = `$${totalProfit.toFixed(2)}`;
                 document.getElementById('ledger-tips').innerText = `$${tips.toFixed(2)}`;
                 document.getElementById('ledger-count').innerText = count;
                 document.getElementById('ledger-refunds').innerText = `$${refunds.toFixed(2)}`;
 
-                if (records.length === 0) {
-                    list.innerHTML = '<div class="empty-state">No transaction records fetched.</div>';
-                    return;
-                }
-
-                records.reverse().forEach(rec => {
-                    const row = document.createElement('div');
-                    row.className = `list-row ${selectedInspectionRecordId === rec.id ? 'selected' : ''}`;
-                    row.style.cursor = 'pointer';
-                    row.onclick = () => inspectOrderRow(rec);
-
-                    let date = new Date(rec.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    let displayTotal = parseFloat(rec.total || 0);
-                    let itemNodeCount = rec.items ? rec.items.length : 0;
-
-                    row.innerHTML = `
-                        <div>
-                            <div style="font-weight:600;">$${displayTotal.toFixed(2)} ${rec.status === 'Refunded' ? '<span style="color:var(--danger-color); font-size:10px;">[REFUNDED]</span>' : ''}</div>
-                            <div class="list-meta">${date} • ${itemNodeCount} Product nodes</div>
-                        </div>
-                        <div style="font-size:12px; color:#666;">&rarr;</div>
-                    `;
-                    list.appendChild(row);
-                });
+                renderOrders();
             }, () => {
                 document.getElementById('orders-log-list').innerHTML = '<div class="empty-state">Error syncing cloud cluster.</div>';
             });
         }
 
+        function renderOrders() {
+            const list = document.getElementById('orders-log-list');
+            if (!list) return; // Safety check
+
+            list.innerHTML = '';
+
+            if (!ordersData || ordersData.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <span>No transactions yet.</span>
+                        <span style="font-size:12px; color:#bbb;">Make a sale to see it here.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort by timestamp descending (newest first)
+            const sortedOrders = [...ordersData].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+            sortedOrders.forEach(rec => {
+                const row = document.createElement('div');
+                row.className = `list-row ${selectedInspectionRecordId === rec.id ? 'selected' : ''}`;
+                row.style.cursor = 'pointer';
+                row.onclick = () => inspectOrderRow(rec);
+
+                let date = rec.timestamp ? new Date(rec.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+                let displayTotal = parseFloat(rec.total || 0);
+                let itemNodeCount = rec.items ? rec.items.length : 0;
+                
+                let orderCost = (rec.items || []).reduce((sum, item) => sum + (parseFloat(item.cost) || 0), 0);
+                let orderProfit = displayTotal - (parseFloat(rec.tip) || 0) - orderCost;
+
+                row.innerHTML = `
+                    <div>
+                        <div style="font-weight:600;">$${displayTotal.toFixed(2)} ${rec.status === 'Refunded' ? '<span style="color:var(--danger-color); font-size:10px;">[REFUNDED]</span>' : ''}</div>
+                        <div class="list-meta">${date} • ${itemNodeCount} items</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:12px; font-weight:600; color:${orderProfit >= 0 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                            ${orderProfit >= 0 ? '+' : ''}$${orderProfit.toFixed(2)}
+                        </div>
+                        <div style="font-size:10px; color:#888;">Profit</div>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+        }
+
         function inspectOrderRow(rec) {
             selectedInspectionRecordId = rec.id;
-            fetchOrders();
+            renderOrders(); // Re-render to highlight the selected row
 
             const body = document.getElementById('inspector-body');
             let itemsList = (rec.items || []).map(i => `<div style="display:flex; font-size:13px; color:#555; margin-bottom:4px;"><span>• ${i.name}</span> <span style="margin-left:auto;">$${parseFloat(i.price || 0).toFixed(2)}</span></div>`).join('');
-            let timeString = new Date(rec.timestamp).toLocaleString();
+            let timeString = rec.timestamp ? new Date(rec.timestamp).toLocaleString() : 'N/A';
+
+            let orderCost = (rec.items || []).reduce((sum, item) => sum + (parseFloat(item.cost) || 0), 0);
+            let orderProfit = (parseFloat(rec.total) || 0) - (parseFloat(rec.tip) || 0) - orderCost;
 
             body.innerHTML = `
                 <div style="font-size:13px; font-weight:700; margin-bottom:4px;">UID: ${rec.id}</div>
@@ -2296,6 +2451,15 @@
                     <div style="display:flex; margin-bottom:3px;"><span>Tips:</span> <span style="margin-left:auto;">$${parseFloat(rec.tip || 0).toFixed(2)}</span></div>
                     <div style="display:flex; font-weight:700; margin-top:8px; font-size:15px;"><span>Total:</span> <span style="margin-left:auto;">$${parseFloat(rec.total || 0).toFixed(2)}</span></div>
                 </div>
+                
+                <div style="border-top:1px solid #eee; padding-top:12px; margin-top:12px; font-size:13px;">
+                    <h4 style="font-size:11px; text-transform:uppercase; color:#888; margin-bottom:6px;">Profit Analysis</h4>
+                    <div style="display:flex; margin-bottom:3px;"><span>Cost of Goods:</span> <span style="margin-left:auto;">-$${orderCost.toFixed(2)}</span></div>
+                    <div style="display:flex; margin-bottom:3px; font-weight:700; color:${orderProfit >= 0 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                        <span>Net Profit:</span> <span style="margin-left:auto;">$${orderProfit.toFixed(2)}</span>
+                    </div>
+                </div>
+
                 ${rec.signature ? `<div style="margin-top:16px;"><h4 style="font-size:11px; text-transform:uppercase; color:#888; margin-bottom:4px;">Auth Signature</h4><img src="${rec.signature}" style="width:100%; height:auto; border:1px solid #eee; background:#fafafa;" /></div>` : ''}
             `;
 
@@ -2306,8 +2470,10 @@
 
         function closeInspector() {
             const inspector = document.getElementById('order-inspector');
+            if (!inspector) return;
             inspector.classList.remove('active');
             selectedInspectionRecordId = null;
+            renderOrders();
             setTimeout(() => { inspector.style.display = 'none'; }, 250);
         }
 
@@ -2365,76 +2531,199 @@
             }
         }
 
-        // Dynamic System Inventory Register Pipelines
-        async function createNewItem() {
-            const nameInput = document.getElementById('item-name-input');
-            const priceInput = document.getElementById('item-price-input');
+        // ================= DYNAMIC SYSTEM INVENTORY PIPELINES =================
+        
+        function toggleItemForm() {
+            const form = document.getElementById('item-form-container');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                resetItemForm();
+            } else {
+                form.style.display = 'none';
+                resetItemForm();
+            }
+        }
 
-            const name = nameInput.value.trim();
-            const price = parseFloat(priceInput.value);
+        function toggleInventoryView() {
+            const container = document.getElementById('inventory-view-container');
+            const icon = document.getElementById('view-toggle-icon');
+            
+            if (currentInventoryView === 'list') {
+                currentInventoryView = 'grid';
+                container.className = 'scroll-content inventory-grid-view';
+                icon.innerHTML = '<rect x="3" y="3" width="18" height="18"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>';
+            } else {
+                currentInventoryView = 'list';
+                container.className = 'scroll-content inventory-list-view';
+                icon.innerHTML = '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>';
+            }
+            
+            renderInventory(); // Re-render with the new view
+        }
 
-            if (!name || isNaN(price) || price <= 0) {
-                triggerSystemNotification("Missing product descriptor parameters");
+        function resetItemForm() {
+            editingItemKey = null;
+            document.getElementById('item-name-input').value = '';
+            document.getElementById('item-category-input').value = '';
+            document.getElementById('item-cost-input').value = '';
+            document.getElementById('item-price-input').value = '';
+            document.getElementById('item-stock-input').value = '';
+            document.getElementById('form-title').innerText = 'Create Product';
+            document.getElementById('item-save-btn').innerText = 'Save Product';
+            document.getElementById('item-cancel-btn').style.display = 'none';
+            document.getElementById('item-delete-btn').style.display = 'none';
+        }
+
+        function editItem(key, data) {
+            editingItemKey = key;
+            document.getElementById('item-name-input').value = data.name || '';
+            document.getElementById('item-category-input').value = data.category || '';
+            document.getElementById('item-cost-input').value = data.cost || '';
+            document.getElementById('item-price-input').value = data.price || '';
+            document.getElementById('item-stock-input').value = data.stock || '';
+            document.getElementById('form-title').innerText = 'Edit Product';
+            document.getElementById('item-save-btn').innerText = 'Update Product';
+            document.getElementById('item-cancel-btn').style.display = 'block';
+            document.getElementById('item-delete-btn').style.display = 'block';
+            
+            // Open form if closed
+            const form = document.getElementById('item-form-container');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            }
+        }
+
+        async function saveNewItem() {
+            const name = document.getElementById('item-name-input').value.trim();
+            const category = document.getElementById('item-category-input').value.trim();
+            const cost = parseFloat(document.getElementById('item-cost-input').value) || 0;
+            const price = parseFloat(document.getElementById('item-price-input').value) || 0;
+            const stock = parseInt(document.getElementById('item-stock-input').value) || 0;
+
+            if (!name || price <= 0) {
+                triggerSystemNotification("Name and Selling Price are required");
                 return;
             }
 
+            const itemData = { name, category, cost, price, stock };
+
             try {
-                await db.ref('inventory').push({ name, price });
-                triggerSystemNotification("Product registered to core list");
-                nameInput.value = '';
-                priceInput.value = '';
+                if (editingItemKey) {
+                    await db.ref('inventory/' + editingItemKey).update(itemData);
+                    triggerSystemNotification("Product updated successfully");
+                } else {
+                    await db.ref('inventory').push(itemData);
+                    triggerSystemNotification("Product registered to core list");
+                }
+                // Close form after save
+                document.getElementById('item-form-container').style.display = 'none';
+                resetItemForm();
             } catch (err) {
                 triggerSystemNotification("Inventory cluster error");
             }
         }
 
+        async function deleteProductNode() {
+            if (!editingItemKey) return;
+            const confirm = await showAppDialog("Delete Product", "Remove this catalog item standard definition?");
+            if (!confirm) return;
+            try {
+                await db.ref(`inventory/${editingItemKey}`).remove();
+                triggerSystemNotification("Product removed from index");
+                document.getElementById('item-form-container').style.display = 'none';
+                resetItemForm();
+            } catch (e) {
+                triggerSystemNotification("Catalog delete error");
+            }
+        }
+
         function initLiveInventoryListener() {
             db.ref('inventory').on('value', (snapshot) => {
-                const container = document.getElementById('inventory-list-container');
-                container.innerHTML = '';
+                inventoryData = snapshot.val() || {};
+                renderInventory();
+            }, () => {
+                document.getElementById('inventory-view-container').innerHTML = '<div class="empty-state" style="padding: 24px;">Error tracking inventory database.</div>';
+            });
+        }
 
-                if (!snapshot.exists()) {
-                    container.innerHTML = '<div class="empty-state">No products registered yet.</div>';
-                    return;
-                }
+        function renderInventory() {
+            const container = document.getElementById('inventory-view-container');
+            container.innerHTML = '';
 
-                snapshot.forEach(child => {
-                    const key = child.key;
-                    const data = child.val();
+            const keys = Object.keys(inventoryData);
 
+            if (keys.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="padding: 24px;">No products registered yet.</div>';
+                return;
+            }
+
+            keys.forEach(key => {
+                const data = inventoryData[key];
+                const profit = (data.price || 0) - (data.cost || 0);
+
+                if (currentInventoryView === 'grid') {
+                    // GRID VIEW
+                    const card = document.createElement('div');
+                    card.className = 'inventory-grid-item';
+                    card.onclick = () => {
+                        addItemToCart(data.name, data.price, data.cost);
+                        triggerSystemNotification(`${data.name} stacked on ticket`);
+                    };
+                    card.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                            <div>
+                                <div style="font-weight:700; font-size:14px;">${data.name}</div>
+                                <div style="font-size:11px; color:#888; margin-top:2px;">${data.category || 'General'}</div>
+                            </div>
+                            <button class="btn-icon" style="width:30px; height:30px;" onclick="event.stopPropagation(); editItem('${key}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                            </button>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                            <div>
+                                <div style="font-size:18px; font-weight:700;">$${parseFloat(data.price || 0).toFixed(2)}</div>
+                                <div style="font-size:11px; color:${profit >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight:600; margin-top:2px;">
+                                    ${profit >= 0 ? '+' : ''}$${profit.toFixed(2)} profit
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:11px; color:#888;">Stock</div>
+                                <div style="font-size:13px; font-weight:600;">${data.stock || 0}</div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                } else {
+                    // LIST VIEW
                     const row = document.createElement('div');
                     row.className = 'list-row';
                     row.style.cursor = 'pointer';
                     row.onclick = () => {
-                        addItemToCart(data.name, data.price);
+                        addItemToCart(data.name, data.price, data.cost);
                         triggerSystemNotification(`${data.name} stacked on ticket`);
                     };
                     row.innerHTML = `
-                        <div>
-                            <div style="font-weight:600;">${data.name}</div>
-                            <div class="list-meta">Tap to stack on active ticket</div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div>
+                                <div style="font-weight:600;">${data.name} ${data.category ? `<span style="font-size:10px; color:#888; font-weight:400; margin-left:4px;">(${data.category})</span>` : ''}</div>
+                                <div class="list-meta">Cost: $${parseFloat(data.cost || 0).toFixed(2)} | Stock: ${data.stock || 0}</div>
+                            </div>
                         </div>
                         <div style="display:flex; align-items:center; gap:16px;">
-                            <div style="font-weight:600;">$${parseFloat(data.price || 0).toFixed(2)}</div>
-                            <span style="color:var(--danger-color); font-weight:bold; font-size:16px; padding:4px;" onclick="event.stopPropagation(); deleteProductNode('${key}')">&times;</span>
+                            <div style="text-align:right;">
+                                <div style="font-weight:600;">$${parseFloat(data.price || 0).toFixed(2)}</div>
+                                <div style="font-size:11px; color:${profit >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight:600;">
+                                    ${profit >= 0 ? '+' : ''}$${profit.toFixed(2)} profit
+                                </div>
+                            </div>
+                            <button class="btn-icon" style="width:36px; height:36px;" onclick="event.stopPropagation(); editItem('${key}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                            </button>
                         </div>
                     `;
                     container.appendChild(row);
-                });
-            }, () => {
-                document.getElementById('inventory-list-container').innerHTML = '<div class="empty-state">Error tracking inventory database.</div>';
+                }
             });
-        }
-
-        async function deleteProductNode(key) {
-            const confirm = await showAppDialog("Delete Product", "Remove this catalog item standard definition?");
-            if (!confirm) return;
-            try {
-                await db.ref(`inventory/${key}`).remove();
-                triggerSystemNotification("Product removed from index");
-            } catch (e) {
-                triggerSystemNotification("Catalog delete error");
-            }
         }
 
         // Operational Lifecycles Synchronization Bootloader Hooks
